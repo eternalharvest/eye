@@ -1,0 +1,20 @@
+#
+# HTTP Server
+#
+waitress
+
+#
+# Web Framework
+#
+pyramid
+
+#
+# pyping
+#
+pyping
+
+#
+# BACnet Driver
+#
+bacpypes
+
