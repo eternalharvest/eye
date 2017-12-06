@@ -3,13 +3,57 @@
 from pyramid.view import view_config, view_defaults
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 
-#
-# BACnet
-#
-@view_config(route_name='API::ICMP:INDEX', renderer='json')
-def index(request):
-	from driver.icmp import ICMP
+from driver.icmp import ICMP
+import jsonschema
 
-	icmp = ICMP('10.2.10.24')
+#
+# ICMP監視
+#
+@view_config(route_name='API::ICMP:INDEX', request_method = 'POST', renderer='json')
+def index(request):
+	#
+	# ICMP Protocol Schema
+	#
+	ICMPSchema = {
+		'type'		: 'object',
+		'properties'	: {
+			'uuid'		: {
+				'type' : 'string',
+			},
+			'ip'	: {
+				'type'	: 'string',
+				'oneOf'	: [{ 'format' : 'ipv4' }],
+			},
+		},
+		'required'	: ['uuid', 'ip'],
+	}
+
+	#
+	# JSONの書式確認
+	#
+	try:
+		jsonschema.validate(request.json_body, ICMPSchema)
+
+	#
+	# JSON内のデータ書式に問題がある場合
+	#
+	except jsonschema.ValidationError as e:
+		return { 'error' : e.message }
+
+	#
+	# JSONの書式に問題がある場合
+	#
+	except ValueError:
+		return { 'error' : 'Syntax error...' }
+
+	#
+	# 書式確認後のデータを取得
+	#
+	data = request.json_body
+
+	#
+	# ICMP リクエストの送信
+	#
+	icmp = ICMP(data['ip'])
 	return icmp.ping()
 

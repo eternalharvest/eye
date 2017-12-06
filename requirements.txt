@@ -18,3 +18,8 @@ pyping
 #
 bacpypes
 
+#
+# JSON Schema
+#
+jsonschema
+

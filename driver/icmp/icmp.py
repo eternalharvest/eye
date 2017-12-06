@@ -55,3 +55,6 @@ if __name__ == '__main__':
 	icmp = ICMP('8.8.8.8')
 	print icmp.ping()
 
+	icmp = ICMP('8.8.8.8')
+	print icmp.ping()
+
