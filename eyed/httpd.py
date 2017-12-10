@@ -28,5 +28,5 @@ if __name__ == '__main__':
 	# HTTPDサーバの設定
 	#
 	app = config.make_wsgi_app()
-	serve(app, host='0.0.0.0', port=8080)
+	serve(app, host='0.0.0.0', port=8888)
 
