@@ -23,3 +23,8 @@ bacpypes
 #
 jsonschema
 
+#
+# requests
+#
+requests
+
