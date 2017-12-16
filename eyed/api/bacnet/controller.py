@@ -12,9 +12,12 @@ def index(request):
 	bacnet = BACnetClient(request.registry.bacnetd.application)
 
 	bacnet.WhoIsRequest()
-	#bacnet.ReadPropertyRequest('10.2.10.24')
+	#return bacnet.ReadPropertyRequest('10.2.10.24')
 
-	return {
-		'test' : 'test'
-	}
+	#
+	# WhoIsRequest を 投げてから最初の IAmRequestを受け取るまで待つ
+	#
+	app = request.registry.bacnetd.application
+	print app.iamr_responses.get(timeout=10)
+	return None
 

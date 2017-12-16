@@ -5,6 +5,7 @@ from bacpypes.pdu import Address
 from bacpypes.app import BIPSimpleApplication
 from bacpypes.service.device import LocalDeviceObject
 from bacpypes.core import run, stop
+from app import App
 
 class BACnetd(Thread):
 	#
@@ -46,9 +47,8 @@ class BACnetd(Thread):
 		#
 		# アプリケーションの定義
 		#
-		self.application = BIPSimpleApplication(self.device, Address(address))
-		#from app import App
-		#self.application = App(self.device, Address(address))
+		#self.application = BIPSimpleApplication(self.device, Address(address))
+		self.application = App(self.device, Address(address))
 
 		#
 		# サポートしているプロトコルの定義
