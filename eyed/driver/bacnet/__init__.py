@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from bacnet import BACnetClient
+from bacnet import BACnetSimpleClient
 from bacnetd import BACnetd
 
-__all__ = [BACnetd, BACnetClient]
+__all__ = [BACnetd, BACnetSimpleClient]
 

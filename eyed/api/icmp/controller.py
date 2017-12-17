@@ -9,7 +9,7 @@ import jsonschema
 #
 # ICMP監視
 #
-@view_config(route_name='API::ICMP:INDEX', request_method = 'POST', renderer='json')
+@view_config(route_name='api::icmp:index', request_method = 'POST', renderer='json')
 def index(request):
 	#
 	# ICMP Protocol Schema

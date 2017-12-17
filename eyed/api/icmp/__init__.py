@@ -8,7 +8,7 @@ def bootstrap(config):
 	#
 	# Scan controller
 	#
-	config.add_route('API::ICMP:INDEX', '/')
+	config.add_route('api::icmp:index', '/')
 	config.scan('.controller')
 
 #

@@ -8,7 +8,10 @@ def bootstrap(config):
 	#
 	# Scan controller
 	#
-	config.add_route('API::BACNET:INDEX', '/')
+	config.add_route('api::bacnet:index', '/')
+	config.add_route('api::bacnet:scan', '/scan/')
+	config.add_route('api::bacnet:devices', '/devices/')
+	config.add_route('api::bacnet:device', '/devices/{device_id}')
 	config.scan('.controller')
 
 #

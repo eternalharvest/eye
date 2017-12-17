@@ -2,21 +2,32 @@
 # -*- coding: utf-8 -*-
 from bacpypes.iocb import IOCB
 from bacpypes.pdu import Address, GlobalBroadcast
-from bacpypes.apdu import WhoIsRequest
-from bacpypes.apdu import ReadPropertyRequest, ReadPropertyACK
+from bacpypes.apdu import WhoIsRequest, ReadPropertyRequest, ReadPropertyACK
 from bacpypes.object import get_object_class, get_datatype
 
+#
+# BACnet Client
+#
 class BACnetClient:
 	#
 	# BACnetClient 初期化処理
 	#
 	def __init__(self, application):
+		#
+		# アプリケーションの取得
+		#
 		self.application = application
+
+	#
+	# getAddressByDeviceID
+	#
+	def getAddressByDeviceID(self, device_id):
+		return self.application.device_map[device_id]
 
 	#
 	# WhoIsRequest
 	#
-	def WhoIsRequest(self):
+	def WhoIsRequest(self, low_limit = 1, high_limit = 2000):
 		#
 		# WhoIsRequest の レスポンス(IAmRequest) を保存するキューをクリア
 		#
@@ -25,19 +36,24 @@ class BACnetClient:
 		#
 		# WhoIsRequest の 送信
 		#
-		self.application.who_is(1, 2000, GlobalBroadcast())
+		self.application.who_is(low_limit, high_limit, GlobalBroadcast())
 
 	#
 	# ReadProperty
 	#
-	def ReadPropertyRequest(self, address):
+	def _ReadPropertyRequest(self, device_id, objectIdentifier, propertyIdentifier):
+		#
+		# デバイスID から IPの取得
+		#
+		address = self.getAddressByDeviceID(device_id)
+
 		#
 		# リクエスト作成
 		#
 		request = ReadPropertyRequest(
-			destination		= Address(address),
-			objectIdentifier	= ('analogValue', 2),
-			propertyIdentifier	= 75,
+			destination		= address,
+			objectIdentifier	= objectIdentifier,
+			propertyIdentifier	= propertyIdentifier,
 		)
 
 		#
@@ -51,7 +67,10 @@ class BACnetClient:
 		# エラーがあるかを確認
 		#
 		if iocb.ioError:
-			pass
+			#print iocb.ioError
+			#print iocb.ioResponse
+			#print propertyIdentifier
+			return None
 
 		#
 		# レスポンスの確認
@@ -66,30 +85,104 @@ class BACnetClient:
 			# ACKであるかの確認
 			#
 			if not isinstance(apdu, ReadPropertyACK):
-				raise Exception('ACK is not contain...')
+				print 'ACK is not contain...'
+				return None
 
 			#
 			# データタイプの取得
 			#
 			datatype = get_datatype(apdu.objectIdentifier[0], apdu.propertyIdentifier)
 			if not datatype:
-				raise TypeError('Unknown datatype...')
+				print 'Unknown datatype...'
+				return None
 
 			#
 			# データ種別と値の取得
 			#
-			type, value = apdu.propertyValue.cast_out(datatype)
-			return {
-				'result'	: True,
-				'values'	: [{
-					'name'	: type,
-					'value'	: value
-				}],
-			}
+			return apdu, datatype
 
 		#
 		# 例外
 		#
 		else:
-			raise Exception('Response seems something wrong...')
+			print 'Response seems something wrong...'
+			return None
+
+	#
+	# ReadDeviceProperty (デバイス関連の情報読み出し)
+	#
+	def _ReadDevicePropertyRequest(self, device_id, propertyIdentifier):
+		#
+		# リクエストの作成
+		#
+		result = BACnetClient._ReadPropertyRequest(
+			self,
+			device_id		= device_id,
+			objectIdentifier	= ('device', device_id),
+			propertyIdentifier	= propertyIdentifier
+		)
+
+		#
+		# レスポンスの確認
+		#
+		if result == None:
+			return None
+
+		#
+		# キャスト
+		#
+		apdu, datatype = result
+		return apdu.propertyValue.cast_out(datatype)
+
+#
+# BACnet を 簡単に使用可能とするクライアント
+#
+class BACnetSimpleClient(BACnetClient):
+	#
+	# コンストラクタ
+	#
+	def __init__(self, *args):
+		BACnetClient.__init__(self, *args)
+		self.WhoIsRequest()
+
+	#
+	# vendorName:				121
+	# vendorID:				120
+	# modelName:				70
+	#
+	# firmware-revision:			44
+	# application-software-version:		12
+	#
+	# protocol-version:			98
+	# protocol-revision:			139
+	# protocol-services-supported:		97
+	# protocol-object-types-supported	96
+	#
+	# object_list				76
+	#
+
+	#
+	# デバイスからプロパティの取得
+	#
+	def getDeviceProperty(self, name, device_id):
+		propertyIdentifierDict = {
+			'vendor-name'				: 121,
+			'vendor-identifier'			: 120,
+			'model-name'				: 70,
+			'firmware-revision'			: 44,
+			'application-software-version'		: 12,
+			'protocol-version'			: 98,
+			'protocol-revision'			: 139,
+			'protocol-services-supported'		: 97,
+			'protocol-object-types-supported'	: 96,
+			'object_list'				: 76,
+		}
+		pid = propertyIdentifierDict[name]
+		return BACnetClient._ReadDevicePropertyRequest(self, device_id, pid)
+
+	#
+	# デバイスからオブジェクトリストの取得
+	#
+	def getDeviceObjectList(self, device_id):
+		pass
 

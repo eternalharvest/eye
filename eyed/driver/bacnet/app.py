@@ -20,17 +20,24 @@ class App(BIPSimpleApplication):
 	# デバイスマップ、レスポンスキューのクリア
 	#
 	def clear(self):
-		self.device_map = {}
+		#self.device_map = {}
 		self.iamr_responses = Queue()
 
+	#
+	# リクエスト の 送信
+	#
 	def request(self, apdu):
 		BIPSimpleApplication.request(self, apdu)
 
+	#
+	# レスポンスの確認
+	#
 	def confirmation(self, apdu):
-		print 'confirmation'
-		#print apdu.__dict__
 		BIPSimpleApplication.confirmation(self, apdu)
 
+	#
+	# レスポンスの受け取り
+	#
 	def indication(self, apdu):
 		#
 		# IAmRequest の 解析
@@ -41,6 +48,12 @@ class App(BIPSimpleApplication):
 			#
 			ipaddr = apdu.pduSource
 			device_type, device_instance = apdu.iAmDeviceIdentifier
+
+			#print hasattr(apdu, vendorID)
+			#print 'VENDOR_ID	= %s' %(apdu.vendorID)
+			#print 'OBJECT_TYPE	= %s' %(device_type)
+			#print apdu.propertyValue
+			#print apdu.__dict__
 
 			#
 			# デバイスID と IPアドレスのマッピング管理
