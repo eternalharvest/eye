@@ -3,7 +3,7 @@
 from pyramid.view import view_config, view_defaults
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPOk
 from driver.bacnet import BACnetSimpleClient
-import json
+import jsonschema
 
 #
 # BACnet
@@ -20,13 +20,45 @@ def index(request):
 #
 # BACnet デバイスのスキャン
 #
-@view_config(route_name='api::bacnet:scan', renderer='json')
+@view_config(route_name='api::bacnet:scan', request_method = 'POST', renderer='json')
 def scan(request):
 	#
 	# BACnet コマンド操作用インスタンス取得
 	#
 	app = request.registry.bacnetd.application
 	bacnet = BACnetSimpleClient(app)
+
+	#
+	# BACnet Schema
+	#
+	BACnet_Schema = {
+		'type'		: 'object',
+		'properties'	: {
+			'timeout'	: {
+				'type'		: 'integer',
+			},
+		},
+		'required'	: ['timeout'],
+	}
+
+	#
+	# JSONの書式確認
+	#
+	try:
+		jsonschema.validate(request.json_body, BACnet_Schema)
+	#
+	# JSON内のデータ書式に問題がある場合
+	#
+	except jsonschema.ValidationError as e:
+		return { 'error' : e.message }
+	except ValueError as e:
+		return { 'error' : e.message }
+
+	#
+	# 書式確認後のデータを取得
+	#
+	data = request.json_body
+	timeout = data['timeout']
 
 	#
 	# WhoIsRequest の 送信
@@ -36,8 +68,11 @@ def scan(request):
 	#
 	# WhoIsRequest を 投げてから最初の IAmRequestを受け取るまで待つ
 	#
-	device_id = app.iamr_responses.get(timeout=10)
-	return HTTPOk()
+	try:
+		device_id = app.iamr_responses.get(timeout = timeout)
+		return { 'result' : True }
+	except Exception:
+		return { 'error' : 'Timeout!!' }
 
 #
 # BACnet デバイスリストの取得
@@ -117,5 +152,4 @@ def device(request):
 	#print bacnet.getDeviceObjectList(123)
 
 	return r
-	return None
 

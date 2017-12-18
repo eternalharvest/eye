@@ -14,7 +14,7 @@ def index(request):
 	#
 	# ICMP Protocol Schema
 	#
-	ICMPSchema = {
+	ICMP_Schema = {
 		'type'		: 'object',
 		'properties'	: {
 			'uuid'		: {
@@ -32,7 +32,7 @@ def index(request):
 	# JSONの書式確認
 	#
 	try:
-		jsonschema.validate(request.json_body, ICMPSchema)
+		jsonschema.validate(request.json_body, ICMP_Schema)
 
 	#
 	# JSON内のデータ書式に問題がある場合
