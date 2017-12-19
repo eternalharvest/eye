@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from pyramid.view import view_config, view_defaults
-from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPOk
+from pyramid.httpexceptions import HTTPFound, HTTPOk
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPRequestTimeout
 from driver.bacnet import BACnetSimpleClient
 import jsonschema
 
@@ -20,7 +21,7 @@ def index(request):
 #
 # BACnet デバイスのスキャン
 #
-@view_config(route_name='api::bacnet:scan', request_method = 'POST', renderer='json')
+@view_config(route_name='api::bacnet:scan', request_method = 'GET', renderer='json')
 def scan(request):
 	#
 	# BACnet コマンド操作用インスタンス取得
@@ -29,36 +30,11 @@ def scan(request):
 	bacnet = BACnetSimpleClient(app)
 
 	#
-	# BACnet Schema
+	# Timeout の 取得
 	#
-	BACnet_Schema = {
-		'type'		: 'object',
-		'properties'	: {
-			'timeout'	: {
-				'type'		: 'integer',
-			},
-		},
-		'required'	: ['timeout'],
-	}
-
-	#
-	# JSONの書式確認
-	#
-	try:
-		jsonschema.validate(request.json_body, BACnet_Schema)
-	#
-	# JSON内のデータ書式に問題がある場合
-	#
-	except jsonschema.ValidationError as e:
-		return { 'error' : e.message }
-	except ValueError as e:
-		return { 'error' : e.message }
-
-	#
-	# 書式確認後のデータを取得
-	#
-	data = request.json_body
-	timeout = data['timeout']
+	timeout = 10
+	if 'timeout' in request.GET and request.GET['timeout'].isdigit():
+		timeout = int(request.GET['timeout'])
 
 	#
 	# WhoIsRequest の 送信
@@ -70,9 +46,9 @@ def scan(request):
 	#
 	try:
 		device_id = app.iamr_responses.get(timeout = timeout)
-		return { 'result' : True }
+		return HTTPOk(json_body = { 'device_id' : device_id })
 	except Exception:
-		return { 'error' : 'Timeout!!' }
+		return HTTPRequestTimeout()
 
 #
 # BACnet デバイスリストの取得
@@ -94,7 +70,7 @@ def devices(request):
 	#
 	# デバイスリストを返却
 	#
-	return devices
+	return HTTPOk(json_body = devices)
 
 #
 # BACnet デバイスリストの取得
@@ -116,7 +92,7 @@ def device(request):
 	# 型の確認とキャスト
 	#
 	if str(device_id).isdigit() == False:
-		return HTTPNotFound()
+		return HTTPBadRequest()
 	device_id = int(device_id)
 
 	#
@@ -141,15 +117,15 @@ def device(request):
 		'object_list'
 	]
 
+	#
+	# 各プロパティの取得
+	#
 	r = {}
 	for object_name in object_list:
 		r[object_name] = bacnet.getDeviceProperty(object_name, 123)
 
-	#print bacnet._ReadDevicePropertyRequest(123, 121)
-	#print bacnet._ReadDevicePropertyRequest(123, 70)
-	#print bacnet.getDeviceProperty('model-name', 123)
-	#print bacnet.getDeviceProperty('object_list', 123)
-	#print bacnet.getDeviceObjectList(123)
-
-	return r
+	#
+	# プロパティを返却
+	#
+	return HTTPOk(json_body = r)
 

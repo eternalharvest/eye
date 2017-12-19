@@ -44,14 +44,19 @@ class BACnetClient(Client):
 		#
 		# URLの組立
 		#
-		url = '%s/api/bacnet/scan/' %(self.base_url)
+		url = '%s/api/bacnet/devices/scan/?timeout=%d' %(self.base_url, timeout)
 
 		#
 		# BACnet デバイス取得リクエスト送信
 		#
-		return requests.post(url, json = {
-			'timeout'	: timeout
-		})
+		result = requests.get(url)
+
+		#
+		# 結果の確認
+		#
+		if result.status_code == 200:
+			return True
+		return False
 
 	#
 	# BACnet デバイスの取得
@@ -65,7 +70,14 @@ class BACnetClient(Client):
 		#
 		# BACnet デバイス取得リクエスト送信
 		#
-		return requests.post(url).json()
+		result = requests.get(url)
+
+		#
+		# 結果の確認
+		#
+		if result.status_code == 200:
+			return result.json()
+		return False
 
 	#
 	# BACnet デバイスの検索
@@ -79,7 +91,10 @@ class BACnetClient(Client):
 		#
 		# BACnet デバイス検索リクエストの送信
 		#
-		return requests.get(url).json()
+		result = requests.get(url)
+		if result.status_code == 200:
+			return result.json()
+		return None
 
 #
 # Entry Point
@@ -92,8 +107,9 @@ if __name__ == '__main__':
 	# BACnet 通信の実行
 	#
 	client = BACnetClient('localhost', '8888')
-	print client.scanDevices()
+	client.scanDevices()
 	for device in client.getDevices():
+		print device
 		device_id = device['device_id']
 		print client.getDevice(device_id)
 

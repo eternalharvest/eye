@@ -22,6 +22,9 @@ class BACnetClient:
 	# getAddressByDeviceID
 	#
 	def getAddressByDeviceID(self, device_id):
+		#
+		# デバイスマップの返却
+		#
 		return self.application.device_map[device_id]
 
 	#
