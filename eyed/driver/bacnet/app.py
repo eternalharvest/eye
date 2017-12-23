@@ -14,14 +14,14 @@ class App(BIPSimpleApplication):
 		#
 		# IAmRequest を 受けたデバイスIDを管理するキュー
 		#
-		self.iamr_responses = Queue()
+		self.responseQueue = Queue()
 
 	#
 	# デバイスマップ、レスポンスキューのクリア
 	#
 	def clear(self):
 		#self.device_map = {}
-		self.iamr_responses = Queue()
+		self.responseQueue = Queue()
 
 	#
 	# リクエスト の 送信
@@ -49,12 +49,6 @@ class App(BIPSimpleApplication):
 			ipaddr = apdu.pduSource
 			device_type, device_instance = apdu.iAmDeviceIdentifier
 
-			#print hasattr(apdu, vendorID)
-			#print 'VENDOR_ID	= %s' %(apdu.vendorID)
-			#print 'OBJECT_TYPE	= %s' %(device_type)
-			#print apdu.propertyValue
-			#print apdu.__dict__
-
 			#
 			# デバイスID と IPアドレスのマッピング管理
 			#
@@ -63,7 +57,7 @@ class App(BIPSimpleApplication):
 			#
 			# IAmRequest を 取得したことを通知する
 			#
-			self.iamr_responses.put(device_instance)
+			self.responseQueue.put(device_instance)
 
 		#
 		# forward it along

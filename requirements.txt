@@ -9,7 +9,7 @@ waitress
 pyramid
 
 #
-# pyping
+# ICMP Driver
 #
 pyping
 
@@ -22,6 +22,12 @@ bacpypes
 # JSON Schema
 #
 jsonschema
+
+#
+# Network Interface Library
+#
+netifaces
+netaddr
 
 #
 # requests

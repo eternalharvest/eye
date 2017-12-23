@@ -12,15 +12,13 @@ if __name__ == '__main__':
 	#
 	config = Configurator()
 
-	from driver.bacnet import BACnetd
-	config.registry.bacnetd = BACnetd('10.2.10.17/24')
-	config.registry.bacnetd.start()
-
 	#
 	# API
 	#
 	import api.bacnet
 	config.include(api.bacnet.bootstrap, route_prefix='api/bacnet/')
+	import api.bacnetd
+	config.include(api.bacnetd.bootstrap, route_prefix='api/bacnetd/')
 	import api.icmp
 	config.include(api.icmp.bootstrap, route_prefix='api/icmp/')
 

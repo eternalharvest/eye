@@ -4,6 +4,8 @@ from bacpypes.iocb import IOCB
 from bacpypes.pdu import Address, GlobalBroadcast
 from bacpypes.apdu import WhoIsRequest, ReadPropertyRequest, ReadPropertyACK
 from bacpypes.object import get_object_class, get_datatype
+from bacpypes.object import ObjectType, registered_object_types
+from bacpypes.basetypes import PropertyIdentifier
 
 #
 # BACnet Client
@@ -25,7 +27,9 @@ class BACnetClient:
 		#
 		# デバイスマップの返却
 		#
-		return self.application.device_map[device_id]
+		if device_id in self.application.device_map:
+			return self.application.device_map[device_id]
+		return None
 
 	#
 	# WhoIsRequest
@@ -70,9 +74,6 @@ class BACnetClient:
 		# エラーがあるかを確認
 		#
 		if iocb.ioError:
-			#print iocb.ioError
-			#print iocb.ioResponse
-			#print propertyIdentifier
 			return None
 
 		#
@@ -112,6 +113,32 @@ class BACnetClient:
 			return None
 
 	#
+	# ReadProperty
+	#
+	def ReadPropertyRequest(self, device_id, object_id, instance_id, property_id):
+		#
+		# リクエストの作成
+		#
+		result = BACnetClient._ReadPropertyRequest(
+			self,
+			device_id		= device_id,
+			objectIdentifier	= (object_id, instance_id),
+			propertyIdentifier	= property_id
+		)
+
+		#
+		# レスポンスの確認
+		#
+		if result == None:
+			return None
+
+		#
+		# キャスト
+		#
+		apdu, datatype = result
+		return apdu.propertyValue.cast_out(datatype)
+
+	#
 	# ReadDeviceProperty (デバイス関連の情報読み出し)
 	#
 	def _ReadDevicePropertyRequest(self, device_id, propertyIdentifier):
@@ -149,27 +176,12 @@ class BACnetSimpleClient(BACnetClient):
 		self.WhoIsRequest()
 
 	#
-	# vendorName:				121
-	# vendorID:				120
-	# modelName:				70
-	#
-	# firmware-revision:			44
-	# application-software-version:		12
-	#
-	# protocol-version:			98
-	# protocol-revision:			139
-	# protocol-services-supported:		97
-	# protocol-object-types-supported	96
-	#
-	# object_list				76
-	#
-
-	#
 	# デバイスからプロパティの取得
 	#
 	def getDeviceProperty(self, name, device_id):
 		propertyIdentifierDict = {
-			'vendor-name'				: 121,
+			#'vendor-name'				: 121,
+			'vendor-name'				: 'vendorName',
 			'vendor-identifier'			: 120,
 			'model-name'				: 70,
 			'firmware-revision'			: 44,
@@ -182,10 +194,4 @@ class BACnetSimpleClient(BACnetClient):
 		}
 		pid = propertyIdentifierDict[name]
 		return BACnetClient._ReadDevicePropertyRequest(self, device_id, pid)
-
-	#
-	# デバイスからオブジェクトリストの取得
-	#
-	def getDeviceObjectList(self, device_id):
-		pass
 

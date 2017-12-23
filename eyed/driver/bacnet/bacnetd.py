@@ -7,6 +7,9 @@ from bacpypes.service.device import LocalDeviceObject
 from bacpypes.core import run, stop
 from app import App
 
+#
+# BACnet Server
+#
 class BACnetd(Thread):
 	#
 	# BACnet 初期化処理
@@ -25,7 +28,7 @@ class BACnetd(Thread):
 		#
 		# デバイスの設定情報の定義
 		#
-		self.device_name		= 'naoya.sawada@ntt.com'
+		self.device_name		= 'naoya@tuntunkun.com'
 		self.device_id			= 65535
 		self.vendor_name		= 'Tuntunkun Co., Ltd'
 		self.vendor_id			= 65535
