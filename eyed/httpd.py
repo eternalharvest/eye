@@ -21,6 +21,8 @@ if __name__ == '__main__':
 	config.include(api.bacnetd.bootstrap, route_prefix='api/bacnetd/')
 	import api.icmp
 	config.include(api.icmp.bootstrap, route_prefix='api/icmp/')
+	import api.system
+	config.include(api.system.bootstrap, route_prefix='api/system/')
 
 	#
 	# HTTPDサーバの設定
