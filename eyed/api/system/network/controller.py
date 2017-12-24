@@ -31,9 +31,9 @@ def interfaces(request):
 		# NIC の 登録
 		#
 		nics.append({
-			'interface_name'	: iface_name,
-			'ipv4'			: ipv4,
-			'ipv6'			: ipv6
+			'interface'	: iface_name,
+			'ipv4'		: ipv4,
+			'ipv6'		: ipv6
 		})
 
 	#

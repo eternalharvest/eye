@@ -15,16 +15,18 @@ class BACnetdClient(Client):
 	#
 	# BACnet Daemon 起動
 	#
-	def start(self):
+	def start(self, interface):
 		#
 		# URLの組立
 		#
-		url = '%s/api/bacnetd/start/' %(self.base_url)
+		url = '%s/api/bacnetd/start' %(self.base_url)
 
 		#
 		# BACnet デバイス取得リクエスト送信
 		#
-		result = requests.get(url)
+		result = requests.get(url, params = {
+			'interface'	: interface
+		})
 
 		#
 		# 結果の確認
@@ -151,7 +153,7 @@ if __name__ == '__main__':
 	# BACnetd の 起動
 	#
 	client = BACnetdClient('localhost', '8888')
-	client.start()
+	client.start(interface = 'en0')
 
 	#
 	# BACnet 通信の実行

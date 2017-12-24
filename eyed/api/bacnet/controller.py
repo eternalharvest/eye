@@ -3,8 +3,16 @@
 from pyramid.view import view_config, view_defaults
 from pyramid.httpexceptions import HTTPFound, HTTPOk
 from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPRequestTimeout
+
+#
+# BACnet Driver
+#
 from driver.bacnet import BACnetSimpleClient
 from driver.bacnet import definition
+
+#
+# Validation Tool
+#
 import jsonschema
 
 #
