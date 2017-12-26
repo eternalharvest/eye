@@ -4,9 +4,9 @@ from pyramid.config import Configurator
 from waitress import serve
 
 #
-# Main
+# デーモンの起動
 #
-if __name__ == '__main__':
+def start():
 	#
 	# WEB アプリケーションの設定
 	#
@@ -29,4 +29,10 @@ if __name__ == '__main__':
 	#
 	app = config.make_wsgi_app()
 	serve(app, host='0.0.0.0', port=8888)
+
+#
+# Main
+#
+if __name__ == '__main__':
+	start()
 

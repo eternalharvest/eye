@@ -18,7 +18,7 @@ if __name__ == '__main__':
 		# Software Information
 		#
 		name		= 'eyed',
-		version		= '0.2.2',
+		version		= '0.2.3',
 
 		#
 		# Author Information
@@ -31,5 +31,13 @@ if __name__ == '__main__':
 		#
 		packages		= find_packages(),
 		install_requires	= _install_requires(),
+
+		#
+		# Console Scripts
+		#
+		entry_points		= '''
+		[console_scripts]
+		eyed = eyed.httpd:start
+		'''
 	)
 
