@@ -56,12 +56,14 @@ def start(request):
 	#
 	# BACnet Daemon が 起動しているか確認
 	#
-	#if request.registry.bacnetd == None or request.registry.bacnetd.is_alive() == False:
-	#
-	# BACnet Daemon の 起動
-	#
-	request.registry.bacnetd = BACnetd(bacnet_address)
-	request.registry.bacnetd.start()
+	if request.registry.bacnetd == None:
+		#
+		# BACnet Daemon の 起動
+		#
+		print 'OK'
+		print request.registry.bacnetd
+		request.registry.bacnetd = BACnetd(bacnet_address)
+		request.registry.bacnetd.start()
 
 	#
 	# BACnet Daemon 起動結果を返す
