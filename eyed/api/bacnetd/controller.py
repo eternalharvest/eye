@@ -60,8 +60,6 @@ def start(request):
 		#
 		# BACnet Daemon の 起動
 		#
-		print 'OK'
-		print request.registry.bacnetd
 		request.registry.bacnetd = BACnetd(bacnet_address)
 		request.registry.bacnetd.start()
 

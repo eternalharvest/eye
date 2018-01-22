@@ -17,15 +17,12 @@ def index(request):
 	ICMP_Schema = {
 		'type'		: 'object',
 		'properties'	: {
-			'uuid'		: {
-				'type' : 'string',
-			},
 			'ip'	: {
 				'type'	: 'string',
 				'oneOf'	: [{ 'format' : 'ipv4' }],
 			},
 		},
-		'required'	: ['uuid', 'ip'],
+		'required'	: ['ip'],
 	}
 
 	#

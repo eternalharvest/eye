@@ -10,7 +10,7 @@ class ICMPClient(Client):
 	#
 	# ICMP
 	#
-	def ping(self, ip, uuid = ''):
+	def ping(self, ip):
 		#
 		# URLの組立
 		#
@@ -20,8 +20,7 @@ class ICMPClient(Client):
 		# ICMPリクエストの実行
 		#
 		return requests.post(url, json = {
-			'uuid'  : uuid,
-			'ip'    : ip,
+			'ip'    : ip
 		}).json()
 
 #
