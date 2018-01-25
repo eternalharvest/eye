@@ -1,12 +1,14 @@
 #
 # HTTP Server
-#
-waitress
-
-#
 # Web Framework
 #
+waitress
 pyramid
+
+#
+# RPC Service
+#
+rpyc
 
 #
 # ICMP Driver
@@ -33,4 +35,9 @@ netaddr
 # requests
 #
 requests
+
+#
+# SQLAlchemy
+#
+SQLAlchemy
 
