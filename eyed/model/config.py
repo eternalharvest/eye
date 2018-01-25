@@ -19,20 +19,22 @@ class Config(BaseObject):
 	# カラム定義
 	#
 	id	= Column('ID', String, primary_key=True)	# 識別子
-	json	= Column('JSON', String)			# 設定
+	key	= Column('KEY', String)				# 鍵
+	value	= Column('VALUE', String)			# 値
 
 	#
 	# コンストラクタ
 	#
-	def __init__(self, json):
+	def __init__(self, key, value):
 		self.id = str(uuid.uuid4())
-		self.json = json
+		self.key = key
+		self.value = value
 
 	#
 	# 文字列化
 	#
 	def __str__(self):
-		return '<Config json=%s>' %(self.json)
+		return '<Config key=%s, value=%s>' %(self.key, self.value)
 
 	#
 	# 辞書化
@@ -40,6 +42,7 @@ class Config(BaseObject):
 	def to_dict(self):
 		return {
 			'id'	: self.id,
-			'json'	: self.json,
+			'key'	: self.key,
+			'value'	: self.value,
 		}
 
