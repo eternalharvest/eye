@@ -40,4 +40,5 @@ requests
 # SQLAlchemy
 #
 SQLAlchemy
+alembic
 

@@ -18,7 +18,7 @@ if __name__ == '__main__':
 		# Software Information
 		#
 		name		= 'eyed',
-		version		= '0.2.4',
+		version		= '0.2.5',
 
 		#
 		# Author Information
@@ -35,9 +35,9 @@ if __name__ == '__main__':
 		#
 		# Console Scripts
 		#
-		entry_points		= '''
-		[console_scripts]
-		eyed = eyed.httpd:start
-		'''
+		#entry_points		= '''
+		#[console_scripts]
+		#eyed = eyed.httpd:start
+		#'''
 	)
 
