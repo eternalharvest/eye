@@ -6,9 +6,6 @@ import driver
 from model import BaseObject, Config
 import rpc
 
-print database
-print client
-
 __all__ = [
 	database,
 	client,
