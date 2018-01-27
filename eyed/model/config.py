@@ -18,15 +18,13 @@ class Config(BaseObject):
 	#
 	# カラム定義
 	#
-	id	= Column('ID', String, primary_key=True)	# 識別子
-	key	= Column('KEY', String)				# 鍵
+	key	= Column('KEY', String, primary_key=True)	# 鍵
 	value	= Column('VALUE', String)			# 値
 
 	#
 	# コンストラクタ
 	#
 	def __init__(self, key, value):
-		self.id = str(uuid.uuid4())
 		self.key = key
 		self.value = value
 
@@ -41,7 +39,6 @@ class Config(BaseObject):
 	#
 	def to_dict(self):
 		return {
-			'id'	: self.id,
 			'key'	: self.key,
 			'value'	: self.value,
 		}

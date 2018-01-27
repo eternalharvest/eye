@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import database
+import db
 import client
 import driver
 from model import BaseObject, Config
 import rpc
 
 __all__ = [
-	database,
+	db,
 	client,
 ]
 

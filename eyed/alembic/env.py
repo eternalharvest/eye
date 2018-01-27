@@ -3,12 +3,6 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
-#
-# Add path for model
-#
-import sys,os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../eyed/')
-
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -23,7 +17,7 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
 #
-from model import BaseObject
+from eyed.model import BaseObject
 target_metadata = BaseObject.metadata
 
 # other values from the config, defined by the needs of env.py,
