@@ -7,13 +7,12 @@
 from sqlalchemy import engine_from_config, pool
 from sqlalchemy.orm import sessionmaker
 from alembic.config import Config
-import eyed
-import os
+import pkg_resources
 
 #
 # SQL エンジンの取得
 #
-config = Config(os.path.join(os.path.dirname(eyed.__file__), '..', 'alembic.ini'))
+config = Config(pkg_resources.resource_filename(__name__, 'config/alembic.ini'))
 engine = engine_from_config(
 config.get_section(config.config_ini_section),
 	prefix = 'sqlalchemy.',
