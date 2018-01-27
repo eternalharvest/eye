@@ -31,8 +31,9 @@ if __name__ == '__main__':
 		#
 		packages		= find_packages(),
 		install_requires	= _install_requires(),
-
-		data_files = [('eyed/config', ['alembic.ini'])],
+		package_data = {
+			'eyed/config': ['alembic.ini'],
+		},
 		#
 		# Console Scripts
 		#
