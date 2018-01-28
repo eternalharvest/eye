@@ -15,23 +15,17 @@ from eyed.rpc.bacnet import BACnetService
 from eyed.rpc.bacnetd import BACnetdService, start_bacnetd
 
 #
-# MyService
+# RPCService
 #
-class MyService(rpyc.Service):
+class RPCService(rpyc.Service):
 	exposed_SystemService = SystemService
 	exposed_BACnetdService = BACnetdService
 	exposed_BACnetService = BACnetService
 
-	def on_connect(self):
-		pass
-
-	def __init__(self, *args, **kwargs):
-		super(MyService, self).__init__(*args, **kwargs)
-
 #
-# Entry Point
+# デーモンの起動
 #
-if __name__ == "__main__":
+def start():
 	#
 	# BACnet Daemon の 起動
 	#
@@ -40,6 +34,12 @@ if __name__ == "__main__":
 	#
 	# RPCサーバ の 起動
 	#
-	server = ThreadedServer(MyService, port = 12345)
+	server = ThreadedServer(RPCService, port = 12345)
 	server.start()
+
+#
+# Entry Point
+#
+if __name__ == "__main__":
+	start()
 
