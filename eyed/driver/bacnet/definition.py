@@ -60,6 +60,15 @@ def getProperties():
 	return property_ids
 
 #
+# NAME から Property の 取得
+#
+def findPropertyByName(name):
+	result = filter(lambda property: property['name'] == name, getProperties())
+	if len(result) == 0: return None
+	if len(result) == 1: return result[0]
+	raise Exception('It must not happen, bacnet object have some missing.')
+
+#
 # オブジェクト の プロパティ一覧の検索
 #
 def getPropertiesByObject(object):
@@ -95,7 +104,8 @@ def getPropertiesByObject(object):
 #
 if __name__ == '__main__':
 	#print getObjects()
-	print findObjectByID(2)
-	print findObjectByName('analogValue')
-	print getPropertiesByObject(findObjectByName('analogValue'))
+	#print findObjectByID(2)
+	#print findObjectByName('analogValue')
+	#print getPropertiesByObject(findObjectByName('analogValue'))
+	print getPropertiesByObject(findObjectByName('device'))
 
