@@ -6,17 +6,17 @@ import rpyc
 # Entry Point
 #
 if __name__ == '__main__':
-	client = rpyc.connect("localhost", 12345)
-	#config = client.root.SystemService().getNetworkInterfaces()
+	client = rpyc.connect('10.2.10.29', 1413)
+	config = client.root.SystemService().getNetworkInterfaces()
 	#print config
 
 	#
 	# BACnet Daemon への 操作
 	#
 	bacnetd = client.root.BACnetdService()
-	print bacnetd.start('en1')
-	print bacnetd.stop()
-	print bacnetd.start('en0')
+	print bacnetd.start('enp0s3')
+	#print bacnetd.stop()
+	#print bacnetd.start('eth0')
 
 	#
 	# BACnet の 操作
