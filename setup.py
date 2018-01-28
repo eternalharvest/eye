@@ -36,7 +36,7 @@ if __name__ == '__main__':
 		package_dir	= { 'eyed' : 'eyed' },
 		package_data	= {
 			'eyed'		: [
-				'alembic.ini'
+				'alembic.ini',
 				'alembic/README',
 				'alembic/env.py',
 				'alembic/script.py.mako',
