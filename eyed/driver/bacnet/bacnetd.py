@@ -4,7 +4,7 @@ from threading import Thread
 from bacpypes.pdu import Address
 from bacpypes.app import BIPSimpleApplication
 from bacpypes.service.device import LocalDeviceObject
-from bacpypes.core import run, stop
+from bacpypes import core
 from app import App
 
 #
@@ -63,11 +63,24 @@ class BACnetd(Thread):
 	# デーモンの起動
 	#
 	def run(self):
-		run()
+		#
+		# BACnetd の 起動
+		#
+		core.run()
 
 	#
 	# デーモンの停止
 	#
 	def stop(self):
-		stop()
+		#
+		# 通信ポート の クローズ
+		#
+		self.application.mux.directPort.handle_close()
+		self.application.mux.broadcastPort.handle_close()
+
+		#
+		# BACnetd の 停止
+		#
+		core.deferred(core.stop)
+		return True
 

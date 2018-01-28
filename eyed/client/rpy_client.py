@@ -11,8 +11,9 @@ if __name__ == '__main__':
 	#print config
 
 	config = client.root.BACnetdService()
-	print config.start('en0')
-	#print config.start()
+	#print config.start('en0')
+	print config.stop()
+	print config.start('en1')
 
 	#test = client.root.ICMPService('8.8.8.8')
 	#print test.ping()

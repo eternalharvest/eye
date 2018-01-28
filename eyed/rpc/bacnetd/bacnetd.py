@@ -99,6 +99,8 @@ def start_bacnetd(interface = None):
 		session.add(Config('BACNET_INTERFACE', interface))
 	else:
 		bacnet_interface.value = interface
+	session.commit()
+	return True
 
 #
 # BACnetdService
@@ -107,6 +109,24 @@ class BACnetdService(object):
 	#
 	# Start
 	#
-	def exposed_start(self, interface = None):
+	def exposed_start(self, interface):
 		return start_bacnetd(interface)
+
+	#
+	# Stop
+	#
+	def exposed_stop(self):
+		#
+		# BACnet Daemon が 起動しているか確認
+		#
+		single = Single.getInstance()
+		if single.bacnetd == None:
+			return False
+
+		#
+		# BACnetd の 停止
+		#
+		single.bacnetd.stop()
+		single.bacnetd = None
+		return True
 
