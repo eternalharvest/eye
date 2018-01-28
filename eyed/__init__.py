@@ -8,6 +8,7 @@ import rpc
 
 __all__ = [
 	db,
+	rpc,
 	client,
 ]
 

@@ -10,8 +10,9 @@ from rpyc.utils.server import ThreadedServer
 #
 # Services
 #
-from rpc.system import SystemService
-from rpc.bacnetd import BACnetdService, start_bacnetd
+from eyed.rpc.system import SystemService
+from eyed.rpc.bacnet import BACnetService
+from eyed.rpc.bacnetd import BACnetdService, start_bacnetd
 
 #
 # MyService
@@ -19,6 +20,7 @@ from rpc.bacnetd import BACnetdService, start_bacnetd
 class MyService(rpyc.Service):
 	exposed_SystemService = SystemService
 	exposed_BACnetdService = BACnetdService
+	exposed_BACnetService = BACnetService
 
 	def on_connect(self):
 		pass

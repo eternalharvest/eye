@@ -20,9 +20,9 @@ from eyed.model import Config
 from eyed.db import Session
 
 #
-# Singletone
+# Singletone BACnetd
 #
-class Single:
+class SingleBACnetd:
 	_instance = None
 
 	#
@@ -47,7 +47,7 @@ def start_bacnetd(interface = None):
 	#
 	# BACnet Daemon が 起動しているか確認
 	#
-	single = Single.getInstance()
+	single = SingleBACnetd.getInstance()
 	if not single.bacnetd == None:
 		return False
 
@@ -119,7 +119,7 @@ class BACnetdService(object):
 		#
 		# BACnet Daemon が 起動しているか確認
 		#
-		single = Single.getInstance()
+		single = SingleBACnetd.getInstance()
 		if single.bacnetd == None:
 			return False
 
