@@ -13,10 +13,10 @@ if __name__ == '__main__':
 	#
 	# BACnet Daemon への 操作
 	#
-	#bacnetd = client.root.BACnetdService()
-	#print bacnetd.start('en1')
-	#print bacnetd.stop()
-	#print bacnetd.start('en0')
+	bacnetd = client.root.BACnetdService()
+	print bacnetd.start('en1')
+	print bacnetd.stop()
+	print bacnetd.start('en0')
 
 	#
 	# BACnet の 操作

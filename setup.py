@@ -38,9 +38,9 @@ if __name__ == '__main__':
 		#
 		# Console Scripts
 		#
-		#entry_points		= '''
-		#[console_scripts]
-		#eyed = eyed.httpd:start
-		#'''
+		entry_points		= '''
+		[console_scripts]
+		eyed = eyed.rpcd:start
+		'''
 	)
 
