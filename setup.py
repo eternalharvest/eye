@@ -3,9 +3,11 @@
 import os
 from setuptools import setup, find_packages
 
+#
+# requirement.txt 内のファイルのインストール処理
+#
 def _load_requires_from_file(filepath):
 	return [pkg_name.rstrip('\n') for pkg_name in open(filepath).readlines()]
-
 def _install_requires():
 	return _load_requires_from_file('requirements.txt')
 
@@ -29,18 +31,18 @@ if __name__ == '__main__':
 		#
 		# Package Information
 		#
-		packages		= find_packages(),
-		install_requires	= _install_requires(),
-		package_dir		= { 'eyed' : 'eyed' },
-		package_data = {
+		packages	= find_packages(),
+		install_requires= _install_requires(),
+		package_dir	= { 'eyed' : 'eyed' },
+		package_data	= {
 			'eyed': ['alembic.ini'],
 		},
 		#
-		# Console Scripts
+		# Register Command on the Console
 		#
-		entry_points		= '''
+		entry_points	= '''
 		[console_scripts]
 		eyed = eyed.rpcd:start
-		'''
+		''',
 	)
 

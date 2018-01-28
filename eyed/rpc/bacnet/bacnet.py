@@ -4,8 +4,8 @@
 #
 # BACnet Driver
 #
-from driver.bacnet import BACnetSimpleClient
-from driver.bacnet import definition
+from eyed.driver.bacnet import BACnetSimpleClient
+from eyed.driver.bacnet import definition
 
 #
 # BACnet Daemon Instance

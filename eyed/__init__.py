@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import db
+import model
+import rpc
 import client
 import driver
-from model import BaseObject, Config
-import rpc
 
 __all__ = [
 	db,
+	model,
+	driver,
 	rpc,
 	client,
 ]

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
+import subprocess
 
 #
 # Remote Procedure Call
@@ -25,7 +27,19 @@ class RPCService(rpyc.Service):
 #
 # デーモンの起動
 #
-def start():
+def start(port = 1413):
+	#
+	# スクリプトを実行するディレクトリ設定
+	#
+	base_path = os.path.dirname(os.path.abspath(__file__))
+	os.chdir(base_path)
+
+	#
+	# DB を 最新のスキーマ へ アップデート
+	#
+	command = ['alembic upgrade head']
+	subprocess.check_call(command, shell=True)
+
 	#
 	# BACnet Daemon の 起動
 	#
@@ -34,7 +48,7 @@ def start():
 	#
 	# RPCサーバ の 起動
 	#
-	server = ThreadedServer(RPCService, port = 12345)
+	server = ThreadedServer(RPCService, port = port)
 	server.start()
 
 #

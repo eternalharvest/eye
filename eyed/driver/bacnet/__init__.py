@@ -4,5 +4,9 @@ from bacnet import BACnetSimpleClient
 from bacnetd import BACnetd
 import definition
 
-__all__ = [BACnetd, BACnetSimpleClient, definition]
+__all__ = [
+	BACnetd,
+	BACnetSimpleClient,
+	definition
+]
 

@@ -21,7 +21,6 @@ os.chdir(base_path)
 # SQL エンジンの取得
 #
 config = Config(pkg_resources.resource_filename('eyed', 'alembic.ini'))
-print pkg_resources.resource_filename('eyed', 'alembic.ini')
 Engine = engine_from_config(
 	config.get_section(config.config_ini_section),
 	prefix = 'sqlalchemy.',
