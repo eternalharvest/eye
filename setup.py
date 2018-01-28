@@ -35,7 +35,13 @@ if __name__ == '__main__':
 		install_requires= _install_requires(),
 		package_dir	= { 'eyed' : 'eyed' },
 		package_data	= {
-			'eyed': ['alembic.ini'],
+			'eyed'		: [
+				'alembic.ini'
+				'alembic/README',
+				'alembic/env.py',
+				'alembic/script.py.mako',
+				'alembic/versions/*.py'
+			],
 		},
 		#
 		# Register Command on the Console
