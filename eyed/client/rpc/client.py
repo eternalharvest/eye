@@ -37,7 +37,7 @@ class BACnetRPCClient(RPCClient):
 	# doReadPropertyRequest
 	#
 	def doReadPropertyRequest(self, device_id, object_id, instance_id, property_id):
-		bacnet = client.root.BACnetService()
+		bacnet = self.root.BACnetService()
 		return bacnet.doReadPropertyRequest(device_id, object_id, instance_id, property_id)
 
 	#
@@ -47,7 +47,7 @@ class BACnetRPCClient(RPCClient):
 		#
 		# WhoIsRequest の 実行
 		#
-		bacnet = client.root.BACnetService()
+		bacnet = self.root.BACnetService()
 		return bacnet.doWhoIsRequest()
 
 	#
