@@ -44,6 +44,9 @@ class BACnetRPCClient(RPCClient):
 	# scan
 	#
 	def scan(self):
+		#
+		# WhoIsRequest の 実行
+		#
 		bacnet = client.root.BACnetService()
 		return bacnet.doWhoIsRequest()
 
@@ -51,6 +54,9 @@ class BACnetRPCClient(RPCClient):
 	# getDevices
 	#
 	def getDevices(self):
+		#
+		# デバイス一覧の取得
+		#
 		bacnet = self.root.BACnetService()
 		return bacnet.getDevices()
 
@@ -58,9 +64,15 @@ class BACnetRPCClient(RPCClient):
 	# getObjectList
 	#
 	def getObjectList(self, device_id):
+		#
+		# オブジェクトID, プロパティID の 取得
+		#
 		obj = definition.findObjectByName('device')
 		prs = definition.findPropertyByName('objectList')
 
+		#
+		# リクエスト の 実行
+		#
 		return self.doReadPropertyRequest(
 			device_id,
 			obj['id'],
@@ -72,17 +84,30 @@ class BACnetRPCClient(RPCClient):
 	# getEpics
 	#
 	def getEpics(self, device_id):
+		#
+		# デバイスオブジェクトの全プロパティ取得
+		#
 		obj = definition.findObjectByName('device')
 		prs = definition.getPropertiesByObject(obj)
 
+		#
+		# 各プロパティに対してリクエストの実行
+		#
 		values = dict()
 		for p in prs:
+			#
+			# リクエスト実行
+			#
 			result = self.doReadPropertyRequest(
 				device_id,
 				obj['id'],
 				device_id,
 				p['id']
 			)
+
+			#
+			# 実行結果を辞書に登録
+			#
 			values[p['name']] = result['value']
 		return values
 
