@@ -6,7 +6,6 @@
 - BACnet
 
 # Install EYED
-<<<<<<< HEAD
 ## Dependency
   EYED uses the supervisor for manage the daemon.
 It needs a install from apt package manager.
@@ -16,12 +15,10 @@ sudo apt-get install supervisor
 ```
 
 # BACnet
-=======
   You can easily install the EYE by pip command.
 ```python
 pip install git+https://github.com/ThousandMileEye/eye.git
 ```
->>>>>>> 4d4b26bfa6a142ceb04b59f3f77ecf544dced3f5
 
   After execute pip, you can launch EYED API Server by eyed commad.
 ```python
