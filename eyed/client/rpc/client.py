@@ -7,9 +7,19 @@ from eyed.driver.bacnet import definition
 # RPCClient
 #
 class RPCClient:
+	#
+	# コンストラクタ
+	#
 	def __init__(self, host, port = 1413):
 		self.connection = rpyc.connect(host, port)
 		self.root = self.connection.root
+
+	#
+	# NIC の 取得
+	#
+	def getNetworkInterfaces(self):
+		systemd = self.root.SystemService()
+		return systemd.getNetworkInterfaces()
 
 #
 # BACnetdRPCClient

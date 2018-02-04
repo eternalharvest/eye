@@ -4,7 +4,7 @@
 #
 # BACnet Driver
 #
-from eyed.driver.bacnet import BACnetSimpleClient
+from eyed.driver.bacnet import BACnetClient
 from eyed.driver.bacnet import definition
 
 #
@@ -25,7 +25,7 @@ class BACnetService(object):
 		#
 		single = SingleBACnetd.getInstance()
 		app = single.bacnetd.application
-		bacnet = BACnetSimpleClient(app)
+		bacnet = BACnetClient(app)
 
 		#
 		# WhoIsRequest の 送信
@@ -53,7 +53,7 @@ class BACnetService(object):
 		#
 		single = SingleBACnetd.getInstance()
 		app = single.bacnetd.application
-		bacnet = BACnetSimpleClient(app)
+		bacnet = BACnetClient(app)
 
 		#
 		# デバイスリストの作成
@@ -76,7 +76,7 @@ class BACnetService(object):
 		#
 		single = SingleBACnetd.getInstance()
 		app = single.bacnetd.application
-		bacnet = BACnetSimpleClient(app)
+		bacnet = BACnetClient(app)
 
 		#
 		# リクエストの実行

@@ -11,7 +11,6 @@ from netaddr import IPAddress
 # BACnet 接続用ドライバ
 #
 from eyed.driver.bacnet import BACnetd
-from eyed.driver.bacnet import BACnetSimpleClient
 
 #
 # Database Session

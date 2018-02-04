@@ -26,6 +26,11 @@ bacpypes
 jsonschema
 
 #
+# Command Line Utility
+#
+click
+
+#
 # Network Interface Library
 #
 netifaces

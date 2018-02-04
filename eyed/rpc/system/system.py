@@ -11,9 +11,6 @@ from netaddr import IPNetwork
 # System Service
 #
 class SystemService(object):
-	def __init__(self):
-		pass
-
 	#
 	# NIC の 情報を取得
 	#
@@ -34,9 +31,9 @@ class SystemService(object):
 			# NIC の 登録
 			#
 			nics.append({
-				'interface'	: iface_name,
-				'ipv4'		: ipv4,
-				'ipv6'		: ipv6
+				'name'	: iface_name,
+				'ipv4'	: ipv4,
+				'ipv6'	: ipv6
 			})
 
 		#

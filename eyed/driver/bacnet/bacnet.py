@@ -164,34 +164,3 @@ class BACnetClient:
 		apdu, datatype = result
 		return apdu.propertyValue.cast_out(datatype)
 
-#
-# BACnet を 簡単に使用可能とするクライアント
-#
-class BACnetSimpleClient(BACnetClient):
-	#
-	# コンストラクタ
-	#
-	def __init__(self, *args):
-		BACnetClient.__init__(self, *args)
-		self.WhoIsRequest()
-
-	#
-	# デバイスからプロパティの取得
-	#
-	def getDeviceProperty(self, name, device_id):
-		propertyIdentifierDict = {
-			#'vendor-name'				: 121,
-			'vendor-name'				: 'vendorName',
-			'vendor-identifier'			: 120,
-			'model-name'				: 70,
-			'firmware-revision'			: 44,
-			'application-software-version'		: 12,
-			'protocol-version'			: 98,
-			'protocol-revision'			: 139,
-			'protocol-services-supported'		: 97,
-			'protocol-object-types-supported'	: 96,
-			'object_list'				: 76,
-		}
-		pid = propertyIdentifierDict[name]
-		return BACnetClient._ReadDevicePropertyRequest(self, device_id, pid)
-

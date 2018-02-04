@@ -3,6 +3,7 @@
 import db
 import model
 import rpc
+import rpcd
 import client
 import driver
 
@@ -11,6 +12,7 @@ __all__ = [
 	model,
 	driver,
 	rpc,
+	rpcd,
 	client,
 ]
 

@@ -20,7 +20,7 @@ if __name__ == '__main__':
 		# Software Information
 		#
 		name		= 'eyed',
-		version		= '0.3.4',
+		version		= '0.3.7',
 
 		#
 		# Author Information
@@ -48,6 +48,7 @@ if __name__ == '__main__':
 		#
 		entry_points	= '''
 		[console_scripts]
+		eye = eyed.cli:start_cli
 		eyed = eyed.rpcd:start
 		''',
 	)
