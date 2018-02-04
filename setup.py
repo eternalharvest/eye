@@ -49,7 +49,6 @@ if __name__ == '__main__':
 		entry_points	= '''
 		[console_scripts]
 		eye = eyed.cli:start_cli
-		eyed = eyed.rpcd:start
 		''',
 	)
 
