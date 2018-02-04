@@ -88,6 +88,9 @@ class BACnetService(object):
 		#
 		return { 'value' : value }
 
+#
+# Entry Point
+#
 if __name__ == '__main__':
 	obj = definition.findObjectByName('device')
 	prs = definition.getPropertiesByObject(obj)

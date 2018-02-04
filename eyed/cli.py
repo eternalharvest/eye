@@ -71,6 +71,14 @@ def rpcd(ctx):
 	start_eyed(port)
 
 #
+# BACNET PROXYD の起動
+#
+@start.command()
+@click.pass_context
+def bacnet_proxyd(ctx):
+	click.echo('STARTING BACNET PROXYD...')
+
+#
 # START
 #
 def start_cli():

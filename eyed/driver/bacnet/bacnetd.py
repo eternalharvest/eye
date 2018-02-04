@@ -30,7 +30,7 @@ class BACnetd(Thread):
 		#
 		self.device_name		= 'naoya@tuntunkun.com'
 		self.device_id			= 65535
-		self.vendor_name		= 'Tuntunkun Co., Ltd'
+		self.vendor_name		= 'EYED'
 		self.vendor_id			= 65535
 		self.maxApduLengthAccepted	= 1024
 		self.segmentationSupported	= 'segmentedBoth'

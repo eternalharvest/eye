@@ -164,3 +164,9 @@ class BACnetClient:
 		apdu, datatype = result
 		return apdu.propertyValue.cast_out(datatype)
 
+	#
+	# addObject (オブジェクト の 登録)
+	#
+	def addObject(self, obj):
+		return self.application.add_object(obj)
+

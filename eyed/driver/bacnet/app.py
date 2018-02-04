@@ -9,6 +9,10 @@ import sys
 class App(BIPSimpleApplication):
 	def __init__(self, *args):
 		BIPSimpleApplication.__init__(self, *args)
+
+		#
+		# BACnet デバイスキャッシュ用
+		#
 		self.device_map = {}
 
 		#
