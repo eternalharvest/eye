@@ -17,32 +17,12 @@ from eyed.driver.bacnet import BACnetd
 #
 from eyed.model import Config
 from eyed.db import Session
-
-#
-# Singletone BACnetd
-#
-class SingleBACnetd:
-	_instance = None
-
-	#
-	# Initialize
-	#
-	def __init__(self):
-		self.bacnetd = None
-
-	#
-	# get instance
-	#
-	@classmethod
-	def getInstance(cls):
-		if cls._instance is None:
-			cls._instance = cls()
-		return cls._instance
+from eyed.single import SingleBACnetd
 
 #
 # Start BACnetd
 #
-def start_bacnetd(interface = None):
+def start_bacnetd(interface = None, device_id = 65535):
 	#
 	# BACnet Daemon が 起動しているか確認
 	#
@@ -88,7 +68,7 @@ def start_bacnetd(interface = None):
 	#
 	# BACnet Daemon の 起動
 	#
-	single.bacnetd = BACnetd(bacnet_address)
+	single.bacnetd = BACnetd(bacnet_address, device_id)
 	single.bacnetd.start()
 
 	#
@@ -108,8 +88,8 @@ class BACnetdService(object):
 	#
 	# Start
 	#
-	def exposed_start(self, interface):
-		return start_bacnetd(interface)
+	def exposed_start(self, interface, device_id):
+		return start_bacnetd(interface, device_id)
 
 	#
 	# Stop

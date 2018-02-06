@@ -14,7 +14,7 @@ class BACnetd(Thread):
 	#
 	# BACnet 初期化処理
 	#
-	def __init__(self, address):
+	def __init__(self, address, device_id):
 		#
 		# 親コンストラクタの呼び出し
 		#
@@ -29,7 +29,7 @@ class BACnetd(Thread):
 		# デバイスの設定情報の定義
 		#
 		self.device_name		= 'naoya@tuntunkun.com'
-		self.device_id			= 65535
+		self.device_id			= device_id
 		self.vendor_name		= 'EYED'
 		self.vendor_id			= 65535
 		self.maxApduLengthAccepted	= 1024

@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import system
-import bacnetd
 import bacnet
+import bacnetd
+import bacnet_proxyd
 
 __all__ = [
 	system,
-	bacnetd,
 	bacnet,
+	bacnetd,
+	bacnet_proxyd
 ]
 

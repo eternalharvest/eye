@@ -10,7 +10,7 @@ from eyed.driver.bacnet import definition
 #
 # BACnet Daemon Instance
 #
-from eyed.rpc.bacnetd import SingleBACnetd
+from eyed.single import SingleBACnetd
 
 #
 # BACnetService

@@ -15,19 +15,21 @@ from rpyc.utils.server import ThreadedServer
 from eyed.rpc.system import SystemService
 from eyed.rpc.bacnet import BACnetService
 from eyed.rpc.bacnetd import BACnetdService, start_bacnetd
+from eyed.rpc.bacnet_proxyd import BACnetProxydService
 
 #
 # RPCService
 #
 class RPCService(rpyc.Service):
-	exposed_SystemService = SystemService
-	exposed_BACnetdService = BACnetdService
-	exposed_BACnetService = BACnetService
+	exposed_SystemService	= SystemService
+	exposed_BACnetdService	= BACnetdService
+	exposed_BACnetService	= BACnetService
+	exposed_BACnetProxydService = BACnetProxydService
 
 #
 # デーモンの起動
 #
-def start(port = 1413):
+def start(port = 1413, device_id = 65535):
 	#
 	# スクリプトを実行するディレクトリ設定
 	#
@@ -43,7 +45,7 @@ def start(port = 1413):
 	#
 	# BACnet Daemon の 起動
 	#
-	start_bacnetd()
+	start_bacnetd(None, device_id)
 
 	#
 	# RPCサーバ の 起動

@@ -13,7 +13,7 @@ class ProxyAnalogValueObject(AnalogValueObject):
 	]
 
 	def __init__(self, **kwargs):
-		ProxyValueObject.__init__(self, **kwargs)
+		AnalogValueObject.__init__(self, **kwargs)
 
 #
 # オブジェクトを登録

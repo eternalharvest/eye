@@ -8,6 +8,9 @@ import sys
 
 class App(BIPSimpleApplication):
 	def __init__(self, *args):
+		#
+		# コンストラクタ
+		#
 		BIPSimpleApplication.__init__(self, *args)
 
 		#
