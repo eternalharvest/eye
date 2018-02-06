@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import click
 from eyed.client.rpc import RPCClient
+from eyed.client.rpc import BACnetRPCClient
 from eyed.client.rpc import BACnetdRPCClient
 from eyed.rpcd import start as start_eyed
 
@@ -49,6 +50,32 @@ def interfaces(ctx):
 		name = interface['name']
 		ipv4 = interface['ipv4']
 		click.echo('%s %s' %(name, ipv4))
+
+#########################################################################
+# BACnet 関連の情報取得
+#########################################################################
+@show.group()
+@click.pass_context
+def bacnet(ctx):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+	click.echo(client.getDevices())
+
+#
+# BACnet Device の 情報取得
+#
+@bacnet.command()
+@click.pass_context
+def devices(ctx):
+	pass
 
 #########################################################################
 # デーモン起動用 の コマンド
