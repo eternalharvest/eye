@@ -14,8 +14,9 @@ pip install git+https://github.com/ThousandMileEye/eye.git
 
 # How to use?
   After execute pip, you can launch EYED RPC Server by eye commad.
+
 ```bash
-eye start rpcd
+eyed
 ```
 
 ## Check the system settings.
@@ -24,6 +25,11 @@ eye start rpcd
 (eye) $ eye show interfaces
 lo0 [{'peer': u'127.0.0.1', 'netmask': u'255.0.0.0', 'addr': u'127.0.0.1'}]
 ~ 省略 ~
+```
+
+### Start bacnetd
+```bash
+(eye) $ eye start bacnetd [interface-name]
 ```
 
 # Manage eyed as a service
