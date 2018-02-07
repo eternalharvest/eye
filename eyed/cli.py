@@ -4,7 +4,6 @@ import click
 from eyed.client.rpc import RPCClient
 from eyed.client.rpc import BACnetRPCClient
 from eyed.client.rpc import BACnetdRPCClient
-from eyed.rpcd import start as start_eyed
 
 #########################################################################
 # 引数処理
@@ -57,6 +56,32 @@ def interfaces(ctx):
 @show.group()
 @click.pass_context
 def bacnet(ctx):
+	pass
+
+#
+# BACnet Device の スキャン
+#
+@bacnet.command()
+@click.pass_context
+def scan(ctx):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+	click.echo(client.scan())
+
+#
+# BACnet Device の 情報取得
+#
+@bacnet.command()
+@click.pass_context
+def devices(ctx):
 	#
 	# 引数の取得
 	#
@@ -69,14 +94,6 @@ def bacnet(ctx):
 	client = BACnetRPCClient(host, port)
 	click.echo(client.getDevices())
 
-#
-# BACnet Device の 情報取得
-#
-@bacnet.command()
-@click.pass_context
-def devices(ctx):
-	pass
-
 #########################################################################
 # デーモン起動用 の コマンド
 #########################################################################
@@ -86,16 +103,23 @@ def start(ctx):
 	pass
 
 #
-# RPC デーモンの起動
+# BACNETD の起動
 #
 @start.command()
 @click.pass_context
-def rpcd(ctx):
+@click.argument('interface')
+def bacnetd(ctx, interface):
 	#
 	# 引数の取得
 	#
+	host = ctx.obj['host']
 	port = ctx.obj['port']
-	start_eyed(port)
+
+	#
+	# EYED に RPC接続
+	#
+	client = BACnetdRPCClient(host, port)
+	click.echo(client.start(interface, 65535))
 
 #
 # BACNET PROXYD の起動
@@ -104,6 +128,32 @@ def rpcd(ctx):
 @click.pass_context
 def bacnet_proxyd(ctx):
 	click.echo('STARTING BACNET PROXYD...')
+
+#########################################################################
+# デーモン停止用 の コマンド
+#########################################################################
+@cmd.group()
+@click.pass_context
+def stop(ctx):
+	pass
+
+#
+# BACNETD の 停止
+#
+@stop.command()
+@click.pass_context
+def bacnetd(ctx):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# EYED に RPC接続
+	#
+	client = BACnetdRPCClient(host, port)
+	click.echo(client.stop())
 
 #
 # START

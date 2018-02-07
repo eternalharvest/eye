@@ -28,9 +28,9 @@ class BACnetdRPCClient(RPCClient):
 	#
 	# Start
 	#
-	def start(self, interface):
+	def start(self, interface, device_id):
 		bacnetd = self.root.BACnetdService()
-		return bacnetd.start(interface)
+		return bacnetd.start(interface, device_id)
 
 	#
 	# Stop
@@ -136,13 +136,13 @@ class BACnetProxydRPCClient(RPCClient):
 # Entry Point
 #
 if __name__ == '__main__':
-	client = BACnetRPCClient('10.2.10.29', 1413)
-	print client.scan()
+	#client = BACnetRPCClient('10.2.10.29', 1413)
+	#print client.scan()
 	#client = BACnetdRPCClient('10.2.10.29', 1413)
-	client = BACnetRPCClient('127.0.0.1', 1413)
+	#client = BACnetRPCClient('127.0.0.1', 1413)
 
-	#client = BACnetdRPCClient('127.0.0.1', 1413)
-	#print client.start('en0')
+	client = BACnetdRPCClient('127.0.0.1', 1413)
+	print client.start('en0', 65535)
 	#print client.stop()
 	#print client.start('enp0s3')
 
@@ -155,7 +155,7 @@ if __name__ == '__main__':
 	#print bacnetd.start('en0')
 
 	#bacnetd = client.root.BACnetdService()
-	print client.scan()
+	#print client.scan()
 	#print client.getDevices()
 	#print client.getEpics(1234)
 

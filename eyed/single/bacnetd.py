@@ -30,6 +30,7 @@ class SingleBACnetd:
 		#
 		# BACnetd が 起動しているかを確認
 		#
+		self = SingleBACnetd().getInstance()
 		if self.bacnetd == None:
 			return None
 

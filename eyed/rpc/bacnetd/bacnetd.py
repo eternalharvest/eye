@@ -22,7 +22,7 @@ from eyed.single import SingleBACnetd
 #
 # Start BACnetd
 #
-def start_bacnetd(interface = None, device_id = 65535):
+def start_bacnetd(interface, device_id):
 	#
 	# BACnet Daemon が 起動しているか確認
 	#
