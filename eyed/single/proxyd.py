@@ -4,6 +4,11 @@ from eyed.model import ProxyPoint
 from eyed.db import createSession
 
 #
+# BACnet Client
+#
+from eyed.client.rpc.client import BACnetRPCClient
+
+#
 # Job Scheduler
 #
 from apscheduler.schedulers.background import BlockingScheduler
@@ -39,8 +44,14 @@ class SingleProxyd:
 	#
 	def measure(self):
 		session = createSession()
-		for point in session.query(ProxyPoint).all():
-			print point
+		client = BACnetRPCClient('127.0.0.1')
+		for p in session.query(ProxyPoint).all():
+			print client.doReadPropertyRequest(
+				p.device_id,
+				p.object_type,
+				p.instance_id,
+				p.property_id
+			)
 		session.close()
 		print 'OK'
 		pass

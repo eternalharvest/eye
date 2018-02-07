@@ -38,7 +38,7 @@ class BACnetClient:
 		#
 		# WhoIsRequest の レスポンス(IAmRequest) を保存するキューをクリア
 		#
-		self.application.clear()
+		#self.application.clear()
 
 		#
 		# WhoIsRequest の 送信
