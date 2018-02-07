@@ -22,3 +22,19 @@ class SingleBACnetd:
 			cls._instance = cls()
 		return cls._instance
 
+	#
+	# get allication
+	#
+	@classmethod
+	def getApplication(cls):
+		#
+		# BACnetd が 起動しているかを確認
+		#
+		if self.bacnetd == None:
+			return None
+
+		#
+		# application の インスタンスを返す
+		#
+		return self.bacnetd.application
+

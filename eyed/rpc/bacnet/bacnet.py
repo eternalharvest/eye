@@ -23,8 +23,7 @@ class BACnetService(object):
 		#
 		# BACnet コマンド操作用インスタンス取得
 		#
-		single = SingleBACnetd.getInstance()
-		app = single.bacnetd.application
+		app = SingleBACnetd.getApplication()
 		bacnet = BACnetClient(app)
 
 		#
@@ -51,8 +50,7 @@ class BACnetService(object):
 		#
 		# BACnet コマンド操作用インスタンス取得
 		#
-		single = SingleBACnetd.getInstance()
-		app = single.bacnetd.application
+		app = SingleBACnetd.getApplication()
 		bacnet = BACnetClient(app)
 
 		#
@@ -74,8 +72,7 @@ class BACnetService(object):
 		#
 		# BACnet コマンド操作用インスタンス取得
 		#
-		single = SingleBACnetd.getInstance()
-		app = single.bacnetd.application
+		app = SingleBACnetd.getApplication()
 		bacnet = BACnetClient(app)
 
 		#
