@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from db import Session, Engine
+from db import createSession, Engine
 
 __all__ = [
-	Session,
+	createSession,
 	Engine
 ]
 

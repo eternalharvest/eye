@@ -15,7 +15,7 @@ from rpyc.utils.server import ThreadedServer
 from eyed.rpc.system import SystemService
 from eyed.rpc.bacnet import BACnetService
 from eyed.rpc.bacnetd import BACnetdService, start_bacnetd
-from eyed.rpc.bacnet_proxyd import BACnetProxydService
+from eyed.rpc.proxy import BACnetProxyService
 
 #
 # RPCService
@@ -24,7 +24,7 @@ class RPCService(rpyc.Service):
 	exposed_SystemService	= SystemService
 	exposed_BACnetdService	= BACnetdService
 	exposed_BACnetService	= BACnetService
-	exposed_BACnetProxydService = BACnetProxydService
+	exposed_BACnetProxyService = BACnetProxyService
 
 #
 # デーモンの起動

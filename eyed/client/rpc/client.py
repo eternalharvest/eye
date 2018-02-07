@@ -133,6 +133,17 @@ class BACnetProxydRPCClient(RPCClient):
 		return proxy.addObject()
 
 #
+# BACnetProxyRPCClient
+#
+class BACnetProxyRPCClient(RPCClient):
+	#
+	# Start
+	#
+	def add(self, device_id, object_id, instance_id, property_id):
+		proxy = self.root.BACnetProxyService()
+		return proxy.add(device_id, object_id, instance_id, property_id)
+
+#
 # Entry Point
 #
 if __name__ == '__main__':
@@ -141,8 +152,11 @@ if __name__ == '__main__':
 	#client = BACnetdRPCClient('10.2.10.29', 1413)
 	#client = BACnetRPCClient('127.0.0.1', 1413)
 
-	client = BACnetdRPCClient('127.0.0.1', 1413)
-	print client.start('en0', 65535)
+	client = BACnetProxyRPCClient('127.0.0.1', 1413)
+	client.add(1234, 2, 1, 75)
+
+	#client = BACnetdRPCClient('127.0.0.1', 1413)
+	#print client.start('en0', 65535)
 	#print client.stop()
 	#print client.start('enp0s3')
 

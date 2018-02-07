@@ -26,11 +26,13 @@ Engine = engine_from_config(
 	prefix = 'sqlalchemy.',
 	poolclass = pool.NullPool
 )
-		
+
 #
 # セッションの取得
 #
-Session = sessionmaker(bind = Engine)
+def createSession():
+	Session = sessionmaker(bind = Engine)
+	return Session()
 
 #
 # Entry Point

@@ -16,7 +16,7 @@ from eyed.driver.bacnet import BACnetd
 # Database Session
 #
 from eyed.model import Config
-from eyed.db import Session
+from eyed.db import createSession
 from eyed.single import SingleBACnetd
 
 #
@@ -33,7 +33,7 @@ def start_bacnetd(interface, device_id):
 	#
 	# DB から BACNET INTERFACE を取得
 	#
-	session = Session()
+	session = createSession()
 	bacnet_interface = session.query(Config).filter_by(key = 'BACNET_INTERFACE').first()
 	if interface == None:
 		if bacnet_interface == None: return False
