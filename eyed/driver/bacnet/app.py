@@ -3,10 +3,11 @@
 from threading import Thread
 from bacpypes.apdu import WhoIsRequest, IAmRequest
 from bacpypes.app import BIPSimpleApplication
+from bacpypes.service.object import ReadWritePropertyMultipleServices
 from Queue import Queue
 import sys
 
-class App(BIPSimpleApplication):
+class App(BIPSimpleApplication, ReadWritePropertyMultipleServices):
 	def __init__(self, *args):
 		#
 		# コンストラクタ
