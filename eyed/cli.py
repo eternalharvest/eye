@@ -95,6 +95,60 @@ def devices(ctx):
 	click.echo(client.getDevices())
 
 #########################################################################
+# データ取得用 の コマンド
+#########################################################################
+@cmd.group()
+@click.pass_context
+def run(ctx):
+	pass
+
+#
+# BACEPICS の起動
+#
+@run.command()
+@click.pass_context
+@click.argument('device_id')
+def bacepics(ctx, device_id):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+	click.echo(client.getEpics(int(device_id)))
+
+#
+# BACRP の起動
+#
+@run.command()
+@click.pass_context
+@click.argument('device_id')
+@click.argument('object_id')
+@click.argument('instance_id')
+@click.argument('property_id')
+def bacrp(ctx, device_id, object_id, instance_id, property_id):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+	click.echo(client.doReadPropertyRequest(
+		int(device_id),
+		int(object_id),
+		int(instance_id),
+		int(property_id)
+	))
+
+#########################################################################
 # デーモン起動用 の コマンド
 #########################################################################
 @cmd.group()
@@ -105,10 +159,10 @@ def start(ctx):
 #
 # BACNETD の起動
 #
-@start.command()
+@start.command(name = 'bacnetd')
 @click.pass_context
 @click.argument('interface')
-def bacnetd(ctx, interface):
+def start_bacnetd(ctx, interface):
 	#
 	# 引数の取得
 	#
@@ -126,8 +180,34 @@ def bacnetd(ctx, interface):
 #
 @start.command()
 @click.pass_context
-def bacnet_proxyd(ctx):
+def proxyd(ctx):
 	click.echo('STARTING BACNET PROXYD...')
+
+#########################################################################
+# デーモン状態取得用 の コマンド
+#########################################################################
+@cmd.group()
+@click.pass_context
+def status(ctx):
+	pass
+
+#
+# BACNETD の 状態確認
+#
+@status.command(name = 'bacnetd')
+@click.pass_context
+def status_bacnetd(ctx):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetdRPCClient(host, port)
+	click.echo(client.getStatus())
 
 #########################################################################
 # デーモン停止用 の コマンド
@@ -140,9 +220,9 @@ def stop(ctx):
 #
 # BACNETD の 停止
 #
-@stop.command()
+@stop.command(name = 'bacnetd')
 @click.pass_context
-def bacnetd(ctx):
+def stop_bacnetd(ctx):
 	#
 	# 引数の取得
 	#
