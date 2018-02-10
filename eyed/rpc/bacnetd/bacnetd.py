@@ -86,20 +86,31 @@ def start_bacnetd(interface, device_id):
 #
 class BACnetdService(object):
 	#
-	# Start
+	# BACnetd サービスの起動
 	#
 	def exposed_start(self, interface, device_id):
 		return start_bacnetd(interface, device_id)
 
 	#
-	# Stop
+	# BACnetd の 状態確認
 	#
-	def exposed_stop(self):
+	def exposed_getStatus(self):
 		#
 		# BACnet Daemon が 起動しているか確認
 		#
 		single = SingleBACnetd.getInstance()
 		if single.bacnetd == None:
+			return False
+		return True
+
+	#
+	# BACnetd サービスの停止
+	#
+	def exposed_stop(self):
+		#
+		# 既にサービスが起動していないかを確認
+		#
+		if self.exposed_getStatus() == False:
 			return False
 
 		#
