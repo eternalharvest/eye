@@ -116,6 +116,7 @@ class BACnetdService(object):
 		#
 		# BACnetd の 停止
 		#
+		single = SingleBACnetd.getInstance()
 		single.bacnetd.stop()
 		single.bacnetd = None
 		return True
