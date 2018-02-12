@@ -131,20 +131,23 @@ class BACnetRPCClient(RPCClient):
 #
 # BACnetProxydRPCClient
 #
-class BACnetProxydRPCClient(RPCClient):
+class BACnetProxyRPCClient(RPCClient):
+	#
+	# start
+	#
+	def start(self):
+		proxy = self.root.BACnetProxyService()
+		return proxy.start()
+
 	#
 	# addObject
 	#
 	def addObject(self):
-		proxy = self.root.BACnetProxydService()
+		proxy = self.root.BACnetProxyService()
 		return proxy.addObject()
 
-#
-# BACnetProxyRPCClient
-#
-class BACnetProxyRPCClient(RPCClient):
 	#
-	# Start
+	# add
 	#
 	def add(self, device_id, object_id, instance_id, property_id):
 		proxy = self.root.BACnetProxyService()

@@ -4,6 +4,7 @@ import click
 from eyed.client.rpc import RPCClient
 from eyed.client.rpc import BACnetRPCClient
 from eyed.client.rpc import BACnetdRPCClient
+from eyed.client.rpc import BACnetProxyRPCClient
 
 #########################################################################
 # 引数処理
@@ -178,10 +179,20 @@ def start_bacnetd(ctx, interface):
 #
 # BACNET PROXYD の起動
 #
-@start.command()
+@start.command(name = 'proxyd')
 @click.pass_context
 def proxyd(ctx):
-	click.echo('STARTING BACNET PROXYD...')
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# EYED に RPC接続
+	#
+	client = BACnetProxyRPCClient(host, port)
+	click.echo(client.start())
 
 #########################################################################
 # デーモン状態取得用 の コマンド

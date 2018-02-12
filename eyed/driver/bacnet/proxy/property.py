@@ -31,7 +31,7 @@ class ProxyValueProperty(Property):
 
 		single = SingleProxyd.getInstance()
 		print single
-		#print obj.objectIdentifier
+		print obj.objectIdentifier
 		#bacnet = BACnetClient(obj._app)
 		#print bacnet.WhoIsRequest()
 		#print bacnet.ReadPropertyRequest(1234, 2, 1, 85)

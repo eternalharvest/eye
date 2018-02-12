@@ -13,6 +13,7 @@ from eyed.client.rpc.client import BACnetRPCClient
 #
 from apscheduler.schedulers.background import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.base import STATE_RUNNING
 
 #
 # Singletone Proxyd
@@ -27,8 +28,19 @@ class SingleProxyd:
 		self.device_id = 0
 		self.bacnetd = None
 		self.cache = {}
-		#self.scheduler = BackgroundScheduler()
-		self.scheduler = BlockingScheduler()
+		self.scheduler = BackgroundScheduler({
+			#
+			# スレッドプールの設定
+			#
+			'apscheduler.executors.default' : {
+				'class'		: 'apscheduler.executors.pool:ThreadPoolExecutor',
+				'max_workers'	: '256'
+			},
+			'apscheduler.job_defaults.coalesce'		: 'false',
+			'apscheduler.job_defaults.max_instances'	: '128',
+			'apscheduler.timezone'				: 'UTC',
+		})
+		#self.scheduler = BlockingScheduler()
 
 	#
 	# get instance
@@ -43,6 +55,7 @@ class SingleProxyd:
 	# Measure
 	#
 	def measure(self):
+		print 'OK'
 		session = createSession()
 		client = BACnetRPCClient('127.0.0.1')
 		for p in session.query(ProxyPoint).all():
@@ -69,6 +82,12 @@ class SingleProxyd:
 	#
 	def start(self, interval = 10, device_id = 1234):
 		#
+		# 起動しているかを確認する (2重起動の停止)
+		#
+		if self.scheduler.state == STATE_RUNNING:
+			return False
+
+		#
 		# スケジューラにメソッドを登録
 		#
 		self.device_id = device_id
@@ -83,6 +102,7 @@ class SingleProxyd:
 		# スケジューラの開始
 		#
 		self.scheduler.start()
+		return True
 
 #
 # Entry Point
