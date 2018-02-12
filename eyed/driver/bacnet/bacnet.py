@@ -58,7 +58,7 @@ class BACnetClient:
 		# デバイスID から IPの取得
 		#
 		address = self.getAddressByDeviceID(device_id)
-		if address == None:
+		if not address:
 			#
 			# デバイスの探索オプションの確認
 			#
