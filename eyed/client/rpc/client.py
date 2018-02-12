@@ -164,6 +164,7 @@ if __name__ == '__main__':
 
 	client = BACnetProxyRPCClient('127.0.0.1', 1413)
 	client.add(1234, 2, 1, 85)
+	client.add(1234, 2, 2, 85)
 
 	#client = BACnetdRPCClient('127.0.0.1', 1413)
 	#print client.start('en0', 65535)

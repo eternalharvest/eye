@@ -59,6 +59,8 @@ class SingleProxyd:
 		session = createSession()
 		client = BACnetRPCClient('127.0.0.1')
 		for p in session.query(ProxyPoint).all():
+			print p
+
 			r = client.doReadPropertyRequest(
 				p.device_id,
 				p.object_id,
