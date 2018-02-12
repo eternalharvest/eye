@@ -74,6 +74,14 @@ def scan(ctx):
 	#
 	# Eyed に RPC接続
 	#
+	client = BACnetdRPCClient(host, port)
+	if client.getStatus() == False:
+		click.echo('BACnetd is not running...')
+		return
+
+	#
+	# Eyed に RPC接続
+	#
 	client = BACnetRPCClient(host, port)
 	click.echo(client.scan())
 
@@ -88,6 +96,14 @@ def devices(ctx):
 	#
 	host = ctx.obj['host']
 	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetdRPCClient(host, port)
+	if client.getStatus() == False:
+		click.echo('BACnetd is not running...')
+		return
 
 	#
 	# Eyed に RPC接続
@@ -119,6 +135,14 @@ def bacepics(ctx, device_id):
 	#
 	# Eyed に RPC接続
 	#
+	client = BACnetdRPCClient(host, port)
+	if client.getStatus() == False:
+		click.echo('BACnetd is not running...')
+		return
+
+	#
+	# Eyed に RPC接続
+	#
 	client = BACnetRPCClient(host, port)
 	click.echo(client.getEpics(int(device_id)))
 
@@ -137,6 +161,14 @@ def bacrp(ctx, device_id, object_id, instance_id, property_id):
 	#
 	host = ctx.obj['host']
 	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetdRPCClient(host, port)
+	if client.getStatus() == False:
+		click.echo('BACnetd is not running...')
+		return
 
 	#
 	# Eyed に RPC接続
