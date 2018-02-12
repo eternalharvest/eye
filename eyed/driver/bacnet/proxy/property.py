@@ -3,9 +3,6 @@
 from bacpypes.primitivedata import Real
 from bacpypes.object import Property
 
-from eyed.driver.bacnet import BACnetClient
-from eyed.client.rpc import BACnetRPCClient
-
 from eyed.single import SingleProxyd
 
 #
@@ -17,7 +14,6 @@ class ProxyValueProperty(Property):
 	#
 	def __init__(self, identifier):
 		Property.__init__(self, identifier, Real, default=0.0, optional=True, mutable=False)
-		#self.client = BACnetRPCClient('127.0.0.1', 1413)
 
 	#
 	# 読み込み

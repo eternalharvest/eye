@@ -221,6 +221,20 @@ def start_proxyd(ctx):
 	port = ctx.obj['port']
 
 	#
+	# BACnetd の 起動確認
+	#
+	client = BACnetdRPCClient(host, port)
+	if client.getStatus() == False:
+		click.echo('BACnetd is not running...')
+		return
+
+	#
+	# 同期処理実行
+	#
+	client = BACnetRPCClient(host, port)
+	client.scan()
+
+	#
 	# EYED に RPC接続
 	#
 	client = BACnetProxyRPCClient(host, port)
