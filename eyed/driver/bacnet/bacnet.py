@@ -14,11 +14,16 @@ class BACnetClient:
 	#
 	# BACnetClient 初期化処理
 	#
-	def __init__(self, application):
+	def __init__(self, application, auto_device_discovery = True):
 		#
 		# アプリケーションの取得
 		#
 		self.application = application
+
+		#
+		# デバイス の 探索を自動で実行するか？
+		#
+		self.auto_device_discovery = auto_device_discovery
 
 	#
 	# getAddressByDeviceID
@@ -53,6 +58,17 @@ class BACnetClient:
 		# デバイスID から IPの取得
 		#
 		address = self.getAddressByDeviceID(device_id)
+		if address == None:
+			#
+			# デバイスの探索オプションの確認
+			#
+			if self.auto_device_discovery == False:
+				return None
+
+			#
+			# デバイスの探索
+			#
+			self.WhoIsRequest()
 
 		#
 		# リクエスト作成
