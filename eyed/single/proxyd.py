@@ -62,19 +62,16 @@ class SingleProxyd:
 			print p
 
 			r = client.doReadPropertyRequest(
-				p.device_id,
-				p.object_id,
-				p.instance_id,
-				p.property_id
+				p.des_device_id,
+				p.des_object_id,
+				p.des_instance_id,
+				p.des_property_id
 			)
 
-			key = '%s:%s:%s:%s' %(
-				p.device_id,
-				p.object_id,
-				p.instance_id,
-				p.property_id
-			)
-			self.cache[key] = r
+			#
+			# 値のキャッシュ
+			#
+			self.cache[p.id] = r['value']
 		session.close()
 		print self.cache
 		pass

@@ -4,6 +4,10 @@ from bacpypes.primitivedata import Real
 from bacpypes.object import Property
 
 from eyed.single import SingleProxyd
+from eyed.driver.bacnet.definition import findObjectByName
+
+from eyed.model import ProxyPoint
+from eyed.db import createSession
 
 #
 # Proxy Value Property
@@ -25,17 +29,19 @@ class ProxyValueProperty(Property):
 		if arrayIndex is not None:
 			raise ExecutionError(errorClass='property', errorCode='propertyIsNotAnArray')
 
-		single = SingleProxyd.getInstance()
-		print single
-		print obj.objectIdentifier
-		#bacnet = BACnetClient(obj._app)
-		#print bacnet.WhoIsRequest()
-		#print bacnet.ReadPropertyRequest(1234, 2, 1, 85)
-		#print 'START READ'
-		#result = self.client.doReadPropertyRequest(1234, 2, 1, 85)
-		#print 'STOP READ'
+		object_type, instance_id = obj.objectIdentifier
+		o = findObjectByName(object_type)
+		if not o == None:
+			session = createSession()
+			p = session.query(ProxyPoint).filter_by(
+				src_object_id	= o['id'],
+				src_instance_id = instance_id
+			).first()
 
-		return 0.0
+			single = SingleProxyd.getInstance()
+			if p.id in single.cache:
+				return single.cache[p.id]
+		raise ExecutionError(errorClass='property', errorCode='propertyIsNotAnArray')
 
 	#
 	# 書き込み

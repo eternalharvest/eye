@@ -28,9 +28,9 @@ class BACnetd(Thread):
 		#
 		# デバイスの設定情報の定義
 		#
-		self.device_name		= 'naoya@tuntunkun.com'
+		self.device_name		= 'EYED DEVICE'
 		self.device_id			= device_id
-		self.vendor_name		= 'EYED'
+		self.vendor_name		= 'EYED.ORG'
 		self.vendor_id			= 65535
 		self.maxApduLengthAccepted	= 1024
 		self.segmentationSupported	= 'segmentedBoth'

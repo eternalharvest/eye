@@ -15,9 +15,6 @@ class ProxyAnalogValueObject(AnalogValueObject):
 	def __init__(self, **kwargs):
 		AnalogValueObject.__init__(self, **kwargs)
 
-	def ReadProperty(self, obj, arrayIndex=None):
-		return 1.1
-
 #
 # オブジェクトを登録
 #
