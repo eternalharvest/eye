@@ -24,6 +24,8 @@ class BACnetService(object):
 		# BACnet コマンド操作用インスタンス取得
 		#
 		app = SingleBACnetd.getApplication()
+		if app == None:
+			raise Exception('BAcnetd is not running...')
 		bacnet = BACnetClient(app)
 
 		#
@@ -51,6 +53,8 @@ class BACnetService(object):
 		# BACnet コマンド操作用インスタンス取得
 		#
 		app = SingleBACnetd.getApplication()
+		if app == None:
+			raise Exception('BAcnetd is not running...')
 		bacnet = BACnetClient(app)
 
 		#
@@ -73,6 +77,8 @@ class BACnetService(object):
 		# BACnet コマンド操作用インスタンス取得
 		#
 		app = SingleBACnetd.getApplication()
+		if app == None:
+			raise Exception('BAcnetd is not woring...')
 		bacnet = BACnetClient(app)
 
 		#

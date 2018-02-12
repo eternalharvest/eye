@@ -181,7 +181,7 @@ def start_bacnetd(ctx, interface):
 #
 @start.command(name = 'proxyd')
 @click.pass_context
-def proxyd(ctx):
+def start_proxyd(ctx):
 	#
 	# 引数の取得
 	#
