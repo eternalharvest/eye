@@ -29,18 +29,25 @@ class ProxyValueProperty(Property):
 		if arrayIndex is not None:
 			raise ExecutionError(errorClass='property', errorCode='propertyIsNotAnArray')
 
+		#
+		# オブジェクト種別, インスタンスID の 取得
+		#
 		object_type, instance_id = obj.objectIdentifier
 		o = findObjectByName(object_type)
 		if not o == None:
-			session = createSession()
-			p = session.query(ProxyPoint).filter_by(
-				src_object_id	= o['id'],
-				src_instance_id = instance_id
-			).first()
+			#
+			# オブジェクト種別からIDを取得
+			#
+			src_object_id	= o['id']
+			src_instance_id = instance_id
 
+			#
+			# キャッシュに値があれば、キャシュの値を返す
+			#
+			key = '%s:%s' %(src_object_id, src_instance_id)
 			single = SingleProxyd.getInstance()
-			if p.id in single.cache:
-				return single.cache[p.id]
+			if key in single.cache:
+				return single.cache[key]
 		raise ExecutionError(errorClass='property', errorCode='propertyIsNotAnArray')
 
 	#
