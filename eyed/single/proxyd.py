@@ -25,7 +25,6 @@ class SingleProxyd:
 	# Initialize
 	#
 	def __init__(self):
-		self.device_id = 0
 		self.bacnetd = None
 		self.cache = {}
 		self.scheduler = BackgroundScheduler({
@@ -55,12 +54,19 @@ class SingleProxyd:
 	# Measure
 	#
 	def measure(self):
-		print 'OK'
-		session = createSession()
+		#
+		# RPC 接続
+		#
 		client = BACnetRPCClient('127.0.0.1')
-		for p in session.query(ProxyPoint).all():
-			print p
 
+		#
+		# DB 接続用のセッション作成
+		#
+		session = createSession()
+		for p in session.query(ProxyPoint).all():
+			#
+			# 値の読み込み実行
+			#
 			r = client.doReadPropertyRequest(
 				p.des_device_id,
 				p.des_object_id,
@@ -71,15 +77,18 @@ class SingleProxyd:
 			#
 			# 値のキャッシュ
 			#
-			self.cache[p.id] = r['value']
+			key = '%s:%s' %(p.src_object_id, p.src_instance_id)
+			self.cache[key] = r['value']
+
+		#
+		# DB の セッション切断
+		#
 		session.close()
-		print self.cache
-		pass
 
 	#
 	# start
 	#
-	def start(self, interval = 10, device_id = 1234):
+	def start(self, interval = 10):
 		#
 		# 起動しているかを確認する (2重起動の停止)
 		#
@@ -89,7 +98,6 @@ class SingleProxyd:
 		#
 		# スケジューラにメソッドを登録
 		#
-		self.device_id = device_id
 		self.scheduler.add_job(
 			self.measure,
 			'interval',
