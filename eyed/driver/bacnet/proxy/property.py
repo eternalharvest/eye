@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from bacpypes.primitivedata import Real
 from bacpypes.object import Property
+from bacpypes.errors import ExecutionError
 
 from eyed.single import SingleProxyd
 from eyed.driver.bacnet.definition import findObjectByName
