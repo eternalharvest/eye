@@ -12,6 +12,7 @@ from eyed.single import SingleBACnetd
 
 from eyed.driver.bacnet import BACnetClient
 from eyed.driver.bacnet.proxy import ProxyAnalogValueObject
+from eyed.driver.bacnet.proxy import ProxyAnalogInputObject
 
 #
 # BACnetProxyService
@@ -43,6 +44,11 @@ class BACnetProxyService(object):
 					point.des_instance_id,
 					point.des_property_id
 				)
+
+			#
+			# DB 接続の切断
+			#
+			session.close()
 
 		#
 		# 結果の返却
@@ -85,6 +91,26 @@ class BACnetProxyService(object):
 		)
 		session.add(point)
 		session.commit()
+		session.close()
+
+	#
+	# プロキシをサポートするオブジェクトを返す
+	#
+	def getSupportedObject(self, objectType):
+		#
+		# プロキシ用オブジェクト辞書の作成
+		#
+		proxyObjects = {
+			'analogValue'	: ProxyAnalogValueObject,
+			'analogInput'	: ProxyAnalogInputObject,
+		}
+
+		#
+		# プロキシ可能なオブジェクトかどうかを確認
+		#
+		if objectType in proxyObjects:
+			return proxyObjects[objectType]
+		return None
 
 	#
 	# ポイントの登録
@@ -124,10 +150,19 @@ class BACnetProxyService(object):
 		# objectName or objectType が取得できない場合は終了
 		#
 		if objectName == None or objectType == False:
-			return
+			return False
 
-		return bacnet.addObject(ProxyAnalogValueObject(
-			objectName		= objectName,
-			objectIdentifier	= (objectType, instance_id),
-		))
+		#
+		# プロキシオブジェクトの取得
+		#
+		ProxyObject = self.getSupportedObject(objectType)
+		if not ProxyObject == None:
+			#
+			# オブジェクトの登録
+			#
+			return bacnet.addObject(ProxyObject(
+				objectName		= objectName,
+				objectIdentifier	= (objectType, instance_id),
+			))
+		return False
 
