@@ -68,6 +68,19 @@ class ProxyPoint(BaseObject):
 	#
 	def to_dict(self):
 		return {
-			'des_device_id' : self.des_device_id,
+			#
+			# 宛先
+			#
+			'des_device_id'		: self.des_device_id,
+			'des_object_id'		: self.des_object_id,
+			'des_instance_id'	: self.des_instance_id,
+			'des_property_id'	: self.des_property_id,
+			#
+			# 送信元
+			#
+			'src_device_id'		: self.src_device_id,
+			'src_object_id'		: self.src_object_id,
+			'src_instance_id'	: self.src_instance_id,
+			'src_property_id'	: self.src_property_id,
 		}
 

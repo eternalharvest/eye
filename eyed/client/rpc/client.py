@@ -135,9 +135,9 @@ class BACnetProxyRPCClient(RPCClient):
 	#
 	# start
 	#
-	def start(self):
+	def start(self, host = '127.0.0.1', interval = 60):
 		proxy = self.root.BACnetProxyService()
-		return proxy.start()
+		return proxy.start(host, interval)
 
 	#
 	# addObject

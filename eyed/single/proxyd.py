@@ -25,8 +25,25 @@ class SingleProxyd:
 	# Initialize
 	#
 	def __init__(self):
-		self.bacnetd = None
+		#
+		# 接続先ホスト
+		#
+		self.host = ''
+
+		#
+		# 値のキャッシュ用変数
+		#
 		self.cache = {}
+
+		#
+		# 監視ポイントのキャシュ用変数
+		#
+		self.points = []
+		self.update()
+
+		#
+		# スケジューラの設定
+		#
 		self.scheduler = BackgroundScheduler({
 			#
 			# スレッドプールの設定
@@ -36,10 +53,9 @@ class SingleProxyd:
 				'max_workers'	: '256'
 			},
 			'apscheduler.job_defaults.coalesce'		: 'false',
-			'apscheduler.job_defaults.max_instances'	: '128',
+			'apscheduler.job_defaults.max_instances'	: '1',
 			'apscheduler.timezone'				: 'UTC',
 		})
-		#self.scheduler = BlockingScheduler()
 
 	#
 	# get instance
@@ -51,34 +67,14 @@ class SingleProxyd:
 		return cls._instance
 
 	#
-	# Measure
+	# 監視ポイントの更新
 	#
-	def measure(self):
-		#
-		# RPC 接続
-		#
-		client = BACnetRPCClient('127.0.0.1')
-
+	def update(self):
 		#
 		# DB 接続用のセッション作成
 		#
 		session = createSession()
-		for p in session.query(ProxyPoint).all():
-			#
-			# 値の読み込み実行
-			#
-			r = client.doReadPropertyRequest(
-				p.des_device_id,
-				p.des_object_id,
-				p.des_instance_id,
-				p.des_property_id
-			)
-
-			#
-			# 値のキャッシュ
-			#
-			key = '%s:%s' %(p.src_object_id, p.src_instance_id)
-			self.cache[key] = r['value']
+		self.points = [p.to_dict() for p in session.query(ProxyPoint).all()]
 
 		#
 		# DB の セッション切断
@@ -86,9 +82,39 @@ class SingleProxyd:
 		session.close()
 
 	#
+	# Measure
+	#
+	def measure(self):
+		#
+		# RPC 接続
+		#
+		client = BACnetRPCClient(self.host)
+		for p in self.points:
+			#
+			# 値の読み込み実行
+			#
+			r = client.doReadPropertyRequest(
+				p['des_device_id'],
+				p['des_object_id'],
+				p['des_instance_id'],
+				p['des_property_id']
+			)
+
+			#
+			# 値のキャッシュ
+			#
+			key = '%s:%s' %(p['src_object_id'], p['src_instance_id'])
+			self.cache[key] = r['value']
+
+	#
 	# start
 	#
-	def start(self, interval = 10):
+	def start(self, host, interval):
+		#
+		# 接続先の取得
+		#
+		self.host = host
+
 		#
 		# 起動しているかを確認する (2重起動の停止)
 		#

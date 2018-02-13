@@ -213,7 +213,8 @@ def start_bacnetd(ctx, interface):
 #
 @start.command(name = 'proxyd')
 @click.pass_context
-def start_proxyd(ctx):
+@click.argument('interval')
+def start_proxyd(ctx, interval):
 	#
 	# 引数の取得
 	#
@@ -238,7 +239,7 @@ def start_proxyd(ctx):
 	# EYED に RPC接続
 	#
 	client = BACnetProxyRPCClient(host, port)
-	click.echo(client.start())
+	click.echo(client.start(interval = int(interval)))
 
 #########################################################################
 # デーモン状態取得用 の コマンド

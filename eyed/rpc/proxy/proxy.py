@@ -20,25 +20,29 @@ class BACnetProxyService(object):
 	#
 	# Proxy サービス 起動
 	#
-	def exposed_start(self):
+	def exposed_start(self, host, interval):
 		#
 		# デーモン起動
 		#
 		single = SingleProxyd.getInstance()
-		result = single.start()
+		result = single.start(host, interval)
 
 		#
-		# 登録済み ポイント を追加
+		# デーモンの起動に成功したかを確認
 		#
-		session = createSession()
-		points = session.query(ProxyPoint).all()
-		for point in points:
-			self.registerPoint(
-				point.des_device_id,
-				point.des_object_id,
-				point.des_instance_id,
-				point.des_property_id
-			)
+		if result == True:
+			#
+			# 登録済み ポイント を追加
+			#
+			session = createSession()
+			points = session.query(ProxyPoint).all()
+			for point in points:
+				self.registerPoint(
+					point.des_device_id,
+					point.des_object_id,
+					point.des_instance_id,
+					point.des_property_id
+				)
 
 		#
 		# 結果の返却
