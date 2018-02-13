@@ -47,3 +47,8 @@ requests
 SQLAlchemy
 alembic
 
+#
+# Scheduler
+#
+apscheduler
+
