@@ -28,9 +28,9 @@ def show(ctx):
 #
 # NIC の 情報取得
 #
-@show.command()
+@show.command(name = 'interfaces')
 @click.pass_context
-def interfaces(ctx):
+def show_interfaces(ctx):
 	#
 	# 引数の取得
 	#
@@ -54,17 +54,17 @@ def interfaces(ctx):
 #########################################################################
 # BACnet 関連の情報取得
 #########################################################################
-@show.group()
+@show.group(name = 'bacnet')
 @click.pass_context
-def bacnet(ctx):
+def show_bacnet(ctx):
 	pass
 
 #
 # BACnet Device の スキャン
 #
-@bacnet.command()
+@bacnet.command(name = 'scan')
 @click.pass_context
-def scan(ctx):
+def show_bacnet_scan(ctx):
 	#
 	# 引数の取得
 	#
@@ -88,9 +88,9 @@ def scan(ctx):
 #
 # BACnet Device の 情報取得
 #
-@bacnet.command()
+@bacnet.command(name = 'devices')
 @click.pass_context
-def devices(ctx):
+def show_bacnet_devices(ctx):
 	#
 	# 引数の取得
 	#
@@ -122,10 +122,10 @@ def run(ctx):
 #
 # BACEPICS の起動
 #
-@run.command()
+@run.command(name = 'bacepics')
 @click.pass_context
 @click.argument('device_id')
-def bacepics(ctx, device_id):
+def run_bacepics(ctx, device_id):
 	#
 	# 引数の取得
 	#
@@ -149,13 +149,13 @@ def bacepics(ctx, device_id):
 #
 # BACRP の起動
 #
-@run.command()
+@run.command(name = 'bacrp')
 @click.pass_context
 @click.argument('device_id')
 @click.argument('object_id')
 @click.argument('instance_id')
 @click.argument('property_id')
-def bacrp(ctx, device_id, object_id, instance_id, property_id):
+def run_bacrp(ctx, device_id, object_id, instance_id, property_id):
 	#
 	# 引数の取得
 	#
