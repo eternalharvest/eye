@@ -62,7 +62,7 @@ def show_bacnet(ctx):
 #
 # BACnet Device の スキャン
 #
-@bacnet.command(name = 'scan')
+@show_bacnet.command(name = 'scan')
 @click.pass_context
 def show_bacnet_scan(ctx):
 	#
@@ -88,7 +88,7 @@ def show_bacnet_scan(ctx):
 #
 # BACnet Device の 情報取得
 #
-@bacnet.command(name = 'devices')
+@show_bacnet.command(name = 'devices')
 @click.pass_context
 def show_bacnet_devices(ctx):
 	#
