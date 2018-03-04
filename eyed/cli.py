@@ -18,6 +18,33 @@ def cmd(ctx, host, port):
 	ctx.obj['port'] = port
 
 #########################################################################
+# パラメータ の 設定
+#########################################################################
+@cmd.group()
+@click.pass_context
+def set(ctx):
+	pass
+
+#########################################################################
+# BACnet 関連パラメータ の 設定
+#########################################################################
+@set.group(name = 'bacnet')
+@click.pass_context
+def set_bacnet(ctx):
+	pass
+
+#
+# BACnet の オブジェクト設定
+#
+@set_bacnet.command(name = 'object')
+@click.pass_context
+@click.argument('object_id')
+@click.argument('instance_id')
+@click.argument('property_id')
+def set_bacnet_object(ctx, object_id, instance_id, property_id):
+	pass
+
+#########################################################################
 # 情報確認用 の コマンド
 #########################################################################
 @cmd.group()
