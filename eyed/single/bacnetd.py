@@ -2,6 +2,47 @@
 # -*- coding: utf-8 -*-
 
 #
+# Datastore for BACnetd
+#
+class Datastore:
+	#
+	# コンストラクタ
+	#
+	def __init__(self):
+		self.hashmap = dict()
+
+	#
+	# 鍵の作成
+	#
+	def __generateKey(self, device_id, object_id, instance_id, property_id):
+		#
+		# 鍵の作成
+		#
+		return '%d:%d:%d:%d' %(device_id, object_id, instance_id, property_id)
+
+	#
+	# 値の設定
+	#
+	def set(self, device_id, object_id, instance_id, property_id, value):
+		#
+		# 鍵を生成しハッシュマップに登録
+		#
+		key = self.__generateKey(device_id, object_id, instance_id, property_id)
+		self.hashmap[key] = value
+
+	#
+	# 値の検索
+	#
+	def get(self, device_id, object_id, instance_id, property_id):
+		#
+		# ハッシュマップ内から鍵を検索
+		#
+		key = self.__generateKey(device_id, object_id, instance_id, property_id)
+		if not key in self.hashmap:
+			return None
+		return self.hashmap[key]
+
+#
 # Singletone BACnetd
 #
 class SingleBACnetd:
@@ -12,9 +53,10 @@ class SingleBACnetd:
 	#
 	def __init__(self):
 		self.bacnetd = None
+		self.datastore = Datastore()
 
 	#
-	# get instance
+	# get Instance
 	#
 	@classmethod
 	def getInstance(cls):
@@ -23,7 +65,7 @@ class SingleBACnetd:
 		return cls._instance
 
 	#
-	# get allication
+	# get Application
 	#
 	@classmethod
 	def getApplication(cls):
@@ -38,4 +80,23 @@ class SingleBACnetd:
 		# application の インスタンスを返す
 		#
 		return self.bacnetd.application
+
+	#
+	# get Datastore
+	#
+	@classmethod
+	def getDatastore(cls):
+		#
+		# Datastore の 返却
+		#
+		self = SingleBACnetd().getInstance()
+		return self.datastore
+
+#
+# Test Case
+#
+if __name__ == '__main__':
+	datastore = SingleBACnetd().getDatastore()
+	print datastore.set(0, 1, 2, 3, 'Hello')
+	print datastore.get(0, 1, 2, 3)
 
