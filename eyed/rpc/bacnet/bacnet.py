@@ -157,6 +157,11 @@ class BACnetService(object):
 		o.add_property(EyedPresentValue(object_id, instance_id))
 
 		#
+		# オブジェクトが既に登録されていないかを確認
+		#
+		pass
+
+		#
 		# オブジェクトの登録
 		#
 		bacnet.addObject(o)
