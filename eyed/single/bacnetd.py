@@ -14,30 +14,30 @@ class Datastore:
 	#
 	# 鍵の作成
 	#
-	def __generateKey(self, device_id, object_id, instance_id, property_id):
+	def __generateKey(self, object_id, instance_id, property_id):
 		#
 		# 鍵の作成
 		#
-		return '%d:%d:%d:%d' %(device_id, object_id, instance_id, property_id)
+		return '%d:%d:%d' %(object_id, instance_id, property_id)
 
 	#
 	# 値の設定
 	#
-	def set(self, device_id, object_id, instance_id, property_id, value):
+	def set(self, object_id, instance_id, property_id, value):
 		#
 		# 鍵を生成しハッシュマップに登録
 		#
-		key = self.__generateKey(device_id, object_id, instance_id, property_id)
+		key = self.__generateKey(object_id, instance_id, property_id)
 		self.hashmap[key] = value
 
 	#
 	# 値の検索
 	#
-	def get(self, device_id, object_id, instance_id, property_id):
+	def get(self, object_id, instance_id, property_id):
 		#
 		# ハッシュマップ内から鍵を検索
 		#
-		key = self.__generateKey(device_id, object_id, instance_id, property_id)
+		key = self.__generateKey(object_id, instance_id, property_id)
 		if not key in self.hashmap:
 			return None
 		return self.hashmap[key]

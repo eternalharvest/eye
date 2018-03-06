@@ -38,11 +38,31 @@ def set_bacnet(ctx):
 #
 @set_bacnet.command(name = 'object')
 @click.pass_context
+@click.argument('object_name')
 @click.argument('object_id')
 @click.argument('instance_id')
 @click.argument('property_id')
-def set_bacnet_object(ctx, object_id, instance_id, property_id):
-	pass
+def set_bacnet_object(ctx, object_name, object_id, instance_id, property_id):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+
+	#
+	# オブジェクトの登録
+	#
+        print client.setPoint(
+		object_name,
+		int(object_id),
+		int(instance_id),
+		int(property_id)
+	)
 
 #########################################################################
 # 情報確認用 の コマンド

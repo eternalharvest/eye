@@ -128,6 +128,16 @@ class BACnetRPCClient(RPCClient):
 			values[p['name']] = result['value']
 		return values
 
+	#
+	# setPoint
+	#
+	def setPoint(self, object_name, object_id, instance_id, property_id):
+		#
+		# ポイントの登録
+		#
+		bacnet = self.root.BACnetService()
+		return bacnet.setPoint(object_name, object_id, instance_id, property_id)
+
 #
 # BACnetProxydRPCClient
 #
@@ -157,37 +167,18 @@ class BACnetProxyRPCClient(RPCClient):
 # Entry Point
 #
 if __name__ == '__main__':
-	#client = BACnetRPCClient('10.2.10.29', 1413)
-	#print client.scan()
-	#client = BACnetdRPCClient('10.2.10.29', 1413)
-	#client = BACnetRPCClient('127.0.0.1', 1413)
-
-	client = BACnetProxyRPCClient('127.0.0.1', 1413)
-	client.add(1234, 2, 1, 85)
-	client.add(1234, 2, 2, 85)
-
-	#client = BACnetdRPCClient('127.0.0.1', 1413)
-	#print client.start('en0', 65535)
-	#print client.stop()
-	#print client.start('enp0s3')
+	#
+	# Proxy サービスの使用方法
+	#
+	#client = BACnetProxyRPCClient('127.0.0.1', 1413)
+	#client.add(1234, 2, 1, 85)
+	#client.add(1234, 2, 2, 85)
 
 	#
-	# BACnet Daemon への 操作
+	# ポイントの登録
 	#
-	#bacnetd = client.root.BACnetdService()
-	#print bacnetd.start('en0')
-	#print bacnetd.stop()
-	#print bacnetd.start('en0')
-
-	#bacnetd = client.root.BACnetdService()
-	#client = BACnetRPCClient('127.0.0.1', 1413)
-	#print client.scan()
-	#print client.getDevices()
-	#print client.getEpics(1234)
-
-	#
-	# Proxy Service
-	#
-	#client = BACnetProxydRPCClient('127.0.0.1', 1413)
-	#print client.addObject()
+	client = BACnetRPCClient('127.0.0.1', 1413)
+	client.setPoint('TEST1', 0, 1, 85)
+	client.setPoint('TEST2', 0, 2, 85)
+	pass
 
