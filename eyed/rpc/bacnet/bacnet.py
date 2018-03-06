@@ -16,8 +16,6 @@ from eyed.single import SingleBACnetd
 
 from property import EyedPresentValue
 
-from eyed.driver.bacnet import BACnetClient
-
 #
 # BACnetService
 #
