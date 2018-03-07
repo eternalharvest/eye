@@ -67,3 +67,10 @@ alembic
 #
 apscheduler
 
+#
+# Documentation Tool
+#
+sphinx
+commonmark
+recommonmark
+
