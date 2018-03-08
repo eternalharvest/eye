@@ -13,10 +13,14 @@ from netaddr import IPAddress
 from eyed.driver.bacnet import BACnetd
 
 #
-# Database Session
+# Database 接続用
 #
 from eyed.model import Config
 from eyed.db import createSession
+
+#
+# BACnet デーモン管理用
+#
 from eyed.single import SingleBACnetd
 
 #

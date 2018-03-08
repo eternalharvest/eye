@@ -22,27 +22,27 @@ def cmd(ctx, host, port):
 #########################################################################
 @cmd.group()
 @click.pass_context
-def set(ctx):
+def add(ctx):
 	pass
 
 #########################################################################
-# BACnet 関連パラメータ の 設定
+# パラメータ の 定義
 #########################################################################
-@set.group(name = 'bacnet')
+@add.group(name = 'point')
 @click.pass_context
-def set_bacnet(ctx):
+def add_point(ctx):
 	pass
 
 #
 # BACnet の オブジェクト設定
 #
-@set_bacnet.command(name = 'object')
+@add_point.command(name = 'bacnet')
 @click.pass_context
 @click.argument('object_name')
 @click.argument('object_id')
 @click.argument('instance_id')
 @click.argument('property_id')
-def set_bacnet_object(ctx, object_name, object_id, instance_id, property_id):
+def add_point_bacnet(ctx, object_name, object_id, instance_id, property_id):
 	#
 	# 引数の取得
 	#
