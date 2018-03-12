@@ -18,7 +18,7 @@ def cmd(ctx, host, port):
 	ctx.obj['port'] = port
 
 #########################################################################
-# パラメータ の 設定
+# パラメータ の 追加
 #########################################################################
 @cmd.group()
 @click.pass_context
@@ -26,23 +26,30 @@ def add(ctx):
 	pass
 
 #########################################################################
-# パラメータ の 定義
+# エミュレーションパラメータ の 定義
 #########################################################################
-@add.group(name = 'point')
+@add.group(name = 'emulation')
 @click.pass_context
-def add_point(ctx):
+def add_emulation(ctx):
 	pass
 
-#
-# BACnet の オブジェクト設定
-#
-@add_point.command(name = 'bacnet')
+#########################################################################
+# プロトコル の 定義
+#########################################################################
+@add_emulation.group(name = 'bacnet')
 @click.pass_context
-@click.argument('object_name')
+def add_emulation_bacnet(ctx):
+	pass
+
+#########################################################################
+# プロパティ の 定義
+#########################################################################
+@add_emulation_bacnet.command(name = 'object')
+@click.pass_context
+@click.argument('name')
 @click.argument('object_id')
 @click.argument('instance_id')
-@click.argument('property_id')
-def add_point_bacnet(ctx, object_name, object_id, instance_id, property_id):
+def add_emulation_bacnet_object(ctx, name, object_id, instance_id):
 	#
 	# 引数の取得
 	#
@@ -57,12 +64,41 @@ def add_point_bacnet(ctx, object_name, object_id, instance_id, property_id):
 	#
 	# オブジェクトの登録
 	#
-        print client.setPoint(
-		object_name,
+	click.echo(client.setObject(
+		name,
+		int(object_id),
+		int(instance_id),
+	))
+
+#########################################################################
+# パラメータ の 定義
+#########################################################################
+@add_emulation.command(name = 'point')
+@click.pass_context
+@click.argument('name')
+def add_emulation_point(ctx, name):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+
+	#
+	# オブジェクトの登録
+	#
+	click.echo(client.setPoint(name))
+	click.echo(client.setProperty(
+		name,
 		int(object_id),
 		int(instance_id),
 		int(property_id)
-	)
+	))
+
 
 #########################################################################
 # 情報確認用 の コマンド

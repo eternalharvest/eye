@@ -186,3 +186,9 @@ class BACnetClient:
 	def addObject(self, obj):
 		return self.application.add_object(obj)
 
+	#
+	# getObjectByID (オブジェクト の 取得)
+	#
+	def getObjectByID(self, objectIdentifier, instance_id):
+		return self.application.get_object_id((objectIdentifier, instance_id))
+

@@ -12,7 +12,7 @@ from eyed.driver.bacnet import definition
 #
 # Database 接続用
 #
-from eyed.model import Config
+from eyed.model import BACnetEmulationObject
 from eyed.db import createSession
 
 #
@@ -126,9 +126,36 @@ class BACnetService(object):
 		return None
 
 	#
-	# ポイント の 登録
+	# オブジェクト の 登録
 	#
-	def exposed_setPoint(self, object_name, object_id, instance_id, property_id):
+	def exposed_setObject(self, name, object_id, instance_id):
+		#
+		# ポイント名が既に利用されていないかを確認
+		#
+		session = createSession()
+		point = session.query(BACnetEmulationObject).filter_by(
+			name = name
+		).first()
+		if not point == None: return False
+
+		#
+		# ポイントの登録
+		#
+		session.add(BACnetEmulationObject(name, object_id, instance_id))
+		session.commit()
+		return True
+
+	#
+	# プロパティの設定
+	#
+	def exposed_setProperty(self, name, object_id, instance_id, property_id):
+		#
+		# ポイント名が既に利用されていないかを確認
+		#
+		#session = createSession()
+		#point = session.query(EmulationPoint).filter_by(name = name).first()
+		#if not point == None: return False
+
 		#
 		# BACnet コマンド操作用インスタンス取得
 		#
@@ -156,7 +183,7 @@ class BACnetService(object):
 		# オブジェクトとプロパティの定義
 		#
 		o = Object(
-			objectName		= object_name,
+			objectName		= name,
 			objectIdentifier	= (objectType, instance_id),
 		)
 		o.add_property(EyedPresentValue(object_id, instance_id))
@@ -164,7 +191,12 @@ class BACnetService(object):
 		#
 		# オブジェクトが既に登録されていないかを確認
 		#
-		pass
+		#pass
+
+		#
+		# オブジェクトの登録
+		#
+		print bacnet.getObjectByID(objectType, instance_id)
 
 		#
 		# オブジェクトの登録

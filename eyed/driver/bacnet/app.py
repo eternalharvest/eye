@@ -7,6 +7,9 @@ from bacpypes.service.object import ReadWritePropertyMultipleServices
 from Queue import Queue
 import sys
 
+#
+# App
+#
 class App(BIPSimpleApplication, ReadWritePropertyMultipleServices):
 	def __init__(self, *args):
 		#

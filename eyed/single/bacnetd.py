@@ -46,6 +46,9 @@ class Datastore:
 # Singletone BACnetd
 #
 class SingleBACnetd:
+	#
+	# インスタンス保持用変数
+	#
 	_instance = None
 
 	#
