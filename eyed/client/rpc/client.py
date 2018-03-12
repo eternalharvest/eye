@@ -129,24 +129,24 @@ class BACnetRPCClient(RPCClient):
 		return values
 
 	#
-	# setObject
+	# addObject
 	#
-	def setObject(self, name, object_id, instance_id):
+	def addObject(self, name, object_id, instance_id):
 		#
 		# ポイントの登録
 		#
 		bacnet = self.root.BACnetService()
-		return bacnet.setObject(name, object_id, instance_id)
+		return bacnet.addObject(name, object_id, instance_id)
 
 	#
 	# setProperty
 	#
-	def setProperty(self, name, object_id, instance_id, property_id):
+	def addProperty(self, name, property_id):
 		#
 		# ポイントの登録
 		#
 		bacnet = self.root.BACnetService()
-		return bacnet.setProperty(name, object_id, instance_id, property_id)
+		return bacnet.setProperty(name, property_id)
 
 #
 # BACnetProxydRPCClient

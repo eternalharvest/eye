@@ -42,7 +42,7 @@ def add_emulation_bacnet(ctx):
 	pass
 
 #########################################################################
-# プロパティ の 定義
+# BACnet オブジェクト の 定義
 #########################################################################
 @add_emulation_bacnet.command(name = 'object')
 @click.pass_context
@@ -64,7 +64,7 @@ def add_emulation_bacnet_object(ctx, name, object_id, instance_id):
 	#
 	# オブジェクトの登録
 	#
-	click.echo(client.setObject(
+	click.echo(client.addObject(
 		name,
 		int(object_id),
 		int(instance_id),
@@ -73,10 +73,11 @@ def add_emulation_bacnet_object(ctx, name, object_id, instance_id):
 #########################################################################
 # パラメータ の 定義
 #########################################################################
-@add_emulation.command(name = 'point')
+@add_emulation_bacnet.command(name = 'property')
 @click.pass_context
 @click.argument('name')
-def add_emulation_point(ctx, name):
+@click.argument('property_id')
+def add_emulation_bacnet_property(ctx, name, property_id):
 	#
 	# 引数の取得
 	#
@@ -91,14 +92,10 @@ def add_emulation_point(ctx, name):
 	#
 	# オブジェクトの登録
 	#
-	click.echo(client.setPoint(name))
-	click.echo(client.setProperty(
+	click.echo(client.addProperty(
 		name,
-		int(object_id),
-		int(instance_id),
 		int(property_id)
 	))
-
 
 #########################################################################
 # 情報確認用 の コマンド

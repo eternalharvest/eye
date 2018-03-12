@@ -128,15 +128,15 @@ class BACnetService(object):
 	#
 	# オブジェクト の 登録
 	#
-	def exposed_setObject(self, name, object_id, instance_id):
+	def exposed_addObject(self, name, object_id, instance_id):
 		#
 		# ポイント名が既に利用されていないかを確認
 		#
 		session = createSession()
-		point = session.query(BACnetEmulationObject).filter_by(
+		obj = session.query(BACnetEmulationObject).filter_by(
 			name = name
 		).first()
-		if not point == None: return False
+		if not obj == None: return False
 
 		#
 		# ポイントの登録
@@ -148,13 +148,16 @@ class BACnetService(object):
 	#
 	# プロパティの設定
 	#
-	def exposed_setProperty(self, name, object_id, instance_id, property_id):
+	def exposed_addProperty(self, name, property_id):
 		#
 		# ポイント名が既に利用されていないかを確認
 		#
-		#session = createSession()
-		#point = session.query(EmulationPoint).filter_by(name = name).first()
-		#if not point == None: return False
+		session = createSession()
+		obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
+		if not obj == None: return False
+
+		print obj
+		return
 
 		#
 		# BACnet コマンド操作用インスタンス取得
