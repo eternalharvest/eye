@@ -29,6 +29,6 @@ class ProxyAnalogInputObject(AnalogInputObject):
 #
 # オブジェクトを登録
 #
-register_object_type(ProxyAnalogValueObject)
-register_object_type(ProxyAnalogInputObject)
+#register_object_type(ProxyAnalogValueObject)
+#register_object_type(ProxyAnalogInputObject)
 

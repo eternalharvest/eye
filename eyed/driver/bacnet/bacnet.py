@@ -6,6 +6,7 @@ from bacpypes.apdu import WhoIsRequest, ReadPropertyRequest, ReadPropertyACK
 from bacpypes.object import get_object_class, get_datatype
 from bacpypes.object import ObjectType, registered_object_types
 from bacpypes.basetypes import PropertyIdentifier
+from eyed.driver.bacnet import definition
 
 #
 # BACnet Client
@@ -183,8 +184,65 @@ class BACnetClient:
 	#
 	# addObject (オブジェクト の 登録)
 	#
-	def addObject(self, obj):
-		return self.application.add_object(obj)
+	def addObject(self, name, object_id, instance_id):
+		#
+		# オブジェクト識別子の取得
+		#
+		objectIdentifier = self.getObjectIdentifier(object_id, instance_id)
+		if objectIdentifier == None:
+			return False
+
+		#
+		# オブジェクトクラス の 取得
+		#
+		Object = definition.findObjectClassByType(objectIdentifier[0])
+
+		#
+		# オブジェクト の 定義
+		#
+		new_object = Object(
+			objectName              = name,
+			objectIdentifier        = objectIdentifier,
+		)
+
+		#
+		# オブジェクト の 登録
+		#
+		self.application.add_object(new_object)
+		return True
+
+	#
+	# addProperty (プロパティ の 登録)
+	#
+	def addProperty(self, name, property_instance):
+		#
+		# オブジェクトを名前から検索
+		#
+		obj = self.application.get_object_name(name)
+		if obj == None: return False
+
+		#
+		# プロパティの登録
+		#
+		obj.add_property(property_instance)
+		return True
+
+	#
+	# getObjectByID (オブジェクト の 取得)
+	#
+	def getObjectIdentifier(self, object_id, instance_id):
+		#
+		# オブジェクト識別子の作成
+		#
+		obj_type = definition.findObjectByID(object_id)
+		if obj_type == None:
+			return None
+		objectType = obj_type['name']
+
+		#
+		# オブジェクト識別子の作成
+		#
+		return (objectType, instance_id)
 
 	#
 	# getObjectByID (オブジェクト の 取得)

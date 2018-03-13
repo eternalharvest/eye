@@ -146,7 +146,7 @@ class BACnetRPCClient(RPCClient):
 		# ポイントの登録
 		#
 		bacnet = self.root.BACnetService()
-		return bacnet.setProperty(name, property_id)
+		return bacnet.addProperty(name, property_id)
 
 #
 # BACnetProxydRPCClient

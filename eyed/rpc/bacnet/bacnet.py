@@ -12,7 +12,7 @@ from eyed.driver.bacnet import definition
 #
 # Database 接続用
 #
-from eyed.model import BACnetEmulationObject
+from eyed.model import BACnetEmulationObject, BACnetEmulationProperty
 from eyed.db import createSession
 
 #
@@ -20,8 +20,10 @@ from eyed.db import createSession
 #
 from eyed.single import SingleBACnetd
 
-
-from property import EyedPresentValue
+#
+# 初期化処理
+#
+from initialize import addBACnetObject, addBACnetProperty
 
 #
 # BACnetService
@@ -107,30 +109,11 @@ class BACnetService(object):
 	#
 
 	#
-	# サポートするオブジェクトを返す
-	#
-	def getSupportedObject(self, objectType):
-		#
-		# オブジェクト辞書の作成
-		#
-		supportedObjects = {
-			'analogValue'	: AnalogValueObject,
-			'analogInput'	: AnalogInputObject,
-		}
-
-		#
-		# 対応するオブジェクトかどうかを確認
-		#
-		if objectType in supportedObjects:
-			return supportedObjects[objectType]
-		return None
-
-	#
 	# オブジェクト の 登録
 	#
 	def exposed_addObject(self, name, object_id, instance_id):
 		#
-		# ポイント名が既に利用されていないかを確認
+		# オブジェクト名が既に利用されていないかを確認
 		#
 		session = createSession()
 		obj = session.query(BACnetEmulationObject).filter_by(
@@ -139,7 +122,13 @@ class BACnetService(object):
 		if not obj == None: return False
 
 		#
-		# ポイントの登録
+		# オブジェクトの登録
+		#
+		if addBACnetObject(name, object_id, instance_id) == False:
+			return False
+
+		#
+		# オブジェクトの登録(DB)
 		#
 		session.add(BACnetEmulationObject(name, object_id, instance_id))
 		session.commit()
@@ -150,61 +139,29 @@ class BACnetService(object):
 	#
 	def exposed_addProperty(self, name, property_id):
 		#
-		# ポイント名が既に利用されていないかを確認
+		# オブジェクト名が登録されているかを確認
 		#
 		session = createSession()
 		obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
-		if not obj == None: return False
-
-		print obj
-		return
+		if obj == None: return False
 
 		#
-		# BACnet コマンド操作用インスタンス取得
+		# プロパティ名が既に存在していないかを確認
 		#
-		app = SingleBACnetd.getApplication()
+		prop = obj.properties.filter_by(property_id = property_id).first()
+		if not prop == None: return False
 
 		#
-		# BACnet クライアント の 取得
+		# プロパティの登録
 		#
-		bacnet = BACnetClient(app)
-
-		#
-		# オブジェクトの取得
-		#
-		obj = definition.findObjectByID(object_id)
-		if obj == None:
+		if addBACnetProperty(name, property_id) == False:
 			return False
 
 		#
-		# サポートするオブジェクトの取得
+		# プロパティの登録(DB)
 		#
-		objectType = obj['name']
-		Object = self.getSupportedObject(objectType)
-
-		#
-		# オブジェクトとプロパティの定義
-		#
-		o = Object(
-			objectName		= name,
-			objectIdentifier	= (objectType, instance_id),
-		)
-		o.add_property(EyedPresentValue(object_id, instance_id))
-
-		#
-		# オブジェクトが既に登録されていないかを確認
-		#
-		#pass
-
-		#
-		# オブジェクトの登録
-		#
-		print bacnet.getObjectByID(objectType, instance_id)
-
-		#
-		# オブジェクトの登録
-		#
-		bacnet.addObject(o)
+		obj.properties.append(BACnetEmulationProperty(property_id))
+		session.commit()
 		return True
 
 #
