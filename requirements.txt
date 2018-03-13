@@ -71,6 +71,6 @@ apscheduler
 # Documentation Tool
 #
 sphinx
-commonmark
+sphinx_rtd_theme
 recommonmark
 

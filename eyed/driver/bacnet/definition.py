@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from bacpypes.object import ObjectType, registered_object_types
+from bacpypes.object import get_object_class
 from bacpypes.basetypes import PropertyIdentifier
+
+#
+# Object Class の 取得
+#
+def findObjectClassByType(object_type):
+	return get_object_class(object_type)
 
 #
 # Object List の 取得
@@ -105,7 +112,8 @@ def getPropertiesByObject(object):
 if __name__ == '__main__':
 	#print getObjects()
 	#print findObjectByID(2)
-	#print findObjectByName('analogValue')
+	print findObjectByName('analogValue')
 	#print getPropertiesByObject(findObjectByName('analogValue'))
-	print getPropertiesByObject(findObjectByName('device'))
+	#print getPropertiesByObject(findObjectByName('device'))
+	print findObjectClassByType('analogValue')
 

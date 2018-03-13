@@ -25,7 +25,7 @@ class BACnetEmulationObject(BaseObject):
 	#
 	# リレーション
 	#
-	properties = relationship('BACnetEmulationProperty', backref = 'object')
+	properties = relationship('BACnetEmulationProperty', lazy='dynamic', backref = 'object')
 
 	#
 	# コンストラクタ
@@ -39,7 +39,7 @@ class BACnetEmulationObject(BaseObject):
 	# 文字列化
 	#
 	def __str__(self):
-		return '<EmulationObject name=%s>' %(self.name)
+		return '<EmulationObject name=%s, object_id=%d, instance_id=%d>' %(self.name, self.object_id, self.instance_id)
 
 	#
 	# 辞書化
@@ -79,5 +79,5 @@ class BACnetEmulationProperty(BaseObject):
 	# 文字列化
 	#
 	def __str__(self):
-		return '<BACnetProperty>'
+		return '<BACnetProperty property_id=%d>' %(self.property_id)
 
