@@ -106,6 +106,51 @@ def set(ctx):
 	pass
 
 #########################################################################
+# エミュレーションパラメータ の 設定
+#########################################################################
+@set.group(name = 'emulation')
+@click.pass_context
+def set_emulation(ctx):
+	pass
+
+#########################################################################
+# プロトコル の 設定
+#########################################################################
+@set_emulation.group(name = 'bacnet')
+@click.pass_context
+def set_emulation_bacnet(ctx):
+	pass
+
+#########################################################################
+# パラメータ の 定義
+#########################################################################
+@set_emulation_bacnet.command(name = 'property')
+@click.pass_context
+@click.argument('name')
+@click.argument('property_id')
+@click.argument('value')
+def set_emulation_bacnet_property(ctx, name, property_id, value):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+
+	#
+	# オブジェクトの登録
+	#
+	click.echo(client.setProperty(
+		name,
+		int(property_id),
+		float(value)
+	))
+
+#########################################################################
 # 情報確認用 の コマンド
 #########################################################################
 @cmd.group()

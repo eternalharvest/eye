@@ -135,7 +135,7 @@ class BACnetService(object):
 		return True
 
 	#
-	# プロパティの設定
+	# プロパティの追加
 	#
 	def exposed_addProperty(self, name, property_id):
 		#
@@ -162,6 +162,34 @@ class BACnetService(object):
 		#
 		obj.properties.append(BACnetEmulationProperty(property_id))
 		session.commit()
+		return True
+
+	#
+	# プロパティの設定
+	#
+	def exposed_setProperty(self, name, property_id, value):
+		#
+		# オブジェクト名が登録されているかを確認
+		#
+		session = createSession()
+		obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
+		if obj == None: return False
+
+		#
+		# プロパティ名が登録されているかを確認
+		#
+		prop = obj.properties.filter_by(property_id = property_id).first()
+		if prop == None: return False
+
+		#
+		# Datastore の 取得
+		#
+		datastore = SingleBACnetd().getDatastore()
+
+		#
+		# 値の設定
+		#
+		datastore.set(obj.object_id, obj.instance_id, prop.property_id, value)
 		return True
 
 #
