@@ -185,6 +185,43 @@ def show_interfaces(ctx):
 		click.echo('%s %s' %(name, ipv4))
 
 #########################################################################
+# エミュレーションパラメータ の 確認
+#########################################################################
+@show.group(name = 'emulation')
+@click.pass_context
+def show_emulation(ctx):
+	pass
+
+#########################################################################
+# プロトコルパラメータ の 確認
+#########################################################################
+@show_emulation.group(name = 'bacnet')
+@click.pass_context
+def show_emulation_bacnet(ctx):
+	pass
+
+#########################################################################
+# BACNetオブジェクト の 確認
+#########################################################################
+@show_emulation_bacnet.command(name = 'objects')
+@click.pass_context
+def show_emulation_bacnet_objects(ctx):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+	for obj in client.getObjects():
+		click.echo('OBJECT(name=%10s, object_id=%4d, instance_id=%4d)' %(obj['name'], obj['object_id'], obj['instance_id']))
+		for prop in obj['properties']:
+			click.echo('-PROPERTY(property_id=%4d)' %(prop['property_id']))
+
+#########################################################################
 # BACnet 関連の情報取得
 #########################################################################
 @show.group(name = 'bacnet')

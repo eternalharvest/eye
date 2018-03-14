@@ -46,7 +46,11 @@ class BACnetEmulationObject(BaseObject):
 	#
 	def to_dict(self):
 		return {
-			'name' : self.name,
+			'id'		: self.id,
+			'name'		: self.name,
+			'object_id'	: self.object_id,
+			'instance_id'	: self.instance_id,
+			'properties'	: [prop.to_dict() for prop in self.properties]
 		}
 
 #
@@ -80,4 +84,13 @@ class BACnetEmulationProperty(BaseObject):
 	#
 	def __str__(self):
 		return '<BACnetProperty property_id=%d>' %(self.property_id)
+
+	#
+	# 辞書化
+	#
+	def to_dict(self):
+		return {
+			'id'		: self.id,
+			'property_id'	: self.property_id,
+		}
 

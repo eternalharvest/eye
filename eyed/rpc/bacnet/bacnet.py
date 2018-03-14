@@ -109,6 +109,17 @@ class BACnetService(object):
 	#
 
 	#
+	# 登録済みオブジェクトの取得
+	#
+	def exposed_getObjects(self):
+		#
+		# オブジェクト一覧の取得
+		#
+		session = createSession()
+		objs = session.query(BACnetEmulationObject).all()
+		return [obj.to_dict() for obj in objs]
+
+	#
 	# オブジェクト の 登録
 	#
 	def exposed_addObject(self, name, object_id, instance_id):
