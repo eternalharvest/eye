@@ -161,7 +161,7 @@ class BACnetRPCClient(RPCClient):
 	#
 	# setProperty
 	#
-	def addProperty(self, name, property_id, value):
+	def setProperty(self, name, property_id, value):
 		#
 		# ポイントの登録
 		#
