@@ -44,6 +44,12 @@ def addBACnetObject(name, object_id, instance_id):
 #
 def addBACnetProperty(name, object_id, instance_id, property_id):
 	#
+	# プロパティオブジェクトの定義
+	#
+	propertyObjects = dict()
+	propertyObjects[85] = EyedPresentValue
+
+	#
 	# BACnet コマンド操作用インスタンス取得
 	#
 	app = SingleBACnetd.getApplication()
@@ -52,7 +58,13 @@ def addBACnetProperty(name, object_id, instance_id, property_id):
 	# BACnet クライアント の 取得
 	#
 	bacnet = BACnetClient(app)
-	prop = EyedPresentValue(object_id, instance_id)
+
+	#
+	# プロパティオブジェクト の インスタンス化
+	#
+	if not property_id in propertyObjects:
+		return False
+	prop = propertyObjects[property_id](object_id, instance_id)
 
 	#
 	# プロパティ の 登録
