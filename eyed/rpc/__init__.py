@@ -3,14 +3,14 @@
 import system
 import bacnet
 import bacnetd
-import measurement
+import scheduler
 import proxy
 
 __all__ = [
 	system,
 	bacnet,
 	bacnetd,
-	measurement,
+	scheduler,
 	proxy,
 ]
 

@@ -169,21 +169,26 @@ class BACnetRPCClient(RPCClient):
 		return bacnet.setProperty(name, property_id, value)
 
 #
+# SchedulerRPCClient
+#
+class SchedulerRPCClient(RPCClient):
+	#
+	# addInterval
+	#
+	def addInterval(self, name, interval):
+		service = self.root.SchedulerService()
+		return service.addInterval(name, interval)
+
+#
 # Entry Point
 #
 if __name__ == '__main__':
 	#
-	# Proxy サービスの使用方法
-	#
-	#client = BACnetProxyRPCClient('127.0.0.1', 1413)
-	#client.add(1234, 2, 1, 85)
-	#client.add(1234, 2, 2, 85)
-
-	#
 	# ポイントの登録
 	#
-	client = BACnetRPCClient('127.0.0.1', 1413)
-	client.setPoint('TEST1', 0, 1, 85)
-	client.setPoint('TEST2', 0, 2, 85)
+	#client = BACnetRPCClient('127.0.0.1', 1413)
+	client = SchedulerRPCClient('127.0.0.1', 1413)
+	client.addInterval('TEST1', 60)
+	client.addInterval('TEST2', 30)
 	pass
 
