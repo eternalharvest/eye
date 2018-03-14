@@ -13,7 +13,7 @@ class EyedPresentValue(Property):
 	#
 	# コンストラクタ
 	#
-	def __init__(self, object_id, instance_id, default_value = None):
+	def __init__(self, object_id, instance_id, default_value = 0.0):
 		#
 		# 各識別子の定義
 		#
