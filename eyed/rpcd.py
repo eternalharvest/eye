@@ -29,7 +29,7 @@ class RPCService(rpyc.Service):
 #
 # デーモンの起動
 #
-def start(port = 1413, device_id = 65535):
+def start(port = 1413):
 	#
 	# スクリプトを実行するディレクトリ設定
 	#
@@ -45,7 +45,7 @@ def start(port = 1413, device_id = 65535):
 	#
 	# 初期化処理
 	#
-	start_bacnetd(None, device_id)
+	start_bacnetd(None, None)
 	start_bacnet_emulation()
 
 	#

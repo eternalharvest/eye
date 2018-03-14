@@ -28,14 +28,13 @@ Engine = engine_from_config(
 )
 
 #
-# SQL接続用セッションオブジェクト化
-#
-Session = sessionmaker(bind = Engine)
-
-#
 # セッションの取得
 #
 def createSession():
+	#
+	# SQL接続用セッションオブジェクト化
+	#
+	Session = sessionmaker(bind = Engine)
 	return Session()
 
 #

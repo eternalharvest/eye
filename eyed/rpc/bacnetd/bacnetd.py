@@ -44,6 +44,14 @@ def start_bacnetd(interface, device_id):
 		interface = bacnet_interface.value
 
 	#
+	# DB から BACNET DEVICE ID を取得
+	#
+	bacnet_device_id = session.query(Config).filter_by(key = 'BACNET_DEVICE_ID').first()
+	if device_id == None:
+		if bacnet_device_id == None: return False
+		device_id = int(bacnet_device_id.value)
+
+	#
 	# NIC の 情報取得
 	#
 	bacnet_address = None
@@ -76,12 +84,15 @@ def start_bacnetd(interface, device_id):
 	single.bacnetd.start()
 
 	#
-	# DBへ の 登録
+	# BACnet Interface を DB に書き込み
 	#
 	if bacnet_interface == None:
 		session.add(Config('BACNET_INTERFACE', interface))
+		session.add(Config('BACNET_DEVICE_ID', device_id))
 	else:
 		bacnet_interface.value = interface
+		bacnet_device_id.value = str(device_id)
+
 	session.commit()
 	return True
 

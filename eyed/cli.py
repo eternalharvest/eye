@@ -365,7 +365,8 @@ def start(ctx):
 @start.command(name = 'bacnetd')
 @click.pass_context
 @click.argument('interface')
-def start_bacnetd(ctx, interface):
+@click.argument('device_id', default = 65535)
+def start_bacnetd(ctx, interface, device_id):
 	#
 	# 引数の取得
 	#
@@ -376,7 +377,7 @@ def start_bacnetd(ctx, interface):
 	# EYED に RPC接続
 	#
 	client = BACnetdRPCClient(host, port)
-	click.echo(client.start(interface, 65535))
+	click.echo(client.start(interface, device_id))
 
 #########################################################################
 # デーモン状態取得用 の コマンド
