@@ -4,7 +4,6 @@ import click
 from eyed.client.rpc import RPCClient
 from eyed.client.rpc import BACnetRPCClient
 from eyed.client.rpc import BACnetdRPCClient
-from eyed.client.rpc import BACnetProxyRPCClient
 
 #########################################################################
 # 引数処理
