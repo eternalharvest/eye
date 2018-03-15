@@ -51,7 +51,7 @@ def add_measurement_taskgroup(ctx, name, interval):
 	# Eyed に RPC接続
 	#
 	client = SchedulerRPCClient(host, port)
-	click.echo(client.addTaskGroup(name, interval))
+	click.echo(client.addTaskGroup(name, int(interval)))
 
 #########################################################################
 # 測定タスクの追加
@@ -66,6 +66,9 @@ def add_measurement_task(ctx):
 #########################################################################
 @add_measurement_task.command(name = 'bacnet')
 @click.pass_context
+@click.argument('name')
+@click.argument('object_id')
+@click.argument('instance_id')
 def add_measurement_task_bacnet(ctx):
 	pass
 
@@ -93,6 +96,7 @@ def add_emulation_bacnet(ctx):
 @click.argument('name')
 @click.argument('object_id')
 @click.argument('instance_id')
+@click.argument('property_id')
 def add_emulation_bacnet_object(ctx, name, object_id, instance_id):
 	#
 	# 引数の取得
