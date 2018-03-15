@@ -4,6 +4,7 @@ import click
 from eyed.client.rpc import RPCClient
 from eyed.client.rpc import BACnetRPCClient
 from eyed.client.rpc import BACnetdRPCClient
+from eyed.client.rpc import SchedulerRPCClient
 
 #########################################################################
 # 引数処理
@@ -22,6 +23,50 @@ def cmd(ctx, host, port):
 @cmd.group()
 @click.pass_context
 def add(ctx):
+	pass
+
+#########################################################################
+# 測定グループ の 定義
+#########################################################################
+@add.group(name = 'measurement')
+@click.pass_context
+def add_measurement(ctx):
+	pass
+
+#########################################################################
+# 測定グループ の 定義
+#########################################################################
+@add_measurement.command(name = 'taskgroup')
+@click.pass_context
+@click.argument('name')
+@click.argument('interval')
+def add_measurement_taskgroup(ctx, name, interval):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = SchedulerRPCClient(host, port)
+	click.echo(client.addTaskGroup(name, interval))
+
+#########################################################################
+# 測定タスクの追加
+#########################################################################
+@add_measurement.group(name = 'task')
+@click.pass_context
+def add_measurement_task(ctx):
+	pass
+
+#########################################################################
+# BACnet測定タスクの追加
+#########################################################################
+@add_measurement_task.command(name = 'bacnet')
+@click.pass_context
+def add_measurement_task_bacnet(ctx):
 	pass
 
 #########################################################################

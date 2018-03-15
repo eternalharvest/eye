@@ -44,3 +44,17 @@ class TaskGroup(BaseObject):
 			'interval'	: self.interval,
 		}
 
+#
+# Task の 設定
+#
+class Task(BaseObject):
+	#
+	# テーブル名
+	#
+	__tablename__ = 'M_TASK'
+
+	#
+	# カラム定義
+	#
+	id		= Column('ID', Integer, primary_key=True)
+

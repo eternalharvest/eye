@@ -34,6 +34,11 @@ class SingleScheduler:
 			'apscheduler.timezone'				: 'UTC',
 		})
 
+		#
+		# スケジューラの開始
+		#
+		self.scheduler.start()
+
 	#
 	# get instance
 	#
@@ -44,18 +49,30 @@ class SingleScheduler:
 		return cls._instance
 
 	#
-	# start
+	# addTaskGroup
 	#
-	def start(self):
+	def addTaskGroup(self, name, interval):
 		#
-		# スケジューラの開始
+		# 定期実行関数
 		#
-		self.scheduler.start()
-		return True
+		def job_function(name):
+			print name
+
+		#
+		# 定期実行ジョブの追加
+		#
+		self.scheduler.add_job(
+			job_function,
+			'interval',
+			[name],
+			name		= name,
+			seconds		= interval,
+			max_instances	= 1
+		)
 
 #
 # Entry Point
 #
 if __name__ == '__main__':
-	SingleScheduler.getInstance().start()
+	pass
 

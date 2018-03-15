@@ -15,7 +15,7 @@ from rpyc.utils.server import ThreadedServer
 from eyed.rpc.system import SystemService
 from eyed.rpc.bacnet import BACnetService, start_bacnet_emulation
 from eyed.rpc.bacnetd import BACnetdService, start_bacnetd
-from eyed.rpc.scheduler import SchedulerService
+from eyed.rpc.scheduler import SchedulerService, start_scheduler
 
 #
 # RPCService
@@ -47,6 +47,7 @@ def start(port = 1413):
 	#
 	start_bacnetd(None, None)
 	start_bacnet_emulation()
+	start_scheduler()
 
 	#
 	# RPCサーバ の 起動

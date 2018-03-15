@@ -175,9 +175,9 @@ class SchedulerRPCClient(RPCClient):
 	#
 	# addInterval
 	#
-	def addInterval(self, name, interval):
+	def addTaskGroup(self, name, interval):
 		service = self.root.SchedulerService()
-		return service.addInterval(name, interval)
+		return service.addTaskGroup(name, interval)
 
 #
 # Entry Point
@@ -188,7 +188,6 @@ if __name__ == '__main__':
 	#
 	#client = BACnetRPCClient('127.0.0.1', 1413)
 	client = SchedulerRPCClient('127.0.0.1', 1413)
-	client.addInterval('TEST1', 60)
-	client.addInterval('TEST2', 30)
+	client.addTaskGroup('TEST1', 60)
 	pass
 
