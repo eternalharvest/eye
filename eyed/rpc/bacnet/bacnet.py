@@ -37,8 +37,8 @@ class BACnetService(object):
 		# BACnet コマンド操作用インスタンス取得
 		#
 		app = SingleBACnetd.getApplication()
-		if app == None:
-			raise Exception('BAcnetd is not running...')
+		if app == None: return
+
 		bacnet = BACnetClient(app)
 
 		#

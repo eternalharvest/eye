@@ -6,6 +6,7 @@ import os
 # SQLAlchemy
 #
 from sqlalchemy import engine_from_config, pool
+from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from alembic.config import Config
 import pkg_resources
@@ -28,13 +29,15 @@ Engine = engine_from_config(
 )
 
 #
+# SQL接続用セッションオブジェクト化
+#
+session_factory = sessionmaker(bind = Engine)
+Session = scoped_session(session_factory)
+
+#
 # セッションの取得
 #
 def createSession():
-	#
-	# SQL接続用セッションオブジェクト化
-	#
-	Session = sessionmaker(bind = Engine)
 	return Session()
 
 #

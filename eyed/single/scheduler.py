@@ -9,6 +9,22 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.base import STATE_RUNNING
 
 #
+# Database 接続用
+#
+from eyed.model import TaskGroup
+from eyed.db import createSession
+
+#
+# BACnet Driver
+#
+from eyed.driver.bacnet import BACnetClient
+
+#
+# Single Instances
+#
+from eyed.single import SingleBACnetd
+
+#
 # SingleScheduler
 #
 class SingleScheduler:
@@ -56,7 +72,29 @@ class SingleScheduler:
 		# 定期実行関数
 		#
 		def job_function(name):
-			print name
+			#
+			# オブジェクト一覧の取得
+			#
+			session = createSession()
+			taskGroup = session.query(TaskGroup).filter_by(name = name).first()
+			if taskGroup == None: return
+
+			#
+			# BACnet コマンド操作用インスタンス取得
+			#
+			app = SingleBACnetd.getApplication()
+			if app == None: return
+			bacnet = BACnetClient(app)
+
+			#
+			# リクエストの実行
+			#
+			device_id	= 600
+			object_id	= 0
+			instance_id	= 0
+			property_id	= 85
+			value = bacnet.ReadPropertyRequest(device_id, object_id, instance_id, property_id)
+			print name, value
 
 		#
 		# 定期実行ジョブの追加
