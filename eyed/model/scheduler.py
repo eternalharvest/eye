@@ -75,11 +75,12 @@ class BACnetTask(BaseObject):
 	#
 	# コンストラクタ
 	#
-	def __init__(self, device_id, object_id, instance_id, property_id):
+	def __init__(self, device_id, object_id, instance_id, property_id, task_group_id):
 		self.device_id = device_id
 		self.object_id = object_id
 		self.instacne_id = instance_id
 		self.property_id = property_id
+		self.task_group_id = task_group_id
 
 	#
 	# 文字列化

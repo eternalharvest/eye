@@ -59,13 +59,13 @@ class SchedulerService(object):
 		#
 		# タスクが登録済みであるかを確認
 		#
-		task = taskGroup.bacnetTasks.filter_by(
-			device_id = device_id,
-			object_id = object_id,
-			instance_id = instance_id,
-			property_id = property_id
-		).first()
-		if not task == None: return False
+		#task = taskGroup.bacnetTasks.filter_by(
+		#	device_id = device_id,
+		#	object_id = object_id,
+		#	instance_id = instance_id,
+		#	property_id = property_id
+		#).first()
+		#if not task == None: return False
 
 		#
 		# BACnet コマンド操作用インスタンス取得
@@ -83,7 +83,8 @@ class SchedulerService(object):
 		#
 		# タスクの登録
 		#
-		taskGroup.bacnetTasks.append(BACnetTask(device_id, object_id, instance_id, property_id))
+		new_task = BACnetTask(device_id, object_id, instance_id, property_id, taskGroup.id)
+		session.add(new_task)
 		session.commit()
 		return True
 
