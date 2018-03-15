@@ -22,6 +22,11 @@ class TaskGroup(BaseObject):
 	interval	= Column('INTERVAL', Integer)
 
 	#
+	# リレーション
+	#
+	bacnetTasks = relationship('BACnetTask', lazy='dynamic', backref = 'taskGroup')
+
+	#
 	# コンストラクタ
 	#
 	def __init__(self, name, interval):
@@ -45,16 +50,45 @@ class TaskGroup(BaseObject):
 		}
 
 #
-# Task の 設定
+# BACnetTask の 設定
 #
-class Task(BaseObject):
+class BACnetTask(BaseObject):
 	#
 	# テーブル名
 	#
-	__tablename__ = 'M_TASK'
+	__tablename__ = 'M_BACNET_TASK'
 
 	#
 	# カラム定義
 	#
 	id		= Column('ID', Integer, primary_key=True)
+	device_id	= Column('DEVICE_ID', Integer, nullable = False)
+	object_id	= Column('OBJECT_ID', Integer, nullable = False)
+	instance_id	= Column('INSTANCE_ID', Integer, nullable = False)
+	property_id	= Column('PROPERTY_ID', Integer, nullable = False)
+
+	#
+	# 外部キー
+	#
+	task_group_id = Column('M_TASK_GROUP_ID', Integer, ForeignKey('M_TASK_GROUP.ID'))
+
+	#
+	# コンストラクタ
+	#
+	def __init__(self, device_id, object_id, instance_id, property_id):
+		self.device_id = device_id
+		self.object_id = object_id
+		self.instacne_id = instance_id
+		self.property_id = property_id
+
+	#
+	# 文字列化
+	#
+	def __str__(self):
+		return '<BACnetTask device_id=%d, object_id=%d, instance_id=%d, property_id=%d>' %(
+			self.device_id,
+			self.object_id,
+			self.instacne_id,
+			self.property_id
+		)
 

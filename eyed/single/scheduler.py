@@ -87,14 +87,25 @@ class SingleScheduler:
 			bacnet = BACnetClient(app)
 
 			#
-			# リクエストの実行
+			# タスクの取得
 			#
-			device_id	= 600
-			object_id	= 0
-			instance_id	= 0
-			property_id	= 85
-			value = bacnet.ReadPropertyRequest(device_id, object_id, instance_id, property_id)
-			print name, value
+			for task in taskGroup.bacnetTasks:
+				print task
+
+				#
+				# リクエストの実行
+				#
+				value = bacnet.ReadPropertyRequest(
+					task.device_id,
+					task.object_id,
+					task.instance_id,
+					task.property_id
+				)
+
+				#
+				# 値の保存
+				#
+				print name, value
 
 		#
 		# 定期実行ジョブの追加

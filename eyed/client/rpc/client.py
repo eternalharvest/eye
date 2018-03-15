@@ -179,6 +179,13 @@ class SchedulerRPCClient(RPCClient):
 		service = self.root.SchedulerService()
 		return service.addTaskGroup(name, interval)
 
+	#
+	# addBACnetTask
+	#
+	def addBACnetTask(self, name, device_id, object_id, instance_id, property_id):
+		service = self.root.SchedulerService()
+		return service.addBACnetTask(name, device_id, object_id, instance_id, property_id)
+
 #
 # Entry Point
 #

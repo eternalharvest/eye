@@ -67,10 +67,28 @@ def add_measurement_task(ctx):
 @add_measurement_task.command(name = 'bacnet')
 @click.pass_context
 @click.argument('name')
+@click.argument('device_id')
 @click.argument('object_id')
 @click.argument('instance_id')
-def add_measurement_task_bacnet(ctx):
-	pass
+@click.argument('property_id')
+def add_measurement_task_bacnet(ctx, name, device_id, object_id, instance_id, property_id):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = SchedulerRPCClient(host, port)
+	click.echo(client.addBACnetTask(
+		name,
+		int(device_id),
+		int(object_id),
+		int(instance_id),
+		int(property_id)
+	))
 
 #########################################################################
 # エミュレーションパラメータ の 定義

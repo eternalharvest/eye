@@ -4,7 +4,7 @@ from base import BaseObject
 from config import Config
 from emulation import BACnetEmulationObject, BACnetEmulationProperty
 from proxy import ProxyPoint
-from scheduler import TaskGroup
+from scheduler import TaskGroup, BACnetTask
 
 __all__ = [
 	BaseObject,
@@ -12,6 +12,7 @@ __all__ = [
 	BACnetEmulationObject,
 	BACnetEmulationProperty,
 	ProxyPoint,
-	TaskGroup
+	TaskGroup,
+	BACnetTask
 ]
 
