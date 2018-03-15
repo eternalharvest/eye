@@ -96,7 +96,6 @@ def add_emulation_bacnet(ctx):
 @click.argument('name')
 @click.argument('object_id')
 @click.argument('instance_id')
-@click.argument('property_id')
 def add_emulation_bacnet_object(ctx, name, object_id, instance_id):
 	#
 	# 引数の取得
