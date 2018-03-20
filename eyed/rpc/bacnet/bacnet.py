@@ -124,55 +124,61 @@ class BACnetService(object):
 	#
 	def exposed_addObject(self, name, object_id, instance_id):
 		#
-		# オブジェクト名が既に利用されていないかを確認
+		# DB への 接続
 		#
-		session = createSession()
-		obj = session.query(BACnetEmulationObject).filter_by(
-			name = name
-		).first()
-		if not obj == None: return False
+		with createSession() as session:
+			#
+			# オブジェクト名が既に利用されていないかを確認
+			#
+			obj = session.query(BACnetEmulationObject).filter_by(
+				name = name
+			).first()
+			if not obj == None: return False
 
-		#
-		# オブジェクトの登録
-		#
-		if addBACnetObject(name, object_id, instance_id) == False:
-			return False
+			#
+			# オブジェクトの登録
+			#
+			if addBACnetObject(name, object_id, instance_id) == False:
+				return False
 
-		#
-		# オブジェクトの登録(DB)
-		#
-		session.add(BACnetEmulationObject(name, object_id, instance_id))
-		session.commit()
-		return True
+			#
+			# オブジェクトの登録(DB)
+			#
+			session.add(BACnetEmulationObject(name, object_id, instance_id))
+			session.commit()
+			return True
 
 	#
 	# プロパティの追加
 	#
 	def exposed_addProperty(self, name, property_id):
 		#
-		# オブジェクト名が登録されているかを確認
+		# DB への 接続
 		#
-		session = createSession()
-		obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
-		if obj == None: return False
+		with createSession() as session:
+			#
+			# オブジェクト名が登録されているかを確認
+			#
+			obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
+			if obj == None: return False
 
-		#
-		# プロパティ名が既に存在していないかを確認
-		#
-		prop = obj.properties.filter_by(property_id = property_id).first()
-		if not prop == None: return False
+			#
+			# プロパティ名が既に存在していないかを確認
+			#
+			prop = obj.properties.filter_by(property_id = property_id).first()
+			if not prop == None: return False
 
-		#
-		# プロパティの登録
-		#
-		if addBACnetProperty(obj.name, obj.object_id, obj.instance_id, property_id) == False:
-			return False
+			#
+			# プロパティの登録
+			#
+			if addBACnetProperty(obj.name, obj.object_id, obj.instance_id, property_id) == False:
+				return False
 
-		#
-		# プロパティの登録(DB)
-		#
-		obj.properties.append(BACnetEmulationProperty(property_id))
-		session.commit()
+			#
+			# プロパティの登録(DB)
+			#
+			obj.properties.append(BACnetEmulationProperty(property_id))
+			session.commit()
 		return True
 
 	#
@@ -180,28 +186,31 @@ class BACnetService(object):
 	#
 	def exposed_setProperty(self, name, property_id, value):
 		#
-		# オブジェクト名が登録されているかを確認
+		# DB への 接続
 		#
-		session = createSession()
-		obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
-		if obj == None: return False
+		with createSession() as session:
+			#
+			# オブジェクト名が登録されているかを確認
+			#
+			obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
+			if obj == None: return False
 
-		#
-		# プロパティ名が登録されているかを確認
-		#
-		prop = obj.properties.filter_by(property_id = property_id).first()
-		if prop == None: return False
+			#
+			# プロパティ名が登録されているかを確認
+			#
+			prop = obj.properties.filter_by(property_id = property_id).first()
+			if prop == None: return False
 
-		#
-		# Datastore の 取得
-		#
-		datastore = SingleBACnetd().getDatastore()
+			#
+			# Datastore の 取得
+			#
+			datastore = SingleBACnetd().getDatastore()
 
-		#
-		# 値の設定
-		#
-		datastore.set(obj.object_id, obj.instance_id, prop.property_id, value)
-		return True
+			#
+			# 値の設定
+			#
+			datastore.set(obj.object_id, obj.instance_id, prop.property_id, value)
+			return True
 
 #
 # Entry Point

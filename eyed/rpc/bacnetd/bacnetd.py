@@ -35,66 +35,72 @@ def start_bacnetd(interface, device_id):
 		return False
 
 	#
-	# DB から BACNET INTERFACE を取得
+	# DB への 接続
 	#
-	session = createSession()
-	bacnet_interface = session.query(Config).filter_by(key = 'BACNET_INTERFACE').first()
-	if interface == None:
-		if bacnet_interface == None: return False
-		interface = bacnet_interface.value
-
-	#
-	# DB から BACNET DEVICE ID を取得
-	#
-	bacnet_device_id = session.query(Config).filter_by(key = 'BACNET_DEVICE_ID').first()
-	if device_id == None:
-		if bacnet_device_id == None: return False
-		device_id = int(bacnet_device_id.value)
-
-	#
-	# NIC の 情報取得
-	#
-	bacnet_address = None
-	try:
+	with createSession() as session:
 		#
-		# NIC から IPv4 アドレスの取得
+		# DB から BACNET INTERFACE を取得
 		#
-		iface_data = netifaces.ifaddresses(interface)
-		ipv4 = iface_data.get(netifaces.AF_INET)
-		if not ipv4 == None:
-			prefix = IPAddress(ipv4[0]['netmask']).netmask_bits()
-			bacnet_address = '%s/%d' %(ipv4[0]['addr'], prefix)
+		bacnet_interface = session.query(Config).filter_by(key = 'BACNET_INTERFACE').first()
+		if interface == None:
+			if bacnet_interface == None: return False
+			interface = bacnet_interface.value
 
-	#
-	# NIC の情報が見つからなかった場合の処理
-	#
-	except ValueError:
-		return False
+		#
+		# DB から BACNET DEVICE ID を取得
+		#
+		bacnet_device_id = session.query(Config).filter_by(key = 'BACNET_DEVICE_ID').first()
+		if device_id == None:
+			if bacnet_device_id == None: return False
+			device_id = int(bacnet_device_id.value)
 
-	#
-	# BACnet アドレスが定義されていない場合
-	#
-	if bacnet_address == None:
-		return False
+		#
+		# NIC の 情報取得
+		#
+		bacnet_address = None
+		try:
+			#
+			# NIC から IPv4 アドレスの取得
+			#
+			iface_data = netifaces.ifaddresses(interface)
+			ipv4 = iface_data.get(netifaces.AF_INET)
+			if not ipv4 == None:
+				prefix = IPAddress(ipv4[0]['netmask']).netmask_bits()
+				bacnet_address = '%s/%d' %(ipv4[0]['addr'], prefix)
 
-	#
-	# BACnet Daemon の 起動
-	#
-	single.bacnetd = BACnetd(bacnet_address, device_id)
-	single.bacnetd.start()
+		#
+		# NIC の情報が見つからなかった場合の処理
+		#
+		except ValueError:
+			return False
 
-	#
-	# BACnet Interface を DB に書き込み
-	#
-	if bacnet_interface == None:
-		session.add(Config('BACNET_INTERFACE', interface))
-		session.add(Config('BACNET_DEVICE_ID', device_id))
-	else:
-		bacnet_interface.value = interface
-		bacnet_device_id.value = str(device_id)
+		#
+		# BACnet アドレスが定義されていない場合
+		#
+		if bacnet_address == None:
+			return False
 
-	session.commit()
-	return True
+		#
+		# BACnet Daemon の 起動
+		#
+		single.bacnetd = BACnetd(bacnet_address, device_id)
+		single.bacnetd.start()
+
+		#
+		# BACnet Interface を DB に書き込み
+		#
+		if bacnet_interface == None:
+			session.add(Config('BACNET_INTERFACE', interface))
+			session.add(Config('BACNET_DEVICE_ID', device_id))
+		else:
+			bacnet_interface.value = interface
+			bacnet_device_id.value = str(device_id)
+
+		#
+		# コミット
+		#
+		session.commit()
+		return True
 
 #
 # BACnetdService
