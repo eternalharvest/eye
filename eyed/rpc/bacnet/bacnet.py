@@ -13,7 +13,7 @@ from eyed.driver.bacnet import definition
 # Database 接続用
 #
 from eyed.model import BACnetEmulationObject, BACnetEmulationProperty
-from eyed.db import createSession
+from eyed.db import SessionFactory
 
 #
 # BACnet Daemon Instance
@@ -113,11 +113,14 @@ class BACnetService(object):
 	#
 	def exposed_getObjects(self):
 		#
-		# オブジェクト一覧の取得
+		# DB への 接続
 		#
-		session = createSession()
-		objs = session.query(BACnetEmulationObject).all()
-		return [obj.to_dict() for obj in objs]
+		with SessionFactory() as session:
+			#
+			# オブジェクト一覧の取得
+			#
+			objs = session.query(BACnetEmulationObject).all()
+			return [obj.to_dict() for obj in objs]
 
 	#
 	# オブジェクト の 登録
@@ -126,7 +129,7 @@ class BACnetService(object):
 		#
 		# DB への 接続
 		#
-		with createSession() as session:
+		with SessionFactory() as session:
 			#
 			# オブジェクト名が既に利用されていないかを確認
 			#
@@ -155,7 +158,7 @@ class BACnetService(object):
 		#
 		# DB への 接続
 		#
-		with createSession() as session:
+		with SessionFactory() as session:
 			#
 			# オブジェクト名が登録されているかを確認
 			#
@@ -188,7 +191,7 @@ class BACnetService(object):
 		#
 		# DB への 接続
 		#
-		with createSession() as session:
+		with SessionFactory() as session:
 			#
 			# オブジェクト名が登録されているかを確認
 			#

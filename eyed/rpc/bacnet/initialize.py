@@ -10,7 +10,7 @@ from eyed.driver.bacnet import BACnetClient
 # Database 接続用
 #
 from eyed.model import BACnetEmulationObject, BACnetEmulationProperty
-from eyed.db import createSession
+from eyed.db import SessionFactory
 
 #
 # BACnet Daemon Instance
@@ -78,20 +78,23 @@ def addBACnetProperty(name, object_id, instance_id, property_id):
 #
 def start_bacnet_emulation():
 	#
-	# ポイント名が既に利用されていないかを確認
+	# DB への 接続
 	#
-	session = createSession()
-	objects = session.query(BACnetEmulationObject).all()
-	for obj in objects:
+	with SessionFactory() as session:
 		#
-		# オブジェクト の 登録
+		# ポイント名が既に利用されていないかを確認
 		#
-		addBACnetObject(obj.name, obj.object_id, obj.instance_id)
-		for prop in obj.properties:
+		objects = session.query(BACnetEmulationObject).all()
+		for obj in objects:
 			#
-			# プロパティの登録
+			# オブジェクト の 登録
 			#
-			addBACnetProperty(obj.name, obj.object_id, obj.instance_id, prop.property_id)
+			addBACnetObject(obj.name, obj.object_id, obj.instance_id)
+			for prop in obj.properties:
+				#
+				# プロパティの登録
+				#
+				addBACnetProperty(obj.name, obj.object_id, obj.instance_id, prop.property_id)
 
 if __name__ == '__main__':
 	start_bacnet_emulation()

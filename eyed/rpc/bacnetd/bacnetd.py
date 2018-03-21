@@ -16,7 +16,7 @@ from eyed.driver.bacnet import BACnetd
 # Database 接続用
 #
 from eyed.model import Config
-from eyed.db import createSession
+from eyed.db import SessionFactory
 
 #
 # BACnet デーモン管理用
@@ -37,7 +37,7 @@ def start_bacnetd(interface, device_id):
 	#
 	# DB への 接続
 	#
-	with createSession() as session:
+	with SessionFactory() as session:
 		#
 		# DB から BACNET INTERFACE を取得
 		#

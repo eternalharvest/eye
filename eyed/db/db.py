@@ -37,13 +37,28 @@ Session = scoped_session(session_factory)
 #
 # セッションの取得
 #
-def createSession():
-	return Session()
+class SessionFactory:
+	def __init__(self):
+		self.sesion = None
+
+	#
+	# ENTER
+	#
+	def __enter__(self):
+		self.session = Session()
+		return self.session
+
+	#
+	# EXIT
+	#
+	def __exit__(self, type, value, traceback):
+		self.session.close()
+		return True
 
 #
 # Entry Point
 #
 if __name__ == "__main__":
 	session = Session() 
-	print session
+	help(session)
 

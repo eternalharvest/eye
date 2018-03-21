@@ -12,7 +12,7 @@ from apscheduler.schedulers.base import STATE_RUNNING
 # Database 接続用
 #
 from eyed.model import TaskGroup
-from eyed.db import createSession
+from eyed.db import SessionFactory
 
 #
 # BACnet Driver
@@ -73,11 +73,14 @@ class SingleScheduler:
 		#
 		def job_function(name):
 			#
-			# オブジェクト一覧の取得
+			# DB への 接続
 			#
-			session = createSession()
-			taskGroup = session.query(TaskGroup).filter_by(name = name).first()
-			if taskGroup == None: return
+			with SessionFactory() as session:
+				#
+				# オブジェクト一覧の取得
+				#
+				taskGroup = session.query(TaskGroup).filter_by(name = name).first()
+				if taskGroup == None: return
 
 			#
 			# BACnet コマンド操作用インスタンス取得

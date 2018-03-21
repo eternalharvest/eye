@@ -5,7 +5,7 @@
 # Database 接続用
 #
 from eyed.model import TaskGroup
-from eyed.db import createSession
+from eyed.db import SessionFactory
 
 #
 # BACnet Daemon Instance
@@ -27,16 +27,19 @@ def addTaskGroup(name, interval):
 #
 def start_scheduler():
 	#
-	# 既に登録されているタスクグループの取得
+	# DB への 接続
 	#
-	session = createSession()
-	taskGroups = session.query(TaskGroup).all()
+	with SessionFactory() as session:
+		#
+		# 既に登録されているタスクグループの取得
+		#
+		taskGroups = session.query(TaskGroup).all()
 
-	#
-	# 登録されているタスクの呼び出し
-	#
-	for taskGroup in taskGroups:
-		addTaskGroup(taskGroup.name, taskGroup.interval)
+		#
+		# 登録されているタスクの呼び出し
+		#
+		for taskGroup in taskGroups:
+			addTaskGroup(taskGroup.name, taskGroup.interval)
 
 if __name__ == '__main__':
 	start_scheduler()
