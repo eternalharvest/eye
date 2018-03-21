@@ -61,11 +61,11 @@ class BACnetTask(BaseObject):
 	#
 	# カラム定義
 	#
-	id		= Column('ID', Integer, primary_key=True)
-	device_id	= Column('DEVICE_ID', Integer, nullable = False)
-	object_id	= Column('OBJECT_ID', Integer, nullable = False)
-	instance_id	= Column('INSTANCE_ID', Integer, nullable = False)
-	property_id	= Column('PROPERTY_ID', Integer, nullable = False)
+	id		= Column('ID', Integer, primary_key=True, autoincrement=True)
+	device_id	= Column('DEVICE_ID', Integer)
+	object_id	= Column('OBJECT_ID', Integer)
+	instance_id	= Column('INSTANCE_ID', Integer)
+	property_id	= Column('PROPERTY_ID', Integer)
 
 	#
 	# 外部キー
@@ -75,12 +75,11 @@ class BACnetTask(BaseObject):
 	#
 	# コンストラクタ
 	#
-	def __init__(self, device_id, object_id, instance_id, property_id, task_group_id):
+	def __init__(self, device_id, object_id, instance_id, property_id):
 		self.device_id = device_id
 		self.object_id = object_id
-		self.instacne_id = instance_id
+		self.instance_id = instance_id
 		self.property_id = property_id
-		self.task_group_id = task_group_id
 
 	#
 	# 文字列化
@@ -89,7 +88,7 @@ class BACnetTask(BaseObject):
 		return '<BACnetTask device_id=%d, object_id=%d, instance_id=%d, property_id=%d>' %(
 			self.device_id,
 			self.object_id,
-			self.instacne_id,
+			self.instance_id,
 			self.property_id
 		)
 

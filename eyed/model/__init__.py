@@ -13,6 +13,6 @@ __all__ = [
 	BACnetEmulationProperty,
 	ProxyPoint,
 	TaskGroup,
-	BACnetTask
+	BACnetTask,
 ]
 

@@ -80,35 +80,36 @@ class SingleScheduler:
 				# オブジェクト一覧の取得
 				#
 				taskGroup = session.query(TaskGroup).filter_by(name = name).first()
+				print taskGroup
 				if taskGroup == None: return
 
-			#
-			# BACnet コマンド操作用インスタンス取得
-			#
-			app = SingleBACnetd.getApplication()
-			if app == None: return
-			bacnet = BACnetClient(app)
-
-			#
-			# タスクの取得
-			#
-			for task in taskGroup.bacnetTasks:
-				print task
+				#
+				# BACnet コマンド操作用インスタンス取得
+				#
+				app = SingleBACnetd.getApplication()
+				if app == None: return
+				bacnet = BACnetClient(app)
 
 				#
-				# リクエストの実行
+				# タスクの取得
 				#
-				value = bacnet.ReadPropertyRequest(
-					task.device_id,
-					task.object_id,
-					task.instance_id,
-					task.property_id
-				)
+				for task in taskGroup.bacnetTasks:
+					print task
 
-				#
-				# 値の保存
-				#
-				print name, value
+					#
+					# リクエストの実行
+					#
+					value = bacnet.ReadPropertyRequest(
+						task.device_id,
+						task.object_id,
+						task.instance_id,
+						task.property_id
+					)
+
+					#
+					# 値の保存
+					#
+					print name, value
 
 		#
 		# 定期実行ジョブの追加
@@ -121,6 +122,8 @@ class SingleScheduler:
 			seconds		= interval,
 			max_instances	= 1
 		)
+
+		print 'add task grooup name=%s' %(name)
 
 #
 # Entry Point

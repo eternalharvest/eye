@@ -182,7 +182,7 @@ class BACnetService(object):
 			#
 			obj.properties.append(BACnetEmulationProperty(property_id))
 			session.commit()
-		return True
+			return True
 
 	#
 	# プロパティの設定
