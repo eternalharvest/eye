@@ -71,7 +71,7 @@ class BACnetEmulationProperty(BaseObject):
 	#
 	# 外部キー
 	#
-	emulation_point_id = Column('M_EMULATION_POINT_ID', Integer, ForeignKey('M_BACNET_EMULATION_OBJECT.ID'))
+	emulation_object_id = Column('EMULATION_POINT_ID', Integer, ForeignKey('M_BACNET_EMULATION_OBJECT.ID'))
 
 	#
 	# コンストラクタ
@@ -92,5 +92,46 @@ class BACnetEmulationProperty(BaseObject):
 		return {
 			'id'		: self.id,
 			'property_id'	: self.property_id,
+		}
+
+#
+# BACnet Emulation Property Log の 設定
+#
+class BACnetEmulationPropertyLog(BaseObject):
+	#
+	# テーブル名
+	#
+	__tablename__ = 'M_BACNET_EMULATION_PROPERTY_LOG'
+
+	#
+	# カラム定義
+	#
+	id		= Column('ID', Integer, primary_key=True)
+	value		= Column('VALUE', String)
+
+	#
+	# 外部キー
+	#
+	emulation_property_id = Column('EMULATION_PROPERTY_ID', Integer, ForeignKey('M_BACNET_EMULATION_PROPERTY.ID'))
+
+	#
+	# コンストラクタ
+	#
+	def __init__(self, value):
+		self.value = value
+
+	#
+	# 文字列化
+	#
+	def __str__(self):
+		return '<BACnetEmulationPropertyLog value=%s>' %(self.value)
+
+	#
+	# 辞書化
+	#
+	def to_dict(self):
+		return {
+			'id'		: self.id,
+			'value'		: self.value,
 		}
 
