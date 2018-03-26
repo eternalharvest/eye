@@ -9,7 +9,7 @@ from eyed.driver.bacnet import BACnetClient
 #
 # Database 接続用
 #
-from eyed.model import BACnetEmulationObject, BACnetEmulationProperty
+from eyed.model import BACnetSimulationObject, BACnetSimulationProperty
 from eyed.db import SessionFactory
 
 #
@@ -84,7 +84,7 @@ def start_bacnet_emulation():
 		#
 		# ポイント名が既に利用されていないかを確認
 		#
-		objects = session.query(BACnetEmulationObject).all()
+		objects = session.query(BACnetSimulationObject).all()
 		for obj in objects:
 			#
 			# オブジェクト の 登録

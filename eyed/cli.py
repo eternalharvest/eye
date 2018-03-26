@@ -91,30 +91,30 @@ def add_measurement_task_bacnet(ctx, name, device_id, object_id, instance_id, pr
 	))
 
 #########################################################################
-# エミュレーションパラメータ の 定義
+# シミュレーションパラメータ の 定義
 #########################################################################
-@add.group(name = 'emulation')
+@add.group(name = 'simulation')
 @click.pass_context
-def add_emulation(ctx):
+def add_simulation(ctx):
 	pass
 
 #########################################################################
 # プロトコル の 定義
 #########################################################################
-@add_emulation.group(name = 'bacnet')
+@add_simulation.group(name = 'bacnet')
 @click.pass_context
-def add_emulation_bacnet(ctx):
+def add_simulation_bacnet(ctx):
 	pass
 
 #########################################################################
 # BACnet オブジェクト の 定義
 #########################################################################
-@add_emulation_bacnet.command(name = 'object')
+@add_simulation_bacnet.command(name = 'object')
 @click.pass_context
 @click.argument('name')
 @click.argument('object_id')
 @click.argument('instance_id')
-def add_emulation_bacnet_object(ctx, name, object_id, instance_id):
+def add_simulation_bacnet_object(ctx, name, object_id, instance_id):
 	#
 	# 引数の取得
 	#
@@ -138,11 +138,11 @@ def add_emulation_bacnet_object(ctx, name, object_id, instance_id):
 #########################################################################
 # パラメータ の 定義
 #########################################################################
-@add_emulation_bacnet.command(name = 'property')
+@add_simulation_bacnet.command(name = 'property')
 @click.pass_context
 @click.argument('name')
 @click.argument('property_id')
-def add_emulation_bacnet_property(ctx, name, property_id):
+def add_simulation_bacnet_property(ctx, name, property_id):
 	#
 	# 引数の取得
 	#
@@ -171,30 +171,30 @@ def set(ctx):
 	pass
 
 #########################################################################
-# エミュレーションパラメータ の 設定
+# シミュレーションパラメータ の 設定
 #########################################################################
-@set.group(name = 'emulation')
+@set.group(name = 'simulation')
 @click.pass_context
-def set_emulation(ctx):
+def set_simulation(ctx):
 	pass
 
 #########################################################################
 # プロトコル の 設定
 #########################################################################
-@set_emulation.group(name = 'bacnet')
+@set_simulation.group(name = 'bacnet')
 @click.pass_context
-def set_emulation_bacnet(ctx):
+def set_simulation_bacnet(ctx):
 	pass
 
 #########################################################################
 # パラメータ の 定義
 #########################################################################
-@set_emulation_bacnet.command(name = 'property')
+@set_simulation_bacnet.command(name = 'property')
 @click.pass_context
 @click.argument('name')
 @click.argument('property_id')
 @click.argument('value')
-def set_emulation_bacnet_property(ctx, name, property_id, value):
+def set_simulation_bacnet_property(ctx, name, property_id, value):
 	#
 	# 引数の取得
 	#
@@ -250,27 +250,27 @@ def show_interfaces(ctx):
 		click.echo('%s %s' %(name, ipv4))
 
 #########################################################################
-# エミュレーションパラメータ の 確認
+# シミュレーションパラメータ の 確認
 #########################################################################
-@show.group(name = 'emulation')
+@show.group(name = 'simulation')
 @click.pass_context
-def show_emulation(ctx):
+def show_simulation(ctx):
 	pass
 
 #########################################################################
 # プロトコルパラメータ の 確認
 #########################################################################
-@show_emulation.group(name = 'bacnet')
+@show_simulation.group(name = 'bacnet')
 @click.pass_context
-def show_emulation_bacnet(ctx):
+def show_simulation_bacnet(ctx):
 	pass
 
 #########################################################################
 # BACNetオブジェクト の 確認
 #########################################################################
-@show_emulation_bacnet.command(name = 'objects')
+@show_simulation_bacnet.command(name = 'objects')
 @click.pass_context
-def show_emulation_bacnet_objects(ctx):
+def show_simulation_bacnet_objects(ctx):
 	#
 	# 引数の取得
 	#

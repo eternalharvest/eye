@@ -12,7 +12,7 @@ from eyed.driver.bacnet import definition
 #
 # Database 接続用
 #
-from eyed.model import BACnetEmulationObject, BACnetEmulationProperty
+from eyed.model import BACnetSimulationObject, BACnetSimulationProperty
 from eyed.db import SessionFactory
 
 #
@@ -119,7 +119,7 @@ class BACnetService(object):
 			#
 			# オブジェクト一覧の取得
 			#
-			objs = session.query(BACnetEmulationObject).all()
+			objs = session.query(BACnetSimulationObject).all()
 			return [obj.to_dict() for obj in objs]
 
 	#
@@ -133,7 +133,7 @@ class BACnetService(object):
 			#
 			# オブジェクト名が既に利用されていないかを確認
 			#
-			obj = session.query(BACnetEmulationObject).filter_by(
+			obj = session.query(BACnetSimulationObject).filter_by(
 				name = name
 			).first()
 			if not obj == None: return False
@@ -147,7 +147,7 @@ class BACnetService(object):
 			#
 			# オブジェクトの登録(DB)
 			#
-			session.add(BACnetEmulationObject(name, object_id, instance_id))
+			session.add(BACnetSimulationObject(name, object_id, instance_id))
 			session.commit()
 			return True
 
@@ -162,7 +162,7 @@ class BACnetService(object):
 			#
 			# オブジェクト名が登録されているかを確認
 			#
-			obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
+			obj = session.query(BACnetSimulationObject).filter_by(name = name).first()
 			if obj == None: return False
 
 			#
@@ -180,7 +180,7 @@ class BACnetService(object):
 			#
 			# プロパティの登録(DB)
 			#
-			obj.properties.append(BACnetEmulationProperty(property_id))
+			obj.properties.append(BACnetSimulationProperty(property_id))
 			session.commit()
 			return True
 
@@ -195,7 +195,7 @@ class BACnetService(object):
 			#
 			# オブジェクト名が登録されているかを確認
 			#
-			obj = session.query(BACnetEmulationObject).filter_by(name = name).first()
+			obj = session.query(BACnetSimulationObject).filter_by(name = name).first()
 			if obj == None: return False
 
 			#

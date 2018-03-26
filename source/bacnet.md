@@ -24,6 +24,6 @@ $ eye start bacnetd eth0 1234
 $ eye stop bacnetd
 ```
 
-## BACnet サービスの利用
+## BACnet シミュレータの利用
 
 

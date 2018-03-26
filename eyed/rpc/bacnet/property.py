@@ -9,7 +9,7 @@ from eyed.single import SingleBACnetd
 #
 # Database 接続用
 #
-from eyed.model import BACnetEmulationLog
+from eyed.model import BACnetSimulationLog
 from eyed.db import SessionFactory
 
 #
@@ -62,7 +62,7 @@ class EyedPresentValue(Property):
 			#
 			# DBへの登録
 			#
-			session.add(BACnetEmulationLog(self.object_id, self.instance_id, self.property_id, value))
+			session.add(BACnetSimulationLog(self.object_id, self.instance_id, self.property_id, value))
 			session.commit()
 
 		#

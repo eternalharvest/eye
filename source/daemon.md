@@ -9,8 +9,12 @@ sudo apt-get install supervisor
 ```
 
 ### サービスの登録
+```bash
 supervisorctl add eyed
+```
 
 ### サービスの起動
+```bash
 supervisorctl start eyed
+```
 
