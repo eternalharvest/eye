@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from sqlalchemy import create_engine, MetaData
-from sqlalchemy import Column, Integer, String, BOOLEAN, ForeignKey
+from sqlalchemy import Column, Integer, String, BOOLEAN, DATETIME, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from base import BaseObject
 from datetime import datetime
