@@ -12,6 +12,8 @@ Welcome to EYE's documentation!
 
    install
    cli
+   bacnet
+   daemon
 
 Indices and tables
 ==================
