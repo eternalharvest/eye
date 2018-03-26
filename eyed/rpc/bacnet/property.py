@@ -7,6 +7,12 @@ from bacpypes.errors import ExecutionError
 from eyed.single import SingleBACnetd
 
 #
+# Database 接続用
+#
+from eyed.model import BACnetEmulationLog
+from eyed.db import SessionFactory
+
+#
 # Eyed Present Value
 #
 class EyedPresentValue(Property):
@@ -48,6 +54,20 @@ class EyedPresentValue(Property):
 		#
 		datastore = SingleBACnetd().getDatastore()
 		value = datastore.get(self.object_id, self.instance_id, self.property_id)
+
+		#
+		# DB への 接続
+		#
+		with SessionFactory() as session:
+			#
+			# DBへの登録
+			#
+			session.add(BACnetEmulationLog(self.object_id, self.instance_id, self.property_id, value))
+			sessuin.commit()
+
+		#
+		# 値の返却
+		#
 		if not value == None:
 			return value
 		raise ExecutionError(errorClass='property', errorCode='abortProprietary')

@@ -95,36 +95,37 @@ class BACnetEmulationProperty(BaseObject):
 		}
 
 #
-# BACnet Emulation Property Log の 設定
+# BACnet Emulation Log の 設定
 #
-class BACnetEmulationPropertyLog(BaseObject):
+class BACnetEmulationLog(BaseObject):
 	#
 	# テーブル名
 	#
-	__tablename__ = 'M_BACNET_EMULATION_PROPERTY_LOG'
+	__tablename__ = 'M_BACNET_EMULATION_LOG'
 
 	#
 	# カラム定義
 	#
 	id		= Column('ID', Integer, primary_key=True)
+	object_id	= Column('OBJECT_ID', Integer)
+	instance_id	= Column('INSTACNE_ID', Integer)
+	property_id	= Column('PROPERTY_ID', Integer)
 	value		= Column('VALUE', String)
-
-	#
-	# 外部キー
-	#
-	emulation_property_id = Column('EMULATION_PROPERTY_ID', Integer, ForeignKey('M_BACNET_EMULATION_PROPERTY.ID'))
 
 	#
 	# コンストラクタ
 	#
-	def __init__(self, value):
-		self.value = value
+	def __init__(self, object_id, instance_id, property_id, value):
+		self.object_id		= object_id
+		self.instance_id	= instance_id
+		self.property_id	= property_id
+		self.value		= value
 
 	#
 	# 文字列化
 	#
 	def __str__(self):
-		return '<BACnetEmulationPropertyLog value=%s>' %(self.value)
+		return '<BACnetEmulationLog value=%s>' %(self.value)
 
 	#
 	# 辞書化

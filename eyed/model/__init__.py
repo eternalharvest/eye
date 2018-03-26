@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from base import BaseObject
 from config import Config
-from emulation import BACnetEmulationObject, BACnetEmulationProperty, BACnetEmulationPropertyLog
+from emulation import BACnetEmulationObject, BACnetEmulationProperty, BACnetEmulationLog
 from proxy import ProxyPoint
 from scheduler import TaskGroup, BACnetTask
 
@@ -11,7 +11,7 @@ __all__ = [
 	Config,
 	BACnetEmulationObject,
 	BACnetEmulationProperty,
-	BACnetEmulationPropertyLog,
+	BACnetEmulationLog,
 	ProxyPoint,
 	TaskGroup,
 	BACnetTask,
