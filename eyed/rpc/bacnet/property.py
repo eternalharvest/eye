@@ -63,7 +63,7 @@ class EyedPresentValue(Property):
 			# DBへの登録
 			#
 			session.add(BACnetEmulationLog(self.object_id, self.instance_id, self.property_id, value))
-			sessuin.commit()
+			session.commit()
 
 		#
 		# 値の返却
