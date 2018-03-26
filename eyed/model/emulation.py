@@ -4,6 +4,7 @@ from sqlalchemy import create_engine, MetaData
 from sqlalchemy import Column, Integer, String, BOOLEAN, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from base import BaseObject
+from datetime import datetime
 
 #
 # BACnet Emulation Object の 設定
@@ -111,6 +112,7 @@ class BACnetEmulationLog(BaseObject):
 	instance_id	= Column('INSTACNE_ID', Integer)
 	property_id	= Column('PROPERTY_ID', Integer)
 	value		= Column('VALUE', String)
+	datetime	= Column('DATETIME', DATETIME, default=datetime.now, nullable=False)
 
 	#
 	# コンストラクタ
