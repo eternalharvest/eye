@@ -24,6 +24,31 @@ $ eye start bacnetd eth0 1234
 $ eye stop bacnetd
 ```
 
+## BACnet による値の取得
+### 同一ネットワーク内の BACnet デバイスを検索する
+  BACnet では、IP アドレスの代わりに デバイスID と呼ばれる識別子を利用することで、
+BACnet デバイス同士の通信が行われます。そのためBACnet の 通信を行うためには、
+まず BACnet デバイスを検索する必要があります。
+
 ## BACnet シミュレータの利用
+### 新規オブジェクトの登録
+  BACnet Object を シミュレータに登録するには以下のコマンドを実行します。
+
+```bash
+$ eye add simulation bacnet object [NAME] [OBJECT_ID] [INSTANCE_ID]
+```
+
+  BACnet オブジェクトが登録されているかを確認するためには、bacepics 等のコマンドを
+使用してください。
+
+### 新規プロパティを登録
+  作成したオブジェクトにプロパティを設定し、外部のデバイスから値を取得することが可能な
+状態にします。
+
+```bash
+$ eye add simulation bacnet property [NAME] [PROPERTY_ID]
+```
+
+## BACnet プロキシ の 利用
 
 
