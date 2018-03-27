@@ -13,7 +13,7 @@ class BACnetSimulationObject(BaseObject):
 	#
 	# テーブル名
 	#
-	__tablename__ = 'M_BACNET_EMULATION_OBJECT'
+	__tablename__ = 'M_BACNET_SIMULATION_OBJECT'
 
 	#
 	# カラム定義
@@ -61,7 +61,7 @@ class BACnetSimulationProperty(BaseObject):
 	#
 	# テーブル名
 	#
-	__tablename__ = 'M_BACNET_EMULATION_PROPERTY'
+	__tablename__ = 'M_BACNET_SIMULATION_PROPERTY'
 
 	#
 	# カラム定義
@@ -72,7 +72,7 @@ class BACnetSimulationProperty(BaseObject):
 	#
 	# 外部キー
 	#
-	emulation_object_id = Column('EMULATION_POINT_ID', Integer, ForeignKey('M_BACNET_EMULATION_OBJECT.ID'))
+	emulation_object_id = Column('SIMULATION_POINT_ID', Integer, ForeignKey('M_BACNET_SIMULATION_OBJECT.ID'))
 
 	#
 	# コンストラクタ
@@ -102,7 +102,7 @@ class BACnetSimulationLog(BaseObject):
 	#
 	# テーブル名
 	#
-	__tablename__ = 'M_BACNET_EMULATION_LOG'
+	__tablename__ = 'M_BACNET_SIMULATION_LOG'
 
 	#
 	# カラム定義
