@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BACnet Protocol &mdash; EYE v0.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="EYE v0.4.0 documentation" href="index.html"/>
+        <link rel="next" title="Daemon Manager" href="daemon.html"/>
+        <link rel="prev" title="Command Line Interface" href="cli.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EYE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BACnet Protocol</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bacnet">BACnet サービスの管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#">サービスを起動する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#">サービスを停止する</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bacnet">BACnet による値の取得</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bacnet">同一ネットワーク内の BACnet デバイスを検索する</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bacnet">BACnet シミュレータの利用</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#">新規オブジェクトの登録</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#">新規プロパティを登録</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bacnet">BACnet プロキシ の 利用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="daemon.html">Daemon Manager</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EYE</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>BACnet Protocol</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/bacnet.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bacnet-protocol">
+<span id="bacnet-protocol"></span><h1>BACnet Protocol<a class="headerlink" href="#bacnet-protocol" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="bacnet">
+<span id="bacnet"></span><h2>BACnet サービスの管理<a class="headerlink" href="#bacnet" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="">
+<span id="id1"></span><h3>サービスを起動する<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h3>
+<p>BACnet サービスを利用するためには、まず BACnet サービスへの設定を実行する必要があります。
+BACnet サービスは以下のコマンドを使用することで利用することが可能となります。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ eye start bacnetd <span class="o">[</span>INTERFACE<span class="o">]</span> <span class="o">[</span>DEVICE_ID<span class="o">]</span>
+</pre></div>
+</div>
+<p>実際に使用する際には以下のように、インタフェース名を指定する必要があります。
+BACnet の デバイス ID は省略することが可能です。（同じネットワークに同じBACnet Device ID
+のBACnet デバイスが存在する際には変更を行う必要があります。）</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ eye start bacnetd eth0 <span class="m">1234</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="">
+<span id="id2"></span><h3>サービスを停止する<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h3>
+<p>BACnet サービスを停止する際には、以下のコマンドを実行します。
+停止する場合には、BACnet を 使用した通信を行うことが出来なくなることに注意してください。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ eye stop bacnetd
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="bacnet">
+<span id="id3"></span><h2>BACnet による値の取得<a class="headerlink" href="#bacnet" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bacnet">
+<span id="id4"></span><h3>同一ネットワーク内の BACnet デバイスを検索する<a class="headerlink" href="#bacnet" title="Permalink to this headline">¶</a></h3>
+<p>BACnet では、IP アドレスの代わりに デバイスID と呼ばれる識別子を利用することで、
+BACnet デバイス同士の通信が行われます。そのためBACnet の 通信を行うためには、
+まず BACnet デバイスを検索する必要があります。</p>
+</div>
+</div>
+<div class="section" id="bacnet">
+<span id="id5"></span><h2>BACnet シミュレータの利用<a class="headerlink" href="#bacnet" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="">
+<span id="id6"></span><h3>新規オブジェクトの登録<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h3>
+<p>BACnet Object を シミュレータに登録するには以下のコマンドを実行します。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ eye add simulation bacnet object <span class="o">[</span>NAME<span class="o">]</span> <span class="o">[</span>OBJECT_ID<span class="o">]</span> <span class="o">[</span>INSTANCE_ID<span class="o">]</span>
+</pre></div>
+</div>
+<p>BACnet オブジェクトが登録されているかを確認するためには、bacepics 等のコマンドを
+使用してください。</p>
+</div>
+<div class="section" id="">
+<span id="id7"></span><h3>新規プロパティを登録<a class="headerlink" href="#" title="Permalink to this headline">¶</a></h3>
+<p>作成したオブジェクトにプロパティを設定し、外部のデバイスから値を取得することが可能な
+状態にします。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ eye add simulation bacnet property <span class="o">[</span>NAME<span class="o">]</span> <span class="o">[</span>PROPERTY_ID<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="bacnet">
+<span id="id8"></span><h2>BACnet プロキシ の 利用<a class="headerlink" href="#bacnet" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="daemon.html" class="btn btn-neutral float-right" title="Daemon Manager" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cli.html" class="btn btn-neutral" title="Command Line Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Naoya Sawada.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v0.4.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
