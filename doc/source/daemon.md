@@ -8,6 +8,24 @@
 sudo apt-get install supervisor
 ```
 
+### supervisor 用 の 設定ファイルを作成
+```bash
+sudo vi /etc/supervisor/conf.d/eye.conf
+```
+
+　パスワードの設定を行う。
+
+```bash
+[program:eyed]
+command=eye start rpcd
+numprocs=1
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/eyed.log
+```
+
 ### サービスの登録
 ```bash
 supervisorctl add eyed
