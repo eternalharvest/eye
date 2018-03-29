@@ -34,6 +34,7 @@ class BACnetd(Thread):
 		self.vendor_id			= 65535
 		self.maxApduLengthAccepted	= 1024
 		self.segmentationSupported	= 'segmentedBoth'
+		self.systemStatus		= 0
 
 		#
 		# デバイスの定義
@@ -44,7 +45,8 @@ class BACnetd(Thread):
 			maxApduLengthAccepted	= self.maxApduLengthAccepted,
 			segmentationSupported	= self.segmentationSupported,
 			vendorName		= self.vendor_name,
-			vendorIdentifier	= self.vendor_id
+			vendorIdentifier	= self.vendor_id,
+			systemStatus		= self.systemStatus
 		)
 
 		#
