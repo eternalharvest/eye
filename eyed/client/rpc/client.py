@@ -168,6 +168,16 @@ class BACnetRPCClient(RPCClient):
 		bacnet = self.root.BACnetService()
 		return bacnet.setProperty(name, property_id, value)
 
+	#
+	# getPropertyLog
+	#
+	def getPropertyLog(self, name, property_id):
+		#
+		# ポイントの登録
+		#
+		bacnet = self.root.BACnetService()
+		return bacnet.getPropertyLog(name, property_id)
+
 #
 # SchedulerRPCClient
 #
@@ -193,8 +203,10 @@ if __name__ == '__main__':
 	#
 	# ポイントの登録
 	#
-	#client = BACnetRPCClient('127.0.0.1', 1413)
-	client = SchedulerRPCClient('127.0.0.1', 1413)
-	client.addTaskGroup('TEST1', 60)
+	client = BACnetRPCClient('127.0.0.1', 1413)
+	print client.getPropertyLog('T0', 85)
+
+	#client = SchedulerRPCClient('127.0.0.1', 1413)
+	#client.addTaskGroup('TEST1', 60)
 	pass
 

@@ -20,7 +20,7 @@ if __name__ == '__main__':
 		# Software Information
 		#
 		name		= 'eyed',
-		version		= '0.5.1',
+		version		= '0.5.2',
 
 		#
 		# Author Information

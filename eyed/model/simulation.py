@@ -135,6 +135,10 @@ class BACnetSimulationLog(BaseObject):
 	def to_dict(self):
 		return {
 			'id'		: self.id,
+			'object_id'	: self.object_id,
+			'instance_id'	: self.instance_id,
+			'property_id'	: self.property_id,
 			'value'		: self.value,
+			'datetime'	: self.datetime.strftime('%Y-%m-%d %H:%M:%S'),
 		}
 

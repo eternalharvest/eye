@@ -1,4 +1,4 @@
-# BACnet Protocol
+# CLI for BACnet Protocol
 ## BACnet サービスの管理
 ### サービスを起動する
 　BACnet サービスを利用するためには、まず BACnet サービスへの設定を実行する必要があります。
@@ -28,7 +28,96 @@ $ eye stop bacnetd
 ### 同一ネットワーク内の BACnet デバイスを検索する
   BACnet では、IP アドレスの代わりに デバイスID と呼ばれる識別子を利用することで、
 BACnet デバイス同士の通信が行われます。そのためBACnet の 通信を行うためには、
-まず BACnet デバイスを検索する必要があります。
+まず BACnet デバイスを検索する必要があります。以下のコマンドを実行することで、
+BACnet デバイスの検索を実行することが可能です。
+
+```bash
+$ eye show bacnet scan
+```
+
+### BACnet デバイスを確認する
+  BACnet デバイスのスキャンに成功すると、BACnet を使用したデバイスを確認することが、
+出来るようになります。デバイスリストは以下のように確認することができます。
+
+```bash
+$ eye show bacnet devices
+{'ip': '192.168.218.8', 'device_id': 23200}
+{'ip': '192.168.218.6', 'device_id': 200}
+{'ip': '192.168.218.5', 'device_id': 5}
+```
+
+### BACnet デバイス の プロパティ一覧を確認する
+  BACnet デバイスが保持しているプロパティ一覧や、オブジェクトリストといった基本情報を取得するためには、
+以下のコマンドを実行することで、基本的なパラメータを確認することが可能となります。
+
+```bash
+$ eye run bacepics 200
+{
+	'databaseRevision': 7L,
+	'maxMaster': 32L,
+	'numberOfApduRetries': 3L,
+	'intervalOffset': None,
+	'protocolServicesSupported': [1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1],
+	'timeOfDeviceRestart': <bacpypes.basetypes.TimeStamp object at 0x7f40001747d0>,
+	'slaveAddressBinding': None,
+	'slaveProxyEnable': None,
+	'maxSegmentsAccepted': 8L,
+	'restoreCompletionTime': None,
+	'protocolVersion': 1L,
+	'systemStatus': 'operational',
+	'deviceAddressBinding': [
+		<bacpypes.basetypes.AddressBinding object at 0x7f40000cc750>,
+		<bacpypes.basetypes.AddressBinding object at 0x7f3ff078bf90>,
+		<bacpypes.basetypes.AddressBinding object at 0x7f40000d4390>,
+		<bacpypes.basetypes.AddressBinding object at 0x7f3ff07b9a10>
+	],
+	'modelName': '### unknown encoding: 1 ###',
+	'configurationFiles': [],
+	'timeSynchronizationInterval': None,
+	'utcTimeSynchronizationRecipients': None,
+	'manualSlaveAddressBinding': None,
+	'apduTimeout': 6000L,
+	'backupFailureTimeout': 0L,
+	'apduSegmentTimeout': 6000L,
+	'segmentationSupported': 'segmentedBoth',
+	'protocolObjectTypesSupported': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1],
+	'vendorIdentifier': 279L,
+	'firmwareRevision': '### unknown encoding: 1 ###',
+	'objectList': None,
+	'localDate': (118, 4, 3, 2),
+	'vendorName': '### unknown encoding: 1 ###',
+	'lastRestoreTime': <bacpypes.basetypes.TimeStamp object at 0x7f4000087290>,
+	'location': '',
+	'protocolRevision': 0L,
+	'activeCovSubscriptions': [],
+	'maxInfoFrames': 1L,
+	'vtClassesSupported': [],
+	'timeSynchronizationRecipients': [],
+	'backupPreparationTime': None,
+	'lastRestartReason': 'unknown',
+	'backupAndRestoreState': None,
+	'localTime': (17, 28, 29, 30),
+	'structuredObjectList': None,
+	'applicationSoftwareVersion': '### unknown encoding: 1 ###',
+	'serialNumber': None,
+	'maxApduLengthAccepted': 1024L,
+	'activeVtSessions': [],
+	'restartNotificationRecipients': [],
+	'utcOffset': -540,
+	'restorePreparationTime': None,
+	'daylightSavingsStatus': False,
+	'autoSlaveDiscovery': None,
+	'alignIntervals': None
+}
+```
+
+### BACnet デバイス から プロパティの読み込みを実行する
+  BACnet デバイスからプロパティの値を取得するためには、bacrpコマンドを使用します。
+
+```bash
+$ eye run bacrp 200 4 99 85
+{'value': 'active'}
+```
 
 ## BACnet シミュレータの利用
 ### 新規オブジェクトの登録
@@ -47,6 +136,21 @@ $ eye add simulation bacnet object [NAME] [OBJECT_ID] [INSTANCE_ID]
 
 ```bash
 $ eye add simulation bacnet property [NAME] [PROPERTY_ID]
+```
+
+### プロパティへの値の設定
+  作成したプロパティへの値を設定を行うためには、以下のコマンドを実行します。
+
+```bash
+$ eye set simulation bacnet property [NAME] [PROPERTY_ID] [VALUE]
+```
+
+### シミュレータが応答したプロパティのログを確認する
+  シミュレータ機能を利用して、他の BACnet デバイスからデータを取得した際の、
+ログを確認します。
+
+```bash
+$ eye show simulation bacnet log [NAME] [PROPERTY_ID]
 ```
 
 ## BACnet プロキシ の 利用

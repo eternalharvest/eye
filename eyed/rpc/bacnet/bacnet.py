@@ -12,7 +12,7 @@ from eyed.driver.bacnet import definition
 #
 # Database 接続用
 #
-from eyed.model import BACnetSimulationObject, BACnetSimulationProperty
+from eyed.model import BACnetSimulationObject, BACnetSimulationProperty, BACnetSimulationLog
 from eyed.db import SessionFactory
 
 #
@@ -214,6 +214,40 @@ class BACnetService(object):
 			#
 			datastore.set(obj.object_id, obj.instance_id, prop.property_id, value)
 			return True
+
+	#
+	# プロパティログの取得
+	#
+	def exposed_getPropertyLog(self, name, property_id):
+		#
+		# DB への 接続
+		#
+		with SessionFactory() as session:
+			#
+			# オブジェクト名が既に利用されていないかを確認
+			#
+			obj = session.query(BACnetSimulationObject).filter_by(name = name).first()
+			if obj == None: return None
+
+			#
+			# プロパティの取得
+			#
+			prop = obj.properties.filter_by(property_id = property_id).first()
+			if prop == None: return None
+
+			#
+			# ログ の 取得
+			#
+			logs = session.query(BACnetSimulationLog).filter_by(
+				object_id = obj.object_id,
+				instance_id = obj.instance_id,
+				property_id = prop.property_id,
+			).all()
+
+			#
+			# JSON 出力用の辞書化
+			#
+			return [log.to_dict() for log in  logs]
 
 #
 # Entry Point

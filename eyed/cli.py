@@ -270,7 +270,9 @@ def show_simulation_bacnet(ctx):
 #########################################################################
 @show_simulation_bacnet.command(name = 'objects')
 @click.pass_context
-def show_simulation_bacnet_objects(ctx):
+@click.argument('name')
+@click.argument('property_id')
+def show_simulation_bacnet_objects(ctx, name, property_id):
 	#
 	# 引数の取得
 	#
@@ -285,6 +287,33 @@ def show_simulation_bacnet_objects(ctx):
 		click.echo('OBJECT(name=%10s, object_id=%4d, instance_id=%4d)' %(obj['name'], obj['object_id'], obj['instance_id']))
 		for prop in obj['properties']:
 			click.echo('-PROPERTY(property_id=%4d)' %(prop['property_id']))
+
+#########################################################################
+# DB ログ取得用 の コマンド
+#########################################################################
+@show_simulation_bacnet.command(name = 'log')
+@click.pass_context
+@click.argument('name')
+@click.argument('property_id')
+def show_simulation_bacnet_log(ctx, name, property_id):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+	results = client.getPropertyLog(name, int(property_id))
+	if results == None: return None
+
+	#
+	# ログの表示
+	#
+	for r in results:
+		click.echo(r)
 
 #########################################################################
 # BACnet 関連の情報取得
@@ -344,7 +373,8 @@ def show_bacnet_devices(ctx):
 	# Eyed に RPC接続
 	#
 	client = BACnetRPCClient(host, port)
-	click.echo(client.getDevices())
+	for device in client.getDevices():
+		click.echo(device)
 
 #########################################################################
 # データ取得用 の コマンド
@@ -374,12 +404,6 @@ def run_bacepics(ctx, device_id):
 	if client.getStatus() == False:
 		click.echo('BACnetd is not running...')
 		return
-
-	#
-	# Eyed に RPC接続
-	#
-	client = BACnetRPCClient(host, port)
-	click.echo(client.getEpics(int(device_id)))
 
 #
 # BACRP の起動
