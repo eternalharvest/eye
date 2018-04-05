@@ -183,11 +183,18 @@ class BACnetRPCClient(RPCClient):
 #
 class SchedulerRPCClient(RPCClient):
 	#
-	# addInterval
+	# addTaskGroup
 	#
 	def addTaskGroup(self, name, interval):
 		service = self.root.SchedulerService()
 		return service.addTaskGroup(name, interval)
+
+	#
+	# getTaskGroup
+	#
+	def getTaskGroups(self):
+		service = self.root.SchedulerService()
+		return service.getTaskGroups()
 
 	#
 	# addBACnetTask

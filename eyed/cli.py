@@ -250,6 +250,32 @@ def show_interfaces(ctx):
 		click.echo('%s %s' %(name, ipv4))
 
 #########################################################################
+# 測定グループ の 確認
+#########################################################################
+@show.group(name = 'measurement')
+@click.pass_context
+def show_measurement(ctx):
+	pass
+
+#########################################################################
+# 測定グループ の 確認
+#########################################################################
+@show_measurement.command(name = 'taskgroups')
+@click.pass_context
+def add_measurement_taskgroups(ctx):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = SchedulerRPCClient(host, port)
+	click.echo(client.getTaskGroups())
+
+#########################################################################
 # シミュレーションパラメータ の 確認
 #########################################################################
 @show.group(name = 'simulation')
@@ -266,7 +292,7 @@ def show_simulation_bacnet(ctx):
 	pass
 
 #########################################################################
-# BACNetオブジェクト の 確認
+# 測定グループ の 定義
 #########################################################################
 @show_simulation_bacnet.command(name = 'objects')
 @click.pass_context

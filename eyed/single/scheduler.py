@@ -80,7 +80,6 @@ class SingleScheduler:
 				# オブジェクト一覧の取得
 				#
 				taskGroup = session.query(TaskGroup).filter_by(name = name).first()
-				print taskGroup
 				if taskGroup == None: return
 
 				#
@@ -94,8 +93,6 @@ class SingleScheduler:
 				# タスクの取得
 				#
 				for task in taskGroup.bacnetTasks:
-					print task
-
 					#
 					# リクエストの実行
 					#
@@ -122,8 +119,6 @@ class SingleScheduler:
 			seconds		= interval,
 			max_instances	= 1
 		)
-
-		print 'add task grooup name=%s' %(name)
 
 #
 # Entry Point

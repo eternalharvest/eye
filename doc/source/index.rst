@@ -14,6 +14,7 @@ Welcome to EYE's documentation!
    cli
    bacnet
    daemon
+   api
 
 Indices and tables
 ==================

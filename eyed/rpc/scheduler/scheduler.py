@@ -49,6 +49,20 @@ class SchedulerService(object):
 			return True
 
 	#
+	# タスクグループ の 取得
+	#
+	def exposed_getTaskGroups(self):
+		#
+		# DB への 接続
+		#
+		with SessionFactory() as session:
+			#
+			# タスクグループの取得
+			#
+			taskGroups = [taskGroup.to_dict() for taskGroup in session.query(TaskGroup).all()]
+			return taskGroups
+
+	#
 	# 測定周期の追加
 	#
 	def exposed_addBACnetTask(self, name, device_id, object_id, instance_id, property_id):
