@@ -273,7 +273,8 @@ def add_measurement_taskgroups(ctx):
 	# Eyed に RPC接続
 	#
 	client = SchedulerRPCClient(host, port)
-	click.echo(client.getTaskGroups())
+	for taskGroup in client.getTaskGroups():
+		click.echo(taskGroup)
 
 #########################################################################
 # シミュレーションパラメータ の 確認
