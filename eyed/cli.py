@@ -223,9 +223,32 @@ def set_simulation_bacnet_property(ctx, name, property_id, value):
 def show(ctx):
 	pass
 
-#
+#########################################################################
+# VERSION の 確認
+#########################################################################
+@show.command(name = 'version')
+@click.pass_context
+def show_version(ctx):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = RPCClient(host, port)
+
+	#
+	# バージョンの確認
+	#
+	version = client.getVersion()
+	click.echo(version)
+
+#########################################################################
 # NIC の 情報取得
-#
+#########################################################################
 @show.command(name = 'interfaces')
 @click.pass_context
 def show_interfaces(ctx):

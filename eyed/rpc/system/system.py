@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 
 #
+# パッケージ管理ツール
+#
+from pkg_resources import get_distribution
+
+#
 # Network Interface Card の 情報を取得
 #
 import netifaces
@@ -11,6 +16,12 @@ from netaddr import IPNetwork
 # System Service
 #
 class SystemService(object):
+	#
+	# VERSION の 確認
+	#
+	def exposed_getVersion(request):
+		return get_distribution('eyed').version
+
 	#
 	# NIC の 情報を取得
 	#

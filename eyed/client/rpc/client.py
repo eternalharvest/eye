@@ -15,6 +15,13 @@ class RPCClient:
 		self.root = self.connection.root
 
 	#
+	# VERSION の 取得
+	#
+	def getVersion(self):
+		systemd = self.root.SystemService()
+		return systemd.getVersion()
+
+	#
 	# NIC の 取得
 	#
 	def getNetworkInterfaces(self):
