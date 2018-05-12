@@ -1,76 +1,76 @@
 #
 # Docker Install
 #
-functools32
-plumbum
-venusian
-zope.interface
-zope.deprecation
-repoze.lru
-plaster
-PasteDeploy
-plaster-pastedeploy
-hupper
-WebOb
+functools32==3.2.3.post2
+plumbum==1.6.6
+venusian==1.1.0
+zope.interface==4.4.3
+zope.deprecation==4.3.0
+repoze.lru==0.7
+plaster==1.0
+PasteDeploy==1.5.2
+plaster-pastedeploy==0.5
+hupper==1.1
+WebOb==1.8.0
 
 #
 # HTTP Server
 # Web Framework
 #
-waitress
-pyramid
+waitress==1.1.0
+pyramid==1.9.1
 
 #
 # RPC Service
 #
-rpyc
+rpyc==3.4.4
 
 #
 # ICMP Driver
 #
-pyping
+pyping==0.0.5
 
 #
 # BACnet Driver
 #
-bacpypes
+bacpypes==0.16.7
 
 #
 # JSON Schema
 #
-jsonschema
+jsonschema==2.6.0
 
 #
 # Command Line Utility
 #
-click
+click==6.7
 
 #
 # Network Interface Library
 #
-netifaces
-netaddr
+netifaces==0.10.6
+netaddr==0.7.19
 
 #
 # requests
 #
-requests
+requests==2.18.4
 
 #
 # SQLAlchemy
 #
-SQLAlchemy
-alembic
+SQLAlchemy==1.2.6
+alembic==0.9.9
 
 #
 # Scheduler
 #
-apscheduler
+apscheduler==3.5.1
 
 #
 # Documentation Tool
 #
-sphinx
-sphinx_rtd_theme
-recommonmark
+sphinx==1.7.2
+sphinx_rtd_theme==0.3.0
+recommonmark==0.4.0
 
