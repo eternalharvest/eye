@@ -37,18 +37,6 @@ def start(port = 1413):
 	os.chdir(base_path)
 
 	#
-	# DB 初期化
-	#
-	command = ['alembic upgrade head']
-	subprocess.check_call(command, shell=True)
-
-	#
-	# DB を 最新のスキーマ の 作成
-	#
-	command = ['alembic revision --autogenerate']
-	subprocess.check_call(command, shell=True)
-
-	#
 	# DB を 最新のスキーマ へ アップデート
 	#
 	command = ['alembic upgrade head']
