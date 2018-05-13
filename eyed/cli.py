@@ -504,7 +504,7 @@ def start(ctx):
 @start.command(name = 'bacnetd')
 @click.pass_context
 @click.argument('interface')
-@click.argument('device_id', default = 65535)
+@click.argument('device_id', default = 2018)
 def start_bacnetd(ctx, interface, device_id):
 	#
 	# 引数の取得
