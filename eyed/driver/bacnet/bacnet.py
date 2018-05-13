@@ -40,7 +40,7 @@ class BACnetClient:
 	#
 	# WhoIsRequest
 	#
-	def WhoIsRequest(self, low_limit = 1, high_limit = 2000):
+	def WhoIsRequest(self, low_limit = 1, high_limit = 65535):
 		#
 		# WhoIsRequest の レスポンス(IAmRequest) を保存するキューをクリア
 		#
