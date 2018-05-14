@@ -29,6 +29,11 @@ if __name__ == '__main__':
 		author_email	= 'naoya@tuntunkun.com',
 
 		#
+		# Test Case
+		#
+		test_suite	= 'tests',
+
+		#
 		# Package Information
 		#
 		packages	= find_packages(),
@@ -43,6 +48,7 @@ if __name__ == '__main__':
 				'alembic/versions/*.py'
 			],
 		},
+
 		#
 		# Register Command on the Console
 		#
