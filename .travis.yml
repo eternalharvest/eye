@@ -12,3 +12,6 @@ script:
 after_success:
   - coverage html
 
+notifications:
+  slack: Tuntunkun:GAP5RRPPU
+
