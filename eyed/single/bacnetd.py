@@ -12,35 +12,69 @@ class Datastore:
 		self.hashmap = dict()
 
 	#
-	# 鍵の作成
+	# 識別子の作成
 	#
-	def __generateKey(self, object_id, instance_id, property_id):
+	def __generateKey(self, cls, key):
 		#
 		# 鍵の作成
 		#
-		return '%d:%d:%d' %(object_id, instance_id, property_id)
+		return '%s:%s' %(cls, key)
 
 	#
-	# 値の設定
+	# BACnet プロトコル用の識別子作成
 	#
-	def set(self, object_id, instance_id, property_id, value):
+	def __generateBACnetKey(self, cls, object_id, instance_id, property_id):
+		#
+		# 鍵の作成
+		#
+		return self.__generateKey(cls, '%d:%d:%d' %(object_id, instance_id, property_id))
+
+	#
+	# BACnet プロトコル値の設定
+	#
+	def setBACnetValue(self, cls, object_id, instance_id, property_id, value):
 		#
 		# 鍵を生成しハッシュマップに登録
 		#
-		key = self.__generateKey(object_id, instance_id, property_id)
+		key = self.__generateBACnetKey(
+			cls,
+			object_id,
+			instance_id,
+			property_id
+		)
+
+		#
+		# 価の登録
+		#
 		self.hashmap[key] = value
 
 	#
 	# 値の検索
 	#
-	def get(self, object_id, instance_id, property_id):
+	def getBACnetValue(self, cls, object_id, instance_id, property_id):
 		#
 		# ハッシュマップ内から鍵を検索
 		#
-		key = self.__generateKey(object_id, instance_id, property_id)
+		key = self.__generateBACnetKey(
+			cls,
+			object_id,
+			instance_id,
+			property_id
+		)
+
+		#
+		# 識別子の存在確認
+		#
 		if not key in self.hashmap:
 			return None
 		return self.hashmap[key]
+
+#
+# Datastore 種別
+#
+class DatastoreType:
+	STATIC	= 'STATIC'
+	PROXY	= 'PROXY'
 
 #
 # Singletone BACnetd

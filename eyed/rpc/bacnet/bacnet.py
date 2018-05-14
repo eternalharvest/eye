@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
 from bacpypes.object import AnalogValueObject
 from bacpypes.object import AnalogInputObject
 
@@ -18,7 +19,7 @@ from eyed.db import SessionFactory
 #
 # BACnet Daemon Instance
 #
-from eyed.single import SingleBACnetd
+from eyed.single import SingleBACnetd, DatastoreType
 
 #
 # 初期化処理
@@ -37,7 +38,8 @@ class BACnetService(object):
 		# BACnet コマンド操作用インスタンス取得
 		#
 		app = SingleBACnetd.getApplication()
-		if app == None: return
+		if app == None:
+			raise Exception('BAcnetd is not running...')
 
 		bacnet = BACnetClient(app)
 
@@ -127,6 +129,13 @@ class BACnetService(object):
 	#
 	def exposed_addObject(self, name, object_id, instance_id):
 		#
+		# BACnet コマンド操作用インスタンス取得
+		#
+		app = SingleBACnetd.getApplication()
+		if app == None:
+			raise Exception('BAcnetd is not woring...')
+
+		#
 		# DB への 接続
 		#
 		with SessionFactory() as session:
@@ -154,7 +163,14 @@ class BACnetService(object):
 	#
 	# プロパティの追加
 	#
-	def exposed_addProperty(self, name, property_id):
+	def exposed_addProperty(self, name, property_id, type=DatastoreType.STATIC):
+		#
+		# BACnet コマンド操作用インスタンス取得
+		#
+		app = SingleBACnetd.getApplication()
+		if app == None:
+			raise Exception('BAcnetd is not woring...')
+
 		#
 		# DB への 接続
 		#
@@ -174,15 +190,17 @@ class BACnetService(object):
 			#
 			# プロパティの登録
 			#
-			if addBACnetProperty(obj.name, obj.object_id, obj.instance_id, property_id) == False:
+			if addBACnetProperty(obj.name, type, obj.object_id, obj.instance_id, property_id) == False:
 				return False
 
 			#
 			# プロパティの登録(DB)
 			#
-			obj.properties.append(BACnetSimulationProperty(property_id))
+			obj.properties.append(BACnetSimulationProperty(type, property_id))
 			session.commit()
 			return True
+		assert sys.exc_info()[0] == None, sys.exc_info()
+		return False
 
 	#
 	# プロパティの設定
@@ -212,8 +230,20 @@ class BACnetService(object):
 			#
 			# 値の設定
 			#
-			datastore.set(obj.object_id, obj.instance_id, prop.property_id, value)
+			datastore.setBACnetValue(
+				DatastoreType.STATIC,
+				obj.object_id,
+				obj.instance_id,
+				prop.property_id,
+				value
+			)
 			return True
+
+		#
+		# 例外の確認
+		#
+		assert sys.exc_info()[0] == None, sys.exc_info()
+		return False
 
 	#
 	# プロパティログの取得
