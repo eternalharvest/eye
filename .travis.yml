@@ -6,11 +6,19 @@ install:
   - pip install coveralls
   - pip install git+https://github.com/ThousandMileEye/eye.git
 
+before_script:
+  - eyed &
+  - KINESALITE_PID=$!
+  - sleep 5
+
 script:
   - coverage run setup.py test
 
 after_success:
   - coverage html
+
+after_script:
+  - kill $KINESALITE_PID
 
 notifications:
   slack: tuntunkun:puqmjBAZ8WDYrMN1HaKNrmHd
