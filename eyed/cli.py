@@ -455,6 +455,12 @@ def run_bacepics(ctx, device_id):
 		click.echo('BACnetd is not running...')
 		return
 
+	#
+	# Eyed に RPC接続
+	#
+	client = BACnetRPCClient(host, port)
+	click.echo(client.getEpics(int(device_id)))
+
 #
 # BACRP の起動
 #
