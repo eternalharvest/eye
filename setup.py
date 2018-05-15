@@ -29,11 +29,6 @@ if __name__ == '__main__':
 		author_email	= 'naoya@tuntunkun.com',
 
 		#
-		# Test Case
-		#
-		test_suite	= 'tests',
-
-		#
 		# Package Information
 		#
 		packages	= find_packages(),
@@ -57,5 +52,10 @@ if __name__ == '__main__':
 		eye	= eyed.cli:start_cli
 		eyed	= eyed.rpcd:start
 		''',
+
+		#
+		# Test Case
+		#
+		test_suite	= 'tests',
 	)
 
