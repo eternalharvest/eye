@@ -313,7 +313,7 @@ def show_measurement_bacnet(ctx):
 @show_measurement_bacnet.command(name = 'tasks')
 @click.argument('name')
 @click.pass_context
-def show_measurement_tasks(ctx, name):
+def show_measurement_bacnet_tasks(ctx, name):
 	#
 	# 引数の取得
 	#
@@ -330,6 +330,22 @@ def show_measurement_tasks(ctx, name):
 #########################################################################
 # 測定値の表示機能
 #########################################################################
+@show_measurement_bacnet.command(name = 'values')
+@click.argument('task_id')
+@click.pass_context
+def show_measurement_bacnet_values(ctx, task_id):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = SchedulerRPCClient(host, port)
+	for value in client.getBACnetMeasuredValues(task_id):
+		click.echo(value)
 
 #########################################################################
 # シミュレーションパラメータ の 確認
