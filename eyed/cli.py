@@ -285,7 +285,7 @@ def show_measurement(ctx):
 #########################################################################
 @show_measurement.command(name = 'taskgroups')
 @click.pass_context
-def add_measurement_taskgroups(ctx):
+def show_measurement_taskgroups(ctx):
 	#
 	# 引数の取得
 	#
