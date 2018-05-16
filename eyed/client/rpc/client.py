@@ -217,6 +217,13 @@ class SchedulerRPCClient(RPCClient):
 		service = self.root.SchedulerService()
 		return service.getBACnetTasks(name)
 
+	#
+	# getBACnetMeasuredValues
+	#
+	def getBACnetMeasuredValues(self, task_id):
+		service = self.root.SchedulerService()
+		return service.getBACnetMeasuredValues(task_id)
+
 #
 # Entry Point
 #
@@ -230,4 +237,5 @@ if __name__ == '__main__':
 	client = SchedulerRPCClient('127.0.0.1', 1413)
 	#client.addTaskGroup('TEST1', 60)
 	print client.getBACnetTasks('BACNET')
+	print client.getBACnetMeasuredValues(1)
 

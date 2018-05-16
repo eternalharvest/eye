@@ -143,3 +143,13 @@ class BACnetMeasuredValue(BaseObject):
 	def __str__(self):
 		return '<BACnetMeasuredValues value=%s>' %(self.value)
 
+	#
+	# 辞書化
+	#
+	def to_dict(self):
+		return {
+			'id'		: self.id,
+			'datetime'	: self.datetime.strftime('%Y-%m-%d %H:%M:%S'),
+			'value'		: self.value,
+		}
+

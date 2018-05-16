@@ -6,7 +6,7 @@ from initialize import addTaskGroup
 #
 # Database 接続用
 #
-from eyed.model import TaskGroup, BACnetTask
+from eyed.model import TaskGroup, BACnetTask, BACnetMeasuredValue
 from eyed.db import SessionFactory
 
 #
@@ -129,6 +129,27 @@ class SchedulerService(object):
 			#
 			tasks = [task.to_dict() for task in taskGroup.bacnetTasks]
 			return tasks
+
+		#
+		# 例外の確認
+		#
+		assert sys.exc_info()[0] == None, sys.exc_info()
+		return []
+
+	#
+	# 測定データの表示
+	#
+	def exposed_getBACnetMeasuredValues(self, task_id):
+		#
+		# DB への 接続
+		#
+		with SessionFactory() as session:
+			#
+			# タスクの取得
+			#
+			query = session.query(BACnetMeasuredValue).filter_by(task_id = task_id)
+			values = [value.to_dict() for value in query.all()]
+			return values
 
 		#
 		# 例外の確認

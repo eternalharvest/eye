@@ -300,6 +300,38 @@ def show_measurement_taskgroups(ctx):
 		click.echo(taskGroup)
 
 #########################################################################
+# 測定タスク (BACnet) の表示機能
+#########################################################################
+@show_measurement.group(name = 'bacnet')
+@click.pass_context
+def show_measurement_bacnet(ctx):
+	pass
+
+#########################################################################
+# 測定タスクの表示機能
+#########################################################################
+@show_measurement_bacnet.command(name = 'tasks')
+@click.argument('name')
+@click.pass_context
+def show_measurement_tasks(ctx, name):
+	#
+	# 引数の取得
+	#
+	host = ctx.obj['host']
+	port = ctx.obj['port']
+
+	#
+	# Eyed に RPC接続
+	#
+	client = SchedulerRPCClient(host, port)
+	for task in client.getBACnetTasks(name):
+		click.echo(task)
+
+#########################################################################
+# 測定値の表示機能
+#########################################################################
+
+#########################################################################
 # シミュレーションパラメータ の 確認
 #########################################################################
 @show.group(name = 'simulation')
