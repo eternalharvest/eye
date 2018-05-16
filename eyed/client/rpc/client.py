@@ -210,6 +210,13 @@ class SchedulerRPCClient(RPCClient):
 		service = self.root.SchedulerService()
 		return service.addBACnetTask(name, device_id, object_id, instance_id, property_id)
 
+	#
+	# getBACnetTasks
+	#
+	def getBACnetTasks(self, name):
+		service = self.root.SchedulerService()
+		return service.getBACnetTasks(name)
+
 #
 # Entry Point
 #
@@ -218,9 +225,9 @@ if __name__ == '__main__':
 	# ポイントの登録
 	#
 	client = BACnetRPCClient('127.0.0.1', 1413)
-	print client.getPropertyLog('T0', 85)
+	#print client.getPropertyLog('T0', 85)
 
-	#client = SchedulerRPCClient('127.0.0.1', 1413)
+	client = SchedulerRPCClient('127.0.0.1', 1413)
 	#client.addTaskGroup('TEST1', 60)
-	pass
+	print client.getBACnetTasks('BACNET')
 

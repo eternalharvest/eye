@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
 from initialize import addTaskGroup
 
 #
@@ -107,4 +108,31 @@ class SchedulerService(object):
 			taskGroup.bacnetTasks.append(new_task)
 			session.commit()
 			return True
+
+	#
+	# 測定タスクの取得
+	#
+	def exposed_getBACnetTasks(self, name):
+		#
+		# DB への 接続
+		#
+		with SessionFactory() as session:
+			#
+			# タスクグループの取得
+			#
+			taskGroup = session.query(TaskGroup).filter_by(name = name).first()
+			if taskGroup == None:
+				return []
+
+			#
+			# タスク情報の辞書化
+			#
+			tasks = [task.to_dict() for task in taskGroup.bacnetTasks]
+			return tasks
+
+		#
+		# 例外の確認
+		#
+		assert sys.exc_info()[0] == None, sys.exc_info()
+		return []
 
