@@ -19,7 +19,7 @@ class EyedPresentValue(Property):
 	#
 	# コンストラクタ
 	#
-	def __init__(self, type, object_id, instance_id, default_value = 0):
+	def __init__(self, object_id, instance_id, default_value = 0, type = DatastoreType.STATIC):
 		#
 		# 各識別子の定義
 		#
@@ -97,4 +97,10 @@ class EyedPresentValue(Property):
 	#
 	def WriteProperty(self, obj, value, arrayIndex=None, priority=None, direct=False):
 		raise ExecutionError(errorClass='property', errorCode='writeAccessDenied')
+
+	#
+	# プロパティ種別の変更
+	#
+	def setType(self, type):
+		self.type = type
 

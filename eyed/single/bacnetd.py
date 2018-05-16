@@ -73,8 +73,9 @@ class Datastore:
 # Datastore 種別
 #
 class DatastoreType:
-	STATIC	= 'STATIC'
-	PROXY	= 'PROXY'
+	STATIC		= 'STATIC'
+	PROXY		= 'PROXY'
+	MEASUREMENT	= 'MEASUREMENT'
 
 #
 # Singletone BACnetd

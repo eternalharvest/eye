@@ -186,15 +186,20 @@ def set_simulation(ctx):
 def set_simulation_bacnet(ctx):
 	pass
 
+@set_simulation_bacnet.group(name = 'static')
+@click.pass_context
+def set_simulation_bacnet_static(ctx):
+	pass
+
 #########################################################################
-# パラメータ の 定義
+# 静的パラメータ の 設定
 #########################################################################
-@set_simulation_bacnet.command(name = 'property')
+@set_simulation_bacnet_static.command(name = 'property')
 @click.pass_context
 @click.argument('name')
 @click.argument('property_id')
 @click.argument('value')
-def set_simulation_bacnet_property(ctx, name, property_id, value):
+def set_simulation_bacnet_static_property(ctx, name, property_id, value):
 	#
 	# 引数の取得
 	#

@@ -90,6 +90,11 @@ class SingleScheduler:
 				bacnet = BACnetClient(app)
 
 				#
+				# Data Store の 取得
+				#
+				datastore = SingleBACnetd().getDatastore()
+
+				#
 				# タスクの取得
 				#
 				for task in taskGroup.bacnetTasks:
@@ -101,6 +106,17 @@ class SingleScheduler:
 						task.object_id,
 						task.instance_id,
 						task.property_id
+					)
+
+					#
+					# 初期値のセットアップ
+					#
+					datastore.setBACnetValue(
+						DatastoreType.MEASUREMENT,
+						task.object_id,
+						task.instance_id,
+						task.property_id,
+						value
 					)
 
 					#
