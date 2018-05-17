@@ -246,6 +246,22 @@ class BACnetService(object):
 		return False
 
 	#
+	# プロパティ種別 の 設定
+	#
+	def exposed_setPropertyType(self, name, property_id, value):
+		#
+		# DB への 接続
+		#
+		with SessionFactory() as session:
+			return True
+
+		#
+		# 例外の確認
+		#
+		assert sys.exc_info()[0] == None, sys.exc_info()
+		return False
+
+	#
 	# プロパティログの取得
 	#
 	def exposed_getPropertyLog(self, name, property_id):
