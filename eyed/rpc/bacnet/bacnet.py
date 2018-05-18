@@ -161,6 +161,26 @@ class BACnetService(object):
 			return True
 
 	#
+	# オブジェクト の 取得
+	#
+	def exposed_getObjectByName(self, name):
+		#
+		# BACnet コマンド操作用インスタンス取得
+		#
+		app = SingleBACnetd.getApplication()
+		if app == None:
+			raise Exception('BAcnetd is not woring...')
+		bacnet = BACnetClient(app)
+
+		#
+		# BACnet オブジェクトの検索
+		#
+		obj = bacnet.getObjectByName(name)
+		for prop in obj._properties:
+			print prop
+		return bacnet.getObjectByName(name)
+
+	#
 	# プロパティの追加
 	#
 	def exposed_addProperty(self, name, property_id):
@@ -201,6 +221,23 @@ class BACnetService(object):
 			return True
 		assert sys.exc_info()[0] == None, sys.exc_info()
 		return False
+
+	#
+	# プロパティの取得
+	#
+	def exposed_getProperty(self, name, property_id):
+		#
+		# BACnet コマンド操作用インスタンス取得
+		#
+		app = SingleBACnetd.getApplication()
+		if app == None:
+			raise Exception('BAcnetd is not woring...')
+		bacnet = BACnetClient(app)
+
+		#
+		# BACnet オブジェクトの検索
+		#
+		return bacnet.getObjectByName(name)
 
 	#
 	# プロパティの設定

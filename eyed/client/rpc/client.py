@@ -146,6 +146,16 @@ class BACnetRPCClient(RPCClient):
 		return bacnet.getObjects()
 
 	#
+	# getObjectByName
+	#
+	def getObjectByName(self, name):
+		#
+		# オブジェクトの取得
+		#
+		bacnet = self.root.BACnetService()
+		return bacnet.getObjectByName(name)
+
+	#
 	# addObject
 	#
 	def addObject(self, name, object_id, instance_id):
@@ -233,9 +243,10 @@ if __name__ == '__main__':
 	#
 	client = BACnetRPCClient('127.0.0.1', 1413)
 	#print client.getPropertyLog('T0', 85)
+	client.getObjectByName('TEMP')
 
 	client = SchedulerRPCClient('127.0.0.1', 1413)
 	#client.addTaskGroup('TEST1', 60)
-	print client.getBACnetTasks('BACNET')
-	print client.getBACnetMeasuredValues(1)
+	#print client.getBACnetTasks('BACNET')
+	#print client.getBACnetMeasuredValues(1)
 

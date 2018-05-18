@@ -257,7 +257,7 @@ class BACnetClient:
 		return (objectType, instance_id)
 
 	#
-	# getObjectByID (オブジェクト の 取得)
+	# getObjectByID (オブジェクト の 取得 [ID 検索])
 	#
 	def getObjectByID(self, objectIdentifier, instance_id):
 		#
@@ -270,4 +270,19 @@ class BACnetClient:
 		# 登録されているオブジェクトの検索
 		#
 		return self.application.get_object_id((objectIdentifier, instance_id))
+
+	#
+	# getObjectByName (オブジェクト の 取得 [名前で検索])
+	#
+	def getObjectByName(self, name):
+		#
+		# BACnetd の 動作確認
+		#
+		if self.application == None:
+			raise Exception('BACnetd is not running...')
+
+		#
+		# オブジェクトを名前から検索
+		#
+		return self.application.get_object_name(name)
 

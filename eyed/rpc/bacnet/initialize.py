@@ -42,7 +42,7 @@ def addBACnetObject(name, object_id, instance_id):
 #
 # プロパティ の 登録
 #
-def addBACnetProperty(name, type, object_id, instance_id, property_id):
+def addBACnetProperty(name, object_id, instance_id, property_id):
 	#
 	# プロパティオブジェクトの定義
 	#
@@ -64,7 +64,7 @@ def addBACnetProperty(name, type, object_id, instance_id, property_id):
 	#
 	if not property_id in propertyObjects:
 		return False
-	prop = propertyObjects[property_id](type, object_id, instance_id)
+	prop = propertyObjects[property_id](object_id, instance_id)
 
 	#
 	# プロパティ の 登録

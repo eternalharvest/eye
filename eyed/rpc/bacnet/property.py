@@ -73,7 +73,6 @@ class EyedPresentValue(Property):
 			self.instance_id,
 			self.property_id
 		)
-		print self.type, self.object_id, self.instance_id, self.property_id, value
 
 		#
 		# DB への 接続
